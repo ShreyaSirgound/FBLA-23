@@ -9,7 +9,7 @@ import javax.swing.WindowConstants;
 
 public class TitleFrame {
     public TitleFrame() {
-        JFrame frame = new JFrame("SchoolSync (v" + Main.VERSION + ")");
+        JFrame frame = new JFrame("SchoolSync (v" + Common.VERSION + ")");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(1280, 720);
