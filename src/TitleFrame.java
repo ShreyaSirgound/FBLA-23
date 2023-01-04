@@ -15,13 +15,13 @@ public class TitleFrame {
         frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
-        frame.getContentPane().setBackground(Color.blue);
+        frame.getContentPane().setBackground(Color.decode("#76BEE8"));
 
         //App logo
-        //TODO: create and add logo image
+        //TODO: create and add a better logo
         JPanel logoPanel = new JPanel();
         logoPanel.add(Common.getImage("logo.png"));
-        logoPanel.setBounds(390, 190, 500, 100);
+        logoPanel.setBounds(270, 180, 760, 155);
         frame.add(logoPanel);
 
         //Developers
@@ -30,10 +30,21 @@ public class TitleFrame {
         + "<p> Developers: Ian Tang, Shreya Sirgound, Nischae Tiwari</p>"
         + "</html>");
         infoLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        infoLabel.setForeground(Color.white);
         infoPanel.add(infoLabel);
-        infoPanel.setBounds(0, 595, 380, 90);
-        infoPanel.setBackground(Color.blue);
+        infoPanel.setBounds(0, 615, 500, 90);
+        infoPanel.setBackground(Color.decode("#76BEE8"));
         frame.add(infoPanel);
+
+        // Version information.
+		JPanel versionPanel = new JPanel();
+		JLabel versionLabel = new JLabel("Version " + Common.VERSION);
+		versionLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+		versionLabel.setForeground(Color.white);
+        versionPanel.add(versionLabel);
+		versionPanel.setBounds(1010, 615, 250, 30);
+		versionPanel.setBackground(Color.decode("#76BEE8"));
+		frame.add(versionPanel);
 
         //Start button
         JButton button = new JButton("Start");

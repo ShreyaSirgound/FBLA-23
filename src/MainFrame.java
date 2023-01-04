@@ -4,9 +4,9 @@ import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
-import java.io.IOException;
 import javax.swing.UnsupportedLookAndFeelException;
 
+//TODO: create homepage layout
 public class MainFrame {
     public MainFrame() {
         JFrame frame = new JFrame("HomePage");
