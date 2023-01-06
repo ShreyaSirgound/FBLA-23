@@ -51,7 +51,7 @@ public class TitleFrame {
         button.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 24));
         button.setBounds(502, 360, 275, 75);
         button.addActionListener(e -> {
-            new MainFrame();
+            new LoginPage();
             frame.dispose();
         });
         frame.add(button);
