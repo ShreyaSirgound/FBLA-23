@@ -6,6 +6,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
@@ -33,6 +34,7 @@ public class AccountSetup {
         frame.add(headerPanel);
 
         //input fields
+        //authority input
         JPanel panel1 = new JPanel();
         panel1.setBounds(425, 135, 400, 60);
         panel1.setBackground(Color.decode("#76BEE8"));
@@ -46,6 +48,7 @@ public class AccountSetup {
         panel1.add(input1);
         frame.add(panel1);
 
+        //name input
         JPanel panel2 = new JPanel();
         panel2.setBounds(425, 225, 400, 60);
         panel2.setBackground(Color.decode("#76BEE8"));
@@ -59,6 +62,7 @@ public class AccountSetup {
         panel2.add(input2);
         frame.add(panel2);
 
+        //grade input
         JPanel panel3 = new JPanel();
         panel3.setBounds(425, 315, 400, 60);
         panel3.setBackground(Color.decode("#76BEE8"));
@@ -72,10 +76,11 @@ public class AccountSetup {
         panel3.add(gradeDropdown);
         frame.add(panel3);
 
+        //email input
         JPanel panel4 = new JPanel();
         panel4.setBounds(425, 405, 400, 60);
         panel4.setBackground(Color.decode("#76BEE8"));
-        JLabel label4 = new JLabel("Enter your student number:", SwingConstants.RIGHT);
+        JLabel label4 = new JLabel("Enter your school email:", SwingConstants.RIGHT);
         label4.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         label4.setBackground(Color.decode("#76BEE8"));
         label4.setForeground(Color.white);
@@ -85,6 +90,7 @@ public class AccountSetup {
         panel4.add(studentNumber);
         frame.add(panel4);
 
+        //password input
         JPanel panel5 = new JPanel();
         panel5.setBounds(425, 495, 400, 60);
         panel5.setBackground(Color.decode("#76BEE8"));
@@ -93,8 +99,9 @@ public class AccountSetup {
         label5.setBackground(Color.decode("#76BEE8"));
         label5.setForeground(Color.white);
         panel5.add(label5);
-        JTextField password = new JTextField();
-        password.setColumns(30);
+        JPasswordField password = new JPasswordField(30);
+        password.setEchoChar('*');
+        char[] enteredPassword = password.getPassword();
         panel5.add(password);
         frame.add(panel5);
 

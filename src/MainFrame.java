@@ -9,7 +9,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 //TODO: create homepage layout
 public class MainFrame {
     public MainFrame() {
-        JFrame frame = new JFrame("HomePage");
+        JFrame frame = new JFrame("Home Page");
         setMainFrame(frame);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
