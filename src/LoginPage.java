@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -93,9 +94,11 @@ public class LoginPage {
             new AccountSetup();
             frame.dispose();
         });
+        
         newAccountPanel.add(newAccount);
         frame.add(newAccount);
 
         frame.setVisible(true);
     }
+    
 }

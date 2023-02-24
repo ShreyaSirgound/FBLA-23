@@ -1,6 +1,7 @@
-import java.awt.EventQueue;
-import java.awt.Frame;
+import java.awt.*;
+import java.awt.event.*;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
@@ -8,6 +9,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 //TODO: create homepage layout
 public class MainFrame {
+	JButton button;
+	
     public MainFrame() {
         JFrame frame = new JFrame("Home Page");
         setMainFrame(frame);
@@ -15,7 +18,32 @@ public class MainFrame {
         frame.setResizable(false);
         frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
-
+        
+        JButton button = new JButton("Events");
+        button.setBounds(240, 460, 160, 40);
+        //button.addActionListener(this);
+        button.setBackground(Color.LIGHT_GRAY);
+        frame.add(button);
+        
+        /*
+        JButton button2 = new JButton("History");
+        button2.setBounds(40, 460, 160, 40);
+        //button.addActionListener(this);
+        button2.setBackground(Color.LIGHT_GRAY);
+        frame.add(button2);
+        frame.add(button2);
+        */
+        
+        JButton button3 = new JButton("Points");
+        button3.setBounds(440, 460, 160, 40);
+        button3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+        button3.setBackground(Color.LIGHT_GRAY);
+        frame.add(button3);
+        button3.addActionListener(e -> {
+            new Events();
+            frame.dispose();
+        });
+        
         frame.setVisible(true);
     }
 

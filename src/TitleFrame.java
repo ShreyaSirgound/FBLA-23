@@ -26,12 +26,12 @@ public class TitleFrame {
 
         //Developers
         final JPanel infoPanel = new JPanel();
-        final JLabel infoLabel = new JLabel("<html>" 
+        /*final JLabel infoLabel = new JLabel("<html>" 
         + "<p> Developers: Ian Tang, Shreya Sirgound, Nischae Tiwari</p>"
-        + "</html>");
-        infoLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-        infoLabel.setForeground(Color.white);
-        infoPanel.add(infoLabel);
+        + "</html>");*/
+        //infoLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        //infoLabel.setForeground(Color.white);
+        //infoPanel.add(infoLabel);
         infoPanel.setBounds(0, 615, 500, 90);
         infoPanel.setBackground(Color.decode("#76BEE8"));
         frame.add(infoPanel);
