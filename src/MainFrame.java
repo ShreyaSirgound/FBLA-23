@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,6 +25,15 @@ public class MainFrame {
         //button.addActionListener(this);
         button.setBackground(Color.LIGHT_GRAY);
         frame.add(button);
+        button.addActionListener(e -> {
+            try {
+				new Events();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+            frame.dispose();
+        });
         
         JButton button2 = new JButton("History");
         button2.setBounds(40, 60, 160, 40);
@@ -31,7 +41,7 @@ public class MainFrame {
         button2.setBackground(Color.LIGHT_GRAY);
         frame.add(button2);
         button2.addActionListener(e -> {
-            new Events();
+            //new Events();
             frame.dispose();
         });
         
@@ -41,7 +51,7 @@ public class MainFrame {
         button3.setBackground(Color.LIGHT_GRAY);
         frame.add(button3);
         button3.addActionListener(e -> {
-            new Events();
+            //new Events();
             frame.dispose();
         });
         
