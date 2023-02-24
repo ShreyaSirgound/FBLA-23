@@ -11,9 +11,9 @@ import javax.swing.*;
 
 public class Events extends JFrame implements ActionListener {
    ImageIcon img, img2, img3;
-   JLabel image, image2, image3, futureEvents;
+   JLabel image, image2, image3, futureEvents, event1, event2, event3, event4, event5;
    JFrame frame;
-   JButton button, survey;
+   JButton button1, button2, button3, survey;
    
    // This method contains all the GUI elements required to form up the JFrame
    public Events() throws IOException {
@@ -24,9 +24,6 @@ public class Events extends JFrame implements ActionListener {
 	  //img = new ImageIcon(this.getClass().getResource("ImagesFolder1/3dDollarSign.png"));
 	  //img2 = new ImageIcon(this.getClass().getResource("ImagesFolder1/fatcapitalist.png"));
 	  //img3 = new ImageIcon(this.getClass().getResource("ImagesFolder1/3dDollarSign.png"));
-	  image = new JLabel(img);
-	  image2 = new JLabel(img2);
-	  image3 = new JLabel(img3);
 	  futureEvents = new JLabel("Events This Week:");
 	  futureEvents.setFont(new Font("Impact", Font.PLAIN, 25));
 	  futureEvents.setBounds(80,10,800,150);
@@ -34,15 +31,24 @@ public class Events extends JFrame implements ActionListener {
 	  Map attributes = font.getAttributes();
 	  attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 	  futureEvents.setFont(font.deriveFont(attributes));
-	  image.setBounds(680,200,600,400);
-	  image2.setBounds(20, 20, 550, 650);
-	  image3.setBounds(810,80,600,400);
 	  futureEvents.setForeground(Color.white);
-	  button = new JButton("Proceed");
-	  button.setBounds(530, 400, 250, 60);
-	  button.addActionListener(this);
+	  
+	  
+	  button1 = new JButton("SPORTS EVENTS");
+	  button1.setBounds(80, 150, 250, 60);
+	  button1.addActionListener(this);
 	  Color color1 = new Color (0, 210, 0);
-	  button.setBackground(color1);
+	  button1.setBackground(color1);
+	  
+	  button2 = new JButton("ACADEMIC EVENTS");
+	  button2.setBounds(80, 350, 250, 60);
+	  button2.addActionListener(this);
+	  button2.setBackground(color1);
+	  
+	  button3 = new JButton("ART EVENTS");
+	  button3.setBounds(80, 550, 250, 60);
+	  button3.addActionListener(this);
+	  button3.setBackground(color1);
 	  
 	  survey = new JButton("Survey to personalize your results!");
 	  survey.setBounds(930, 50, 250, 40);
@@ -52,10 +58,9 @@ public class Events extends JFrame implements ActionListener {
 	  
 	  // Add all elements to this frame
 	  frame.add(futureEvents);
-	  frame.add(image);
-	  frame.add(image2);
-	  frame.add(image3);
-	  frame.add(button);
+	  frame.add(button1);
+	  frame.add(button2);
+	  frame.add(button3);
 	  frame.add(survey);
 	  
 	  // Basic and fundamental additions to get the appropriate JFrame Panel required
@@ -71,19 +76,34 @@ public class Events extends JFrame implements ActionListener {
    // If "Survey" button is clicked... go to the next class
    public void actionPerformed(ActionEvent e) {
 	   
-	  if (e.getSource() == survey) {
-		  
-		  frame.dispose();
-		  
-		  try {
-			Survey surveyResponse = new Survey();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		  
-	  }
-   }
+	   	 if (e.getSource() == button1) {
+			  
+			  frame.dispose();
+			  
+			  try {
+				sportsEvents sports = new sportsEvents();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			  
+		  }
+	   	 
+	   	if (e.getSource() == survey) {
+			  
+			  frame.dispose();
+			  
+			  try {
+				Survey surveyResponse = new Survey();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			  
+		  }
+	   }
+   
+   
    
    // Call the method, with all the various GUI elements on it
    public static void main(String[] args) throws Exception {
