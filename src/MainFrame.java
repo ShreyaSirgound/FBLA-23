@@ -25,17 +25,18 @@ public class MainFrame {
         button.setBackground(Color.LIGHT_GRAY);
         frame.add(button);
         
-        /*
         JButton button2 = new JButton("History");
-        button2.setBounds(40, 460, 160, 40);
-        //button.addActionListener(this);
+        button2.setBounds(40, 60, 160, 40);
+        button2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         button2.setBackground(Color.LIGHT_GRAY);
         frame.add(button2);
-        frame.add(button2);
-        */
+        button2.addActionListener(e -> {
+            new Events();
+            frame.dispose();
+        });
         
         JButton button3 = new JButton("Points");
-        button3.setBounds(440, 460, 160, 40);
+        button3.setBounds(40, 60, 160, 40);
         button3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         button3.setBackground(Color.LIGHT_GRAY);
         frame.add(button3);
