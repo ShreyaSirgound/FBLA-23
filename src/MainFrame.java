@@ -74,12 +74,7 @@ public class MainFrame {
         eventsPane.setBounds(325, 110, 490, 555);
         
         //gets information from each event in the events list and adds it all to a single panel
-        List<Event> eventsList = Event.getEvents();//new ArrayList<Event>();
-
-        /*
-        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
+        List<Event> eventsList = new ArrayList<Event>(); //use Event.getEvents(); after testing
 
         eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
         eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
@@ -93,7 +88,10 @@ public class MainFrame {
         eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
         eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
         eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
-        */
+        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
+
 
         for (int i = 0; i < eventsList.size(); i++) {
             //creates a mini panel to hold all the info about a specific event
