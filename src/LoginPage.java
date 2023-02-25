@@ -69,39 +69,21 @@ public class LoginPage {
         filler3.setPreferredSize(new Dimension(350, 10));
         filler3.setBackground(Color.white);
         loginPanel.add(filler3);
-        
-      // Admin View (SHREYA PLEASE EDIT THIS TO FIT COORDINATES)
-        JLabel adminView = new JLabel("For admins:");
-        adminView.setForeground(Color.gray);
-        adminView.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-        loginPanel.add(adminView);
-        
-        // login for ADMIN VIEW
-        JButton login = new JButton("Admin Login");
+
+        //login button
+        JButton login = new JButton("Login");
         login.setBackground(Color.decode("#76BEE8"));
         login.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         login.setPreferredSize(new Dimension(340,45));
-        
+
         login.addActionListener(e -> {
-            new AdminView();
+            new MainFrame();
             frame.dispose();
         });
         loginPanel.add(login);
 
-        //login for students button
-        JButton login2 = new JButton("Student Login");
-        login2.setBackground(Color.decode("#76BEE8"));
-        login2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        login2.setPreferredSize(new Dimension(340,45));
-        
-        login2.addActionListener(e -> {
-            new MainFrame();
-            frame.dispose();
-        });
-        loginPanel.add(login2);
-        
         frame.add(loginPanel);
-
+        
         //button to create an account
         JPanel newAccountPanel = new JPanel();
         newAccountPanel.setBounds(425, 0, 200, 75);
