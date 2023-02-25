@@ -98,6 +98,15 @@ public class LoginPage {
         newAccountPanel.add(newAccount);
         frame.add(newAccount);
 
+        //THIS IS A TEMP BUTTON TO GET TO ADMIN VIEW
+        JButton adminView = new JButton("AdminView");
+        adminView.setBounds(900, 600, 100, 60);
+        adminView.addActionListener(e -> {
+            new AdminView();
+            frame.dispose();
+        });
+        frame.add(adminView);
+
         frame.setVisible(true);
     }
     

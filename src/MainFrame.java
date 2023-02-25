@@ -4,16 +4,23 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.UnsupportedLookAndFeelException;
 
 //TODO: create homepage layout
 public class MainFrame {
@@ -22,7 +29,7 @@ public class MainFrame {
     public MainFrame() {
         //setup the frame
         JFrame frame = new JFrame("Home Page");
-        setMainFrame(frame);
+        Main.setMainFrame(frame);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(1280, 720);
@@ -57,10 +64,84 @@ public class MainFrame {
         title1.setBounds(325, 70, 150, 50);
         frame.add(title1);
 
-        JScrollPane eventsPane = new JScrollPane();
-        eventsPane.getViewport().setBackground(Color.white);
-        eventsPane.setBounds(325, 95, 500, 585);
-        eventsPane.setBorder( new EmptyBorder(15, 0, 15, 15));
+        //TO DO: get the scroll thing to stay at the top when first running the program
+        JPanel allEvents = new JPanel();
+        allEvents.setLayout(new BoxLayout(allEvents, BoxLayout.Y_AXIS));
+        allEvents.setBackground(Color.white);
+        //allEvents.setSize(490, 555);
+        allEvents.setBorder(new EmptyBorder(15, 15, 15, 15));
+        JScrollPane eventsPane = new JScrollPane(allEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        eventsPane.setBounds(325, 110, 490, 555);
+        
+        //gets information from each event in the events list and adds it all to a single panel
+        List<Event> eventsList = Event.getEvents();//new ArrayList<Event>();
+
+        /*
+        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
+
+        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
+        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
+        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
+        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
+        */
+
+        for (int i = 0; i < eventsList.size(); i++) {
+            //creates a mini panel to hold all the info about a specific event
+            JPanel eventInfoPane = new JPanel();
+            eventInfoPane.setLayout(new BoxLayout(eventInfoPane, BoxLayout.Y_AXIS));
+            eventInfoPane.setBackground(Color.white);
+            eventInfoPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+            eventInfoPane.setBorder(BorderFactory.createLineBorder(Color.gray));
+            
+            eventInfoPane.setMaximumSize(new Dimension(480, 170));
+
+            //holds event name
+            JTextField eventNameInfo = new JTextField(eventsList.get(i).getName());
+            eventNameInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+            eventNameInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            eventNameInfo.setEditable(false);
+            eventNameInfo.setBackground(Color.white);
+            eventNameInfo.setBorder(new EmptyBorder(8, 5, 0, 0));
+            
+            //holds the event description
+            JTextArea eventDescInfo = new JTextArea(eventsList.get(i).getDesc());
+            eventDescInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+            eventDescInfo.setForeground(Color.gray);
+            eventDescInfo.setEditable(false);
+            eventDescInfo.setLineWrap(true);
+            eventDescInfo.setWrapStyleWord(true);
+            eventDescInfo.setBorder(new EmptyBorder(0, 5, 3, 0));
+
+            //register in an event
+            JButton register = new JButton("Register"); //TO DO: create actionListener
+            register.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+            register.setBackground(Color.decode("#76BEE8"));
+            register.setOpaque(true);
+            JTextPane registerPane = new JTextPane();
+            registerPane.insertComponent(register);
+            registerPane.setBackground(Color.white);
+            registerPane.setBorder(new EmptyBorder(0, 5, 8, 0));
+
+            eventInfoPane.add(eventNameInfo);
+            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 8)));
+            eventInfoPane.add(eventDescInfo);
+            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
+            eventInfoPane.add(registerPane);
+            eventInfoPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+            allEvents.add(eventInfoPane);
+            allEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
+            allEvents.add(Box.createRigidArea(new Dimension(0, 20)));
+        };
         frame.add(eventsPane);
 
         //leaderboard panel
@@ -115,32 +196,5 @@ public class MainFrame {
         */
         
         frame.setVisible(true);
-    }
-
-    /**
-     * The main GUI frame of the application
-     */
-    private static Frame mainFrame;
-
-    public static Frame getMainFrame() {
-		return mainFrame;
-	}
-
-	public static void setMainFrame(Frame newMainFrame) {
-		mainFrame = newMainFrame;
-	}
-
-    public static void main(String[] args) {
-
-		// Set the look and feel of the GUI.
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-			ex.printStackTrace();
-			System.err.println("Unsupported operating system.");
-		}
-
-        // Create and open the title GUI.
-		EventQueue.invokeLater(TitleFrame::new);
     }
 }
