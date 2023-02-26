@@ -178,7 +178,12 @@ public class MainFrame {
         button2.setBackground(Color.LIGHT_GRAY);
         frame.add(button2);
         button2.addActionListener(e -> {
-            //new Events();
+            try {
+				new Events();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             frame.dispose();
         });
         
