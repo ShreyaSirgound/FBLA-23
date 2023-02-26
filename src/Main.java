@@ -16,6 +16,16 @@ public class Main {
 			System.err.println("Unsupported operating system.");
 		}
 
+		
+		try {
+			// Load data files
+			EventsDataFile eventsDataFile = new EventsDataFile("events.txt");
+	  
+		  } catch (IOException ex) {
+			System.err.println("Failed to load data: " + ex.getMessage());
+		  }
+		
+	
         // Create and open the title GUI.
 		EventQueue.invokeLater(TitleFrame::new);
     }
