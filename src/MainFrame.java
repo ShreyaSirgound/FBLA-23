@@ -196,53 +196,104 @@ public class MainFrame {
         frame.add(title2);
 
         JPanel leaderboard = new JPanel();
+        leaderboard.setLayout(new BoxLayout(leaderboard, BoxLayout.Y_AXIS));
         leaderboard.setBackground(Color.decode("#F66845"));
         leaderboard.setBounds(825, 400, 420, 265);
-        leaderboard.setBorder( new EmptyBorder(10, 0, 10, 10));
+        leaderboard.setBorder( new EmptyBorder(10, 10, 10, 10));
+
+        JTextField winners = new JTextField("🏆 Winners 🏆");
+        winners.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        winners.setBackground(Color.decode("#F66845"));
+        winners.setForeground(Color.white);
+        winners.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+
+        leaderboard.add(winners);
+
+        //students for testing
+        Student.addNineStudent(new Student("Sophie", 9, 10));
+        Student.addNineStudent(new Student("Gracelyn James Potter", 9, 30));
+        Student.addNineStudent(new Student("Leah Henri Saint-Claire", 9, 30));
+        Student.addNineStudent(new Student("Amy", 9, 30));
+        Student.addNineStudent(new Student("Sarah", 9, 30));
+        Student.addTenStudent(new Student("Liam", 10, 10));
+        Student.addTenStudent(new Student("Michelle", 10, 20));
+        Student.addTenStudent(new Student("Bob", 10, 30));
+        Student.addElevenStudent(new Student("Ian", 11, 10));
+        Student.addElevenStudent(new Student("Shreya", 11, 20));
+        Student.addElevenStudent(new Student("Neo", 11, 30));
+        Student.addTwelveStudent(new Student("Dan", 12, 10));
+        Student.addTwelveStudent(new Student("Kia", 12, 20));
+        Student.addTwelveStudent(new Student("Phoebe", 12, 30));
+
+        JTextArea nineWinner = new JTextArea("Grade 9: " + PointSystem.nineWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.nineWinners().size(); i++) {
+            if (PointSystem.nineWinners().size() == 1) {
+                continue;
+            } else {
+                nineWinner.setText(nineWinner.getText() + ", " + (PointSystem.nineWinners().get(i)).getName());
+            } 
+        }
+        nineWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        nineWinner.setBackground(Color.decode("#F66845"));
+        nineWinner.setForeground(Color.white);
+        nineWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        nineWinner.setEditable(false);
+        nineWinner.setLineWrap(true);
+        nineWinner.setWrapStyleWord(true);
+        leaderboard.add(nineWinner);
+
+        JTextArea tenWinner = new JTextArea("Grade 10: " + PointSystem.tenWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.tenWinners().size(); i++) {
+            if (PointSystem.tenWinners().size() == 1) {
+                continue;
+            } else {
+                tenWinner.setText(tenWinner.getText() + ", " + (PointSystem.tenWinners().get(i)).getName());
+            } 
+        }
+        tenWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        tenWinner.setBackground(Color.decode("#F66845"));
+        tenWinner.setForeground(Color.white);
+        tenWinner.setEditable(false);
+        tenWinner.setLineWrap(true);
+        tenWinner.setWrapStyleWord(true);
+        tenWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        leaderboard.add(tenWinner);
+
+        JTextArea elevenWinner = new JTextArea("Grade 11: " + PointSystem.elevenWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.elevenWinners().size(); i++) {
+            if (PointSystem.elevenWinners().size() == 1) {
+                continue;
+            } else {
+                elevenWinner.setText(elevenWinner.getText() + ", " + (PointSystem.elevenWinners().get(i)).getName());
+            } 
+        }
+        elevenWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        elevenWinner.setBackground(Color.decode("#F66845"));
+        elevenWinner.setForeground(Color.white);
+        elevenWinner.setEditable(false);
+        elevenWinner.setLineWrap(true);
+        elevenWinner.setWrapStyleWord(true);
+        elevenWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        leaderboard.add(elevenWinner);
+
+        JTextArea twelveWinner = new JTextArea("Grade 12: " + PointSystem.twelveWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.twelveWinners().size(); i++) {
+            if (PointSystem.twelveWinners().size() == 1) {
+                continue;
+            } else {
+                twelveWinner.setText(twelveWinner.getText() + ", " + (PointSystem.twelveWinners().get(i)).getName());
+            } 
+        }
+        twelveWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        twelveWinner.setBackground(Color.decode("#F66845"));
+        twelveWinner.setForeground(Color.white);
+        twelveWinner.setEditable(false);
+        twelveWinner.setLineWrap(true);
+        twelveWinner.setWrapStyleWord(true);
+        twelveWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        leaderboard.add(twelveWinner);
+
         frame.add(leaderboard);
-
-
-        /**
-        JButton button = new JButton("Events");
-        button.setBounds(240, 460, 160, 40);
-        //button.addActionListener(this);
-        button.setBackground(Color.LIGHT_GRAY);
-        frame.add(button);
-        button.addActionListener(e -> {
-            try {
-				new Events();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-            frame.dispose();
-        });
-        
-        JButton button2 = new JButton("History");
-        button2.setBounds(40, 60, 160, 40);
-        button2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        button2.setBackground(Color.LIGHT_GRAY);
-        frame.add(button2);
-        button2.addActionListener(e -> {
-            try {
-				new Events();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-            frame.dispose();
-        });
-        
-        JButton button3 = new JButton("Points");
-        button3.setBounds(70, 60, 160, 40);
-        button3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        button3.setBackground(Color.LIGHT_GRAY);
-        frame.add(button3);
-        button3.addActionListener(e -> {
-            //new Events();
-            frame.dispose();
-        });
-        */
         
         frame.setVisible(true);
     }

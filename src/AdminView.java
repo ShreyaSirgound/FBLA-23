@@ -56,6 +56,7 @@ public class AdminView {
         allEvents.setBorder(new EmptyBorder(15, 15, 15, 15));
         JScrollPane eventsPane = new JScrollPane(allEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         eventsPane.setBounds(25, 110, 490, 555);
+		eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
         List<Event> eventsList = new ArrayList<Event>(); //use Event.getEvents(); after testing
