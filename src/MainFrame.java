@@ -72,26 +72,27 @@ public class MainFrame {
         allEvents.setBorder(new EmptyBorder(15, 15, 15, 15));
         JScrollPane eventsPane = new JScrollPane(allEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         eventsPane.setBounds(325, 110, 490, 555);
+        eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
         List<Event> eventsList = new ArrayList<Event>(); //use Event.getEvents(); after testing
 
-        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
-        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
-        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
-        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
-        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!\nMarch 6, 2023 @ 12:30PM\nWORTH 10 Points"));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!\nMarch 9, 2023 @ 3:30PM\nWORTH 20 Points"));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!\nMarch 7, 2023 @ 3:30PM\nWORTH 15 Points"));
-
+        //events used for testing
+        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
+		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
+		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
+		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
+		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
+        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
+        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
 
         for (int i = 0; i < eventsList.size(); i++) {
             //creates a mini panel to hold all the info about a specific event
@@ -101,10 +102,19 @@ public class MainFrame {
             eventInfoPane.setBorder(new EmptyBorder(5, 5, 5, 5));
             eventInfoPane.setBorder(BorderFactory.createLineBorder(Color.gray));
             
-            eventInfoPane.setMaximumSize(new Dimension(480, 170));
+            eventInfoPane.setMaximumSize(new Dimension(480, 200));
+
+            //holds event points
+            JTextField eventPointsInfo = new JTextField("WORTH " + eventsList.get(i).getPoints() + " POINTS!"); //gets the points the event is worth
+            eventPointsInfo.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
+            eventPointsInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            eventPointsInfo.setEditable(false);
+            eventPointsInfo.setBackground(Color.decode("#76BEE8"));
+			eventPointsInfo.setForeground(Color.white);
+            eventPointsInfo.setBorder(new EmptyBorder(8, 5, 5, 0));
 
             //holds event name
-            JTextField eventNameInfo = new JTextField(eventsList.get(i).getName());
+            JTextField eventNameInfo = new JTextField(eventsList.get(i).getName()); //gets the event name
             eventNameInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
             eventNameInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventNameInfo.setEditable(false);
@@ -120,6 +130,15 @@ public class MainFrame {
             eventDescInfo.setWrapStyleWord(true);
             eventDescInfo.setBorder(new EmptyBorder(0, 5, 3, 0));
 
+            //holds the event date, and time
+			JTextField eventSetting = new JTextField(eventsList.get(i).getDate() //gets the event date
+                                                    + "  @ " + eventsList.get(i).getTime()); //gets the event time
+            eventSetting.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+            eventSetting.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            eventSetting.setEditable(false);
+            eventSetting.setBackground(Color.white);
+            eventSetting.setBorder(new EmptyBorder(5, 5, 3, 0));
+
             //register in an event
             JButton register = new JButton("Register"); //TO DO: create actionListener
             register.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
@@ -130,9 +149,13 @@ public class MainFrame {
             registerPane.setBackground(Color.white);
             registerPane.setBorder(new EmptyBorder(0, 5, 8, 0));
 
-            eventInfoPane.add(eventNameInfo);
-            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 8)));
+            eventInfoPane.add(eventPointsInfo);
+			eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
+			eventInfoPane.add(eventNameInfo);
+            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
             eventInfoPane.add(eventDescInfo);
+            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
+            eventInfoPane.add(eventSetting);
             eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
             eventInfoPane.add(registerPane);
             eventInfoPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -178,7 +201,12 @@ public class MainFrame {
         button2.setBackground(Color.LIGHT_GRAY);
         frame.add(button2);
         button2.addActionListener(e -> {
-            //new Events();
+            try {
+				new Events();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             frame.dispose();
         });
         

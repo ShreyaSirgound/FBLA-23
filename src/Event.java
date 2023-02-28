@@ -4,13 +4,18 @@ import java.util.List;
 //TO DO: add values to hold the date, time, and points of any single event object
 public class Event {
     String eventName;
-
     String eventDesc;
+    String eventDate;
+    String eventTime;
+    int eventPoints;
     
     //creates an event object
-    public Event(String name, String desc){
+    public Event(String name, String desc, String date, String time, int points){
         this.eventName = name;
         this.eventDesc = desc;
+        this.eventDate = date;
+        this.eventTime = time;
+        this.eventPoints = points;
     }
 
     //gets the name of the event
@@ -33,6 +38,36 @@ public class Event {
         this.eventDesc = desc;
     }
 
+    //gets the event date
+    public String getDate(){
+        return eventDate;
+    }
+
+    //sets the event date
+    public void setDate(String date){
+        this.eventDate = date;
+    }
+
+    //gets the event time
+    public String getTime(){
+        return eventTime;
+    }
+
+    //sets the event time
+    public void setTime(String time){
+        this.eventTime = time;
+    }
+
+    //gets the points the event is worth
+    public int getPoints(){
+        return eventPoints;
+    }
+
+    //sets the points the event is worth
+    public void setPoints(int points){
+        this.eventPoints = points;
+    }
+
     //creates a list of all the events
     private static List<Event> eventList = new ArrayList<Event>();
 
@@ -44,7 +79,7 @@ public class Event {
       /**
        * Unregisters an existing event. Does nothing if the event does not exist.
        *
-       * @param label The event to remove
+       * @param event The event to remove
        */
       public static void removeEvent(Event event) {
         eventList.remove(event);
