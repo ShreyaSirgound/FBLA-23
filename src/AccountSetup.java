@@ -15,11 +15,23 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class AccountSetup {
     //TODO: backend for setting up an account (student/admin, personal info)
     //create user class to store all users, student info will be put into student objects from there
-   
+	BufferedReader in;
+	BufferedWriter out;
+	String fileName = "accounts.txt";
+	String[][] accounts;
+	int numOfUsers;
+	String userName, password, points, authorization;
+	boolean pastUser = false;
     public AccountSetup() {
+    	
         JFrame frame = new JFrame("Create an account");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -56,6 +68,7 @@ public class AccountSetup {
         label1.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
         String roles[] = {"", "Student", "Administrator"};
         JComboBox<String> authority = new JComboBox(roles);
+        authorization = (String)authority.getSelectedItem(); 
         panel1.add(label1);
         panel1.add(authority);
         mainPanel.add(panel1);
@@ -70,6 +83,7 @@ public class AccountSetup {
         label2.setForeground(Color.gray);
         label2.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
         JTextField input2 = new JTextField();
+        userName = input2.getText();
         input2.setColumns(30);
         panel2.add(label2);
         panel2.add(input2);
@@ -126,7 +140,20 @@ public class AccountSetup {
         submit.setBounds(1000, 550, 165, 25);
         submit.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
         submit.addActionListener(e -> {
-            new MainFrame();
+        	try {
+//				for(int i = 0; i < numOfUsers; i++) {
+//					if(accounts[0][i] == userName)pastUser = true;
+//				}
+//        		if(!pastUser)
+        		saveUser();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+            try {
+				new MainFrame();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
             frame.dispose();
         });
         frame.add(submit);
@@ -135,4 +162,31 @@ public class AccountSetup {
 
         frame.setVisible(true);
     }
+    public void saveUser() throws IOException {
+    	accounts = MainFrame.getUsers();
+    	numOfUsers = MainFrame.getNumOfUsers();
+    	accounts[0][numOfUsers] = userName;
+    	accounts[1][numOfUsers] = password;
+    	accounts[2][numOfUsers] = "0";
+    	accounts[3][numOfUsers] = authorization;
+		out = new BufferedWriter(new FileWriter(fileName));
+		for(int i = 0; i < numOfUsers; i++) {
+			out.write(accounts[0][i] + " ");
+		}
+		out.newLine();
+
+		for(int i = 0; i < numOfUsers; i++) {
+			out.write(accounts[1][i] + " ");
+		}
+		out.newLine();
+		for(int i = 0; i < numOfUsers; i++) {
+			out.write(accounts[2][i] + " ");
+		}
+		
+		for(int i = 0; i < numOfUsers; i++) {
+			out.write(accounts[3][i] + " ");
+		}
+		out.newLine();
+		out.close();
+	}
 }

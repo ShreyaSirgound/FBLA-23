@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -77,7 +78,12 @@ public class LoginPage {
         login.setPreferredSize(new Dimension(340,45));
 
         login.addActionListener(e -> {
-            new MainFrame();
+            try {
+				new MainFrame();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             frame.dispose();
         });
         loginPanel.add(login);

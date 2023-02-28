@@ -1,7 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
@@ -25,8 +29,27 @@ import javax.swing.border.EmptyBorder;
 //TODO: create homepage layout
 public class MainFrame {
 	JButton button;
-	
-    public MainFrame() {
+	final int MAX = 1000; //amount of people?
+	static String accounts[][]; 
+	String fileName = "accounts.txt";
+	BufferedReader in;
+	BufferedWriter out;
+	static int numOfUsers;
+	static String[] users, passwords, points, authorization;
+    public MainFrame() throws IOException {
+		in = new BufferedReader(new FileReader(fileName));
+		users = in.readLine().split(" "); 
+		passwords = in.readLine().split(" ");
+		points = in.readLine().split(" ");
+		authorization = in.readLine().split(" ");
+		numOfUsers = users.length; 
+		for(int i = 0; i < numOfUsers; i++) {
+			accounts[0][i] = users[i];
+			accounts[1][i] = passwords[i];
+			accounts[2][i] = points[i];
+			accounts[3][i] = authorization[i];
+		}
+		in.close();
         //setup the frame
         JFrame frame = new JFrame("Home Page");
         Main.setMainFrame(frame);
@@ -223,4 +246,46 @@ public class MainFrame {
         
         frame.setVisible(true);
     }
+<<<<<<< Updated upstream
+=======
+
+    /**
+     * The main GUI frame of the application
+     */
+    private static Frame mainFrame;
+
+    public static Frame getMainFrame() {
+		return mainFrame;
+	}
+
+	public static void setMainFrame(Frame newMainFrame) {
+		mainFrame = newMainFrame;
+	}
+	protected static int getNumOfUsers() {
+		return numOfUsers;
+	}
+	protected static String[][] getUsers() {
+		for(int i = 0; i < numOfUsers; i++) {
+			accounts[0][i] = users[i];
+			accounts[1][i] = passwords[i];
+			accounts[2][i] = points[i];
+			accounts[3][i] = authorization[i];
+		}
+		return accounts;
+	}
+	
+    public static void main(String[] args) {
+
+		// Set the look and feel of the GUI.
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+			ex.printStackTrace();
+			System.err.println("Unsupported operating system.");
+		}
+
+        // Create and open the title GUI.
+		EventQueue.invokeLater(TitleFrame::new);
+    }
+>>>>>>> Stashed changes
 }
