@@ -1,7 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
@@ -25,8 +30,18 @@ import javax.swing.border.EmptyBorder;
 //TODO: create homepage layout
 public class MainFrame {
 	JButton button;
+	BufferedReader in; 
+	BufferedWriter out;
+	String fileName = "accounts.txt";
 	static Student curUser;
     public MainFrame() {
+    	//read in students
+    	try {
+			in = new BufferedReader(new FileReader(fileName));
+			out = new BufferedWriter(new FileWriter(fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         //setup the frame
         JFrame frame = new JFrame("Home Page");
         Main.setMainFrame(frame);
@@ -272,6 +287,9 @@ public class MainFrame {
 
         frame.add(leaderboard);
         
+        for(Student s : Student.getStudents()) {
+        	System.out.println(s.getName());
+        }
         frame.setVisible(true);
     }
 }
