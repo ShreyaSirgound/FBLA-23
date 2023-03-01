@@ -25,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 //TODO: create homepage layout
 public class MainFrame {
 	JButton button;
-	
+	static Student curUser;
     public MainFrame() {
         //setup the frame
         JFrame frame = new JFrame("Home Page");
@@ -178,7 +178,7 @@ public class MainFrame {
         leaderboard.setBounds(825, 400, 420, 265);
         leaderboard.setBorder( new EmptyBorder(10, 10, 10, 10));
 
-        JTextField winners = new JTextField("🏆 Winners 🏆");
+        JTextField winners = new JTextField("ðŸ�† Winners ðŸ�†");
         winners.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         winners.setBackground(Color.decode("#F66845"));
         winners.setForeground(Color.white);
@@ -187,20 +187,20 @@ public class MainFrame {
         leaderboard.add(winners);
 
         //students for testing
-        Student.addNineStudent(new Student("Sophie", 9, 10));
-        Student.addNineStudent(new Student("Gracelyn James Potter", 9, 30));
-        Student.addNineStudent(new Student("Leah Henri Saint-Claire", 9, 30));
-        Student.addNineStudent(new Student("Amy", 9, 30));
-        Student.addNineStudent(new Student("Sarah", 9, 30));
-        Student.addTenStudent(new Student("Liam", 10, 10));
-        Student.addTenStudent(new Student("Michelle", 10, 20));
-        Student.addTenStudent(new Student("Bob", 10, 30));
-        Student.addElevenStudent(new Student("Ian", 11, 10));
-        Student.addElevenStudent(new Student("Shreya", 11, 20));
-        Student.addElevenStudent(new Student("Neo", 11, 30));
-        Student.addTwelveStudent(new Student("Dan", 12, 10));
-        Student.addTwelveStudent(new Student("Kia", 12, 20));
-        Student.addTwelveStudent(new Student("Phoebe", 12, 30));
+        Student.addNineStudent(new Student("Sophie", "sophie@student.ca", "testing", 9, 10));
+        Student.addNineStudent(new Student("Gracelyn James Potter", "gjp@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Leah Henri Saint-Claire", "lhsc@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Amy", "amy@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Sarah", "sarah@student.ca", "testing", 9, 30));
+        Student.addTenStudent(new Student("Liam", "liam@student.ca", "testing", 10, 10));
+        Student.addTenStudent(new Student("Michelle", "michelle@student.ca", "testing", 10, 20));
+        Student.addTenStudent(new Student("Bob", "bob@student.ca", "testing", 10, 30));
+        Student.addElevenStudent(new Student("Ian", "ian@student.ca", "testing", 11, 10));
+        Student.addElevenStudent(new Student("Shreya", "shreya@student.ca", "testing", 11, 20));
+        Student.addElevenStudent(new Student("Neo", "neo@student.ca", "testing", 11, 30));
+        Student.addTwelveStudent(new Student("Dan", "dan@student.ca", "testing", 12, 10));
+        Student.addTwelveStudent(new Student("Kia", "kia@student.ca", "testing", 12, 20));
+        Student.addTwelveStudent(new Student("Phoebe", "phoebe@student.ca", "testing", 12, 30));
 
         JTextArea nineWinner = new JTextArea("Grade 9: " + PointSystem.nineWinners().get(0).getName());
         for (int i = 1; i < PointSystem.nineWinners().size(); i++) {

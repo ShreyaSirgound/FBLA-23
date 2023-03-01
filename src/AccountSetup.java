@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.List;
 import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
@@ -18,7 +19,8 @@ import javax.swing.WindowConstants;
 public class AccountSetup {
     //TODO: backend for setting up an account (student/admin, personal info)
     //create user class to store all users, student info will be put into student objects from there
-   
+	List<Student> studentList = Student.getStudents();
+	String enteredPassword = "";
     public AccountSetup() {
         JFrame frame = new JFrame("Create an account");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -70,6 +72,7 @@ public class AccountSetup {
         label2.setForeground(Color.gray);
         label2.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
         JTextField input2 = new JTextField();
+        String name = input2.getText();
         input2.setColumns(30);
         panel2.add(label2);
         panel2.add(input2);
@@ -86,6 +89,7 @@ public class AccountSetup {
         label3.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
         String grades[] = {"", "9", "10", "11", "12"};
         JComboBox<String> gradeDropdown = new JComboBox(grades);
+        String grade = gradeDropdown.getName();
         panel3.add(label3);
         panel3.add(gradeDropdown);
         panel3.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -96,11 +100,13 @@ public class AccountSetup {
         panel4.setLayout(new BoxLayout(panel4, BoxLayout.Y_AXIS));
         panel4.setBackground(Color.white);
         JLabel label4 = new JLabel("Enter your school email:", SwingConstants.RIGHT);
+        
         label4.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         label4.setBackground(Color.decode("#76BEE8"));
         label4.setForeground(Color.gray);
         label4.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
         JTextField studentNumber = new JTextField();
+        String email = studentNumber.getText();
         studentNumber.setColumns(30);
         panel4.add(label4);
         panel4.add(studentNumber);
@@ -117,7 +123,11 @@ public class AccountSetup {
         label5.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
         JPasswordField password = new JPasswordField(30);
         password.setEchoChar('*');
-        char[] enteredPassword = password.getPassword();
+        char[] p = password.getPassword();
+        enteredPassword = "";
+        for(int i = 0; i < p.length; i++) {
+        	enteredPassword += p[i];
+        }
         panel5.add(label5);
         panel5.add(password);
         mainPanel.add(panel5);
@@ -126,6 +136,7 @@ public class AccountSetup {
         submit.setBounds(1000, 550, 165, 25);
         submit.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
         submit.addActionListener(e -> {
+        	studentList.add(new Student(name, email, enteredPassword, Integer.parseInt(grade), 0));
             new MainFrame();
             frame.dispose();
         });

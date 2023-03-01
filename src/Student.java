@@ -15,13 +15,25 @@ public class Student {
     /**
      * The student's current total points
      */
-     private int points;
+    private int points;
+    /**
+     * The student's email
+     */
+	private String email;
+
+	/**
+     * The student's password
+     */
+	
+	private String password;
 
      /**
       * Creates a new student object
       */
-    public Student(String name, int grade, int points){
+    public Student(String name, String email, String password, int grade, int points){
         this.name = name;
+        this.email = email;
+        this.password = password;
         this.grade = grade;
         this.points = points;
     }
