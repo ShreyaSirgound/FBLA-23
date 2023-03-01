@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class PointSystem {
 
@@ -67,6 +68,23 @@ public class PointSystem {
 		}
 
 		return winners;
+	}
+
+	public static List<Student> randomWinners() {
+		Random rand = new Random(); 
+		Student nineRandomWinner = Student.getNineStudents().get(rand.nextInt(Student.getNineStudents().size()));
+		Student tenRandomWinner = Student.getTenStudents().get(rand.nextInt(Student.getTenStudents().size()));
+		Student elevenRandomWinner = Student.getElevenStudents().get(rand.nextInt(Student.getElevenStudents().size()));
+		Student twelveRandomWinner = Student.getTwelveStudents().get(rand.nextInt(Student.getTwelveStudents().size()));
+
+		List<Student> winners = new ArrayList<Student>();
+		winners.add(nineRandomWinner);
+		winners.add(tenRandomWinner);
+		winners.add(elevenRandomWinner);
+		winners.add(twelveRandomWinner);
+
+		return winners;
+
 	}
 		
 }
