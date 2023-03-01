@@ -76,29 +76,13 @@ public class Events extends JFrame implements ActionListener {
    // If "Survey" button is clicked... go to the next class
    public void actionPerformed(ActionEvent e) {
 	   
-	   	 if (e.getSource() == button1) {
-			  
-			  frame.dispose();
-			  
-			  try {
-				sportsEvents sports = new sportsEvents();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			  
-		  }
+
 	   	 
 	   	if (e.getSource() == survey) {
 			  
 			  frame.dispose();
 			  
-			  try {
-				Survey surveyResponse = new Survey();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			  Survey surveyResponse = new Survey();
 			  
 		  }
 	   }
