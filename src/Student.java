@@ -63,7 +63,7 @@ public class Student {
     }
 
     //creates a list of all the students
-    private static List<Student> studentList = new ArrayList<Student>();
+    protected static List<Student> studentList = new ArrayList<Student>();
 
     //add a student to the students list
     public static void addStudent(Student student) {

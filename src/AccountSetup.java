@@ -140,6 +140,7 @@ public class AccountSetup {
         	for(int i = 0; i < p.length; i++) {
             	enteredPassword += p[i];
             }
+        	enteredPassword.strip();
         	studentList.add(new Student(name, email, enteredPassword, Integer.parseInt(grade), 0));
             new MainFrame();
             frame.dispose();

@@ -29,16 +29,36 @@ import javax.swing.border.EmptyBorder;
 
 //TODO: create homepage layout
 public class MainFrame {
+	final int MAX = 10000; //max amount of people
 	JButton button;
 	BufferedReader in; 
 	BufferedWriter out;
+	int numOfUsers;
+	String fullName;
+	String[] name = new String[2*MAX];
+	String[] emails = new String[MAX];
+	String[] passwords = new String[MAX];
+	String[] grades = new String[MAX];
+	String[] points = new String[MAX];
 	String fileName = "accounts.txt";
+	
 	static Student curUser;
     public MainFrame() {
     	//read in students
     	try {
 			in = new BufferedReader(new FileReader(fileName));
 			out = new BufferedWriter(new FileWriter(fileName));
+			name = in.readLine().split(" ");
+			emails = in.readLine().split(" ");
+			passwords = in.readLine().split(" ");
+			grades = in.readLine().split(" ");
+			points = in.readLine().split(" ");
+			numOfUsers = points.length;
+			for(int i = 0, n = 0; i < numOfUsers; i++) {
+				fullName = name[n] + " " + name[n+1]; n+=2;
+				Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
+			}
+			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
