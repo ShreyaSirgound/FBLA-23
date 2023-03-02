@@ -1,13 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,41 +24,35 @@ import javax.swing.border.EmptyBorder;
 //TODO: create homepage layout
 public class MainFrame {
 	final int MAX = 10000; //max amount of people
+
 	JButton button;
 	BufferedReader in; 
 	BufferedWriter out;
 	int numOfUsers;
 	String fullName;
-    String[] name = new String[10000];
-    for (int i = 0; i < 20000; i++) {
-    	  name[i] = "";
-    	}
-	String[] emails = new String[10000];
-	String[] passwords = new String[10000];
-	String[] grades = new String[10000];
-	String[] points = new String[10000];
+    String[] name, emails, passwords, grades, points;
 	String fileName = "accounts.txt";
-	
 	static Student curUser;
-    public MainFrame() {
+    public MainFrame() throws IOException {
     	//read in students
-    	try {
-			in = new BufferedReader(new FileReader(fileName));
-			out = new BufferedWriter(new FileWriter(fileName));
-			name = in.readLine().split(" ");
-			emails = in.readLine().split(" ");
-			passwords = in.readLine().split(" ");
-			grades = in.readLine().split(" ");
-			points = in.readLine().split(" ");
-			numOfUsers = points.length;
-			for(int i = 0, n = 0; i < numOfUsers; i++) {
-				fullName = name[n] + " " + name[n+1]; n+=2;
-				Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
-			}
-			in.close();
-		} catch (IOException e) {
-			System.out.print("Error");
-		}
+    	in = new BufferedReader(new FileReader(fileName));
+//    	out = new BufferedWriter(new FileWriter(fileName));
+    	name = new String[2*MAX];
+    	emails = new String[MAX];
+    	passwords = new String[MAX];
+    	grades = new String[MAX];
+    	points = new String[MAX];
+    	name = in.readLine().split(" ");
+    	emails = in.readLine().split(" ");
+    	passwords = in.readLine().split(" ");
+    	grades = in.readLine().split(" ");
+    	points = in.readLine().split(" ");
+    	numOfUsers = points.length;
+    	for(int i = 0, n = 0; i < numOfUsers; i++) {
+    		fullName = name[n] + " " + name[n+1]; n+=2;
+    		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
+    	}
+    	in.close();
         //setup the frame
         JFrame frame = new JFrame("Home Page");
         Main.setMainFrame(frame);
@@ -326,7 +314,7 @@ public class MainFrame {
         leaderboard.add(randomWinner);
 
         frame.add(leaderboard);
-        
+        System.out.printf("Current user: " + curUser.getName() + "\n");
         for(Student s : Student.getStudents()) {
         	System.out.println(s.getName());
         }

@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.List;
 import java.awt.FlowLayout;
 
@@ -141,8 +142,14 @@ public class AccountSetup {
             	enteredPassword += p[i];
             }
         	enteredPassword.strip();
-        	studentList.add(new Student(name, email, enteredPassword, Integer.parseInt(grade), 0));
-            new MainFrame();
+        	MainFrame.curUser = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
+        	studentList.add(MainFrame.curUser);
+        	
+            try {
+				new MainFrame();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
             frame.dispose();
         });
         frame.add(submit);
