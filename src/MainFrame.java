@@ -36,7 +36,6 @@ public class MainFrame {
     public MainFrame() throws IOException {
     	//read in students
     	in = new BufferedReader(new FileReader(fileName));
-//    	out = new BufferedWriter(new FileWriter(fileName));
     	name = new String[2*MAX];
     	emails = new String[MAX];
     	passwords = new String[MAX];

@@ -86,7 +86,9 @@ public class LoginPage {
             try {
             	if(validate()) {
     				new MainFrame();
-            	} 
+            	} else {
+            		new LoginPage();
+            	}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
