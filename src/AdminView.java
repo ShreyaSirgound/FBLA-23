@@ -267,7 +267,12 @@ public class AdminView {
 		JButton toStudentView = new JButton("View as student");
 		toStudentView.setBounds(1100, 600, 150, 60);
 		toStudentView.addActionListener(e -> {
-			new MainFrame();
+			try {
+				new MainFrame();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			frame.dispose();
 		});
 		frame.add(toStudentView);

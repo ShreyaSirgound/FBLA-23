@@ -305,6 +305,23 @@ public class MainFrame {
         twelveWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         leaderboard.add(twelveWinner);
 
+        JTextArea randomWinner = new JTextArea("Random Winners: " + PointSystem.randomWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.randomWinners().size(); i++) {
+            if (PointSystem.randomWinners().size() == 1) {
+                continue;
+            } else {
+                randomWinner.setText(randomWinner.getText() + ", " + (PointSystem.randomWinners().get(i)).getName());
+            } 
+        }
+        randomWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        randomWinner.setBackground(Color.decode("#F66845"));
+        randomWinner.setForeground(Color.white);
+        randomWinner.setEditable(false);
+        randomWinner.setLineWrap(true);
+        randomWinner.setWrapStyleWord(true);
+        randomWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        leaderboard.add(randomWinner);
+
         frame.add(leaderboard);
         
         for(Student s : Student.getStudents()) {
