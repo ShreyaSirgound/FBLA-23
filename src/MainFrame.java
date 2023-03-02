@@ -71,13 +71,52 @@ public class MainFrame {
         titlebar.setBounds(0, 0, 1280, 60);
         titlebar.add(Common.getImage("logo_small.png"), BorderLayout.EAST);
         frame.add(titlebar);
+        
+        JTextArea prize1 = new JTextArea("Between 0 - 59 points: \nPencil!");
+        prize1.setWrapStyleWord(true);
+        prize1.setLineWrap(true);
+        prize1. setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        prize1. setForeground(Color.white);
+        prize1.setBounds(25, 120, 200, 75);
+        prize1.setBackground(Color.decode("#3E3F40"));
 
+        frame.add(prize1);
+
+        JTextArea prize2 = new JTextArea("Between 60 - 119 points: \n$15 Starbucks Giftcard!");
+        prize2.setWrapStyleWord(true);
+        prize2.setLineWrap(true);
+        prize2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        prize2.setForeground(Color.white);
+        prize2.setBackground(Color.decode("#3E3F40"));
+        prize2.setBounds(25, 240, 200, 75);
+
+        frame.add(prize2);
+
+        JTextArea prize3 = new JTextArea("Between 120 - 199 points: \n$25 Starbucks Giftcard!");
+        prize3.setWrapStyleWord(true);
+        prize3.setLineWrap(true);
+        prize3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        prize3.setForeground(Color.white);
+        prize3.setBounds(25, 360, 200, 75);
+        prize3.setBackground(Color.decode("#3E3F40"));
+
+        frame.add(prize3);
+
+        JTextArea prize4 = new JTextArea("200+ Points: \nFree day off from school!");
+        prize4.setWrapStyleWord(true);
+        prize4.setLineWrap(true);
+        prize4.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        prize4.setForeground(Color.white);
+        prize4.setBackground(Color.decode("#3E3F40"));
+        prize4.setBounds(25, 480, 200, 75);
+
+        frame.add(prize4); 
         //sidebar
         JPanel sidebar = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
         sidebar.setBackground(Color.decode("#3E3F40"));
         sidebar.setBounds(0, 60, 300, 720);
-        JLabel stats = new JLabel("Quick Stats");
+        JLabel stats = new JLabel("Prizes");
         stats.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 23));
         stats.setForeground(Color.white);
         sidebar.add(stats);
@@ -90,7 +129,6 @@ public class MainFrame {
         title1.setBounds(325, 70, 150, 50);
         frame.add(title1);
 
-        //TO DO: get the scroll thing to stay at the top when first running the program
         JPanel allEvents = new JPanel();
         allEvents.setLayout(new BoxLayout(allEvents, BoxLayout.Y_AXIS));
         allEvents.setBackground(Color.white);
@@ -100,21 +138,6 @@ public class MainFrame {
         eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
-        
-        //events used for testing
-        Event.eventList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        Event.eventList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        Event.eventList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-        Event.eventList.add(new Event ("Tchoukball", "Tchouk what?! Are you new to this sport? If so, come on down, and learn the art of tchouk-ing the ball! No experience necessary!", "March 13, 2023", "12:30PM", 10));
-        Event.eventList.add(new Event ("Badminton", "Oh! and that goes for a six! Come down and play in our school's monthly intramural! Be ready to practice your dropshots!", "March 13, 2023", "3:30PM", 20));
-        Event.eventList.add(new Event ("Jump rope for heart", "Come outside during lunch and do some skipping to fund heart disease research!", "March 15, 2023", "12:30PM", 15));		
-        Event.eventList.add(new Event ("Model UN Conference", "That motion is passed delegates! Come down to the library and represent your country well, at our demo model UN conference. Experience recommended!", "March 14, 2023", "12:30PM", 10));
-        Event.eventList.add(new Event ("Chess Tournament", "Bishop to E5! Come unleash your inner Magnus!", "March 16, 2023", "12:30PM", 20));
-        Event.eventList.add(new Event ("Entrepreneurship Festival", "Do you think you have the capabilities of a snake oil salesman? Come pitch your product and get rich!", "March 17, 2023", "3:30PM", 15));
-		Event.eventList.add(new Event ("Science Fair", "Do you think you have the solution to climate change or aging! Present your invention here!", "March 20, 2023", "12:30PM", 10));
-        Event.eventList.add(new Event ("Yearbook Committee Design Voting", "Come and appreciate the multitude of fine artwork done by your fellow peers!", "March 21, 2023", "3:30PM", 20));
-        Event.eventList.add(new Event ("Knitting Club", "Knitting isn't only for old people, it's for the young anew, everyone welcome!", "March 22, 2023", "12:30PM", 15));
-
         for (int i = 0; i < Event.eventList.size(); i++) {
             //creates a mini panel to hold all the info about a specific event
             JPanel eventInfoPane = new JPanel();
@@ -322,7 +345,8 @@ public class MainFrame {
 
         leaderboardFinal.add(winnersFinal);
         frame.add(leaderboardFinal);
-
+        
+        
         /*
         //only generate winners for this leaderboard if it is the end of the quarter
         if () {
