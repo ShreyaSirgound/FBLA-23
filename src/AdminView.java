@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +24,10 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-
 public class AdminView {
-
-	public AdminView() {
+	
+	public AdminView() throws ClassNotFoundException, IOException {
+		if(Event.eventList.isEmpty())EventsDataFile.Input(); 
 		JFrame frame = new JFrame("Admin View");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -61,26 +63,8 @@ public class AdminView {
 		eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
-        List<Event> eventsList = new ArrayList<Event>(); //use Event.getEvents(); after testing
 
-		//events used for testing
-        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-
-		for (int i = 0; i < eventsList.size(); i++) {
+		for (int i = 0; i < Event.eventList.size(); i++) {
             //creates a mini panel to hold all the info about a specific event
             JPanel eventInfoPane = new JPanel();
             eventInfoPane.setLayout(new BoxLayout(eventInfoPane, BoxLayout.Y_AXIS));
@@ -91,7 +75,7 @@ public class AdminView {
             eventInfoPane.setMaximumSize(new Dimension(480, 200));
 
 			//holds event points
-            JTextField eventPointsInfo = new JTextField("WORTH " + eventsList.get(i).getPoints() + " POINTS!"); //gets the points the event is worth
+            JTextField eventPointsInfo = new JTextField("WORTH " + Event.eventList.get(i).getPoints() + " POINTS!"); //gets the points the event is worth
             eventPointsInfo.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
             eventPointsInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventPointsInfo.setEditable(false);
@@ -100,7 +84,7 @@ public class AdminView {
             eventPointsInfo.setBorder(new EmptyBorder(8, 5, 5, 0));
 
             //holds event name
-            JTextField eventNameInfo = new JTextField(eventsList.get(i).getName()); //gets the event name
+            JTextField eventNameInfo = new JTextField(Event.eventList.get(i).getName()); //gets the event name
             eventNameInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
             eventNameInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventNameInfo.setEditable(false);
@@ -108,7 +92,7 @@ public class AdminView {
             eventNameInfo.setBorder(new EmptyBorder(8, 5, 0, 0));
             
             //holds the event description
-            JTextArea eventDescInfo = new JTextArea(eventsList.get(i).getDesc());
+            JTextArea eventDescInfo = new JTextArea(Event.eventList.get(i).getDesc());
             eventDescInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
             eventDescInfo.setForeground(Color.gray);
             eventDescInfo.setEditable(false);
@@ -117,8 +101,8 @@ public class AdminView {
             eventDescInfo.setBorder(new EmptyBorder(0, 5, 3, 0));
 
 			//holds the event date, and time
-			JTextField eventSetting = new JTextField(eventsList.get(i).getDate() //gets the event date
-													+ "  @ " + eventsList.get(i).getTime()); //gets the event time
+			JTextField eventSetting = new JTextField(Event.eventList.get(i).getDate() //gets the event date
+													+ "  @ " + Event.eventList.get(i).getTime()); //gets the event time
 			eventSetting.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 			eventSetting.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventSetting.setEditable(false);
@@ -226,7 +210,6 @@ public class AdminView {
 			//outputs the new event to the events data file
 			try {
 				EventsDataFile.output(Event.getEvents());
-
 			} catch (IOException ex) {
 				System.err.println("Failed to load data (IO): " + ex.getMessage());
 				System.out.println("Cause: " + ex.getCause());
@@ -262,18 +245,13 @@ public class AdminView {
 		frame.add(eventCreate);
 
 		//button to switch to student view (this feature should only accesible for admins)
-		JButton toStudentView = new JButton("View as student");
-		toStudentView.setBounds(1100, 600, 150, 60);
-		toStudentView.addActionListener(e -> {
-			try {
-				new MainFrame();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		JButton mainMenu = new JButton("Main Menu");
+		mainMenu.setBounds(1100, 600, 150, 60);
+		mainMenu.addActionListener(e -> {
+			new LoginPage();
 			frame.dispose();
 		});
-		frame.add(toStudentView);
+		frame.add(mainMenu);
 
 		//section that allows admin to choose when their quarters end (dates on which winners are generated)
         JLabel title3 = new JLabel("Quarterly End Dates");
@@ -443,4 +421,5 @@ public class AdminView {
 		
 		frame.setVisible(true);
 	}
+    
 }
