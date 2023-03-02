@@ -8,7 +8,7 @@ public class Event {
     String eventDate;
     String eventTime;
     int eventPoints;
-    
+    protected static List<Event> eventList = new ArrayList<Event>(); //creates a list of all the events
     //creates an event object
     public Event(String name, String desc, String date, String time, int points){
         this.eventName = name;
@@ -68,8 +68,6 @@ public class Event {
         this.eventPoints = points;
     }
 
-    //creates a list of all the events
-    private static List<Event> eventList = new ArrayList<Event>();
 
     //add an event to the events list
     public static void addEvent(Event event) {

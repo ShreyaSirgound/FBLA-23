@@ -1,7 +1,11 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -39,13 +43,21 @@ public class EventsDataFile {
     public static void output(List<Event> eventsList) throws FileNotFoundException, IOException, ClassNotFoundException {
         /*ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
         out.writeObject(event);*/
-
-        FileOutputStream writeData = new FileOutputStream("events.txt");
-        ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
-
-        writeStream.writeObject(eventsList);
-        writeStream.flush();
-        writeStream.close();
+    	BufferedWriter out = new BufferedWriter(new FileWriter("events.txt"));
+    	out.write(""+ eventsList.size()); out.newLine();
+    	for(Event e : eventsList) {
+    		out.write(e.getName());
+    		out.newLine();
+    		out.write(e.getDesc());
+    		out.newLine();
+    		out.write(e.getDate());
+    		out.newLine();
+    		out.write(e.getTime());
+    		out.newLine();
+    		out.write("" + e.getPoints());
+    		out.newLine();
+    	}
+    	out.close();
     }
 
     /**
@@ -54,16 +66,17 @@ public class EventsDataFile {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static List<Event> input() throws IOException, ClassNotFoundException{
-        /*ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-        Event event = (Event) in.readObject();*/
-
-        FileInputStream readData = new FileInputStream("events.txt");
-        ObjectInputStream readStream = new ObjectInputStream(readData);
-
-        List<Event> eventsList = (List<Event>) readStream.readObject();
-        readStream.close();
-
-        return eventsList;
+    public static void Input() throws IOException, ClassNotFoundException{
+    	BufferedReader in = new BufferedReader(new FileReader("events.txt"));
+    	int numOfEvents = Integer.parseInt(in.readLine());
+    	for(int i = 0; i < numOfEvents; i++) {
+    		String name = in.readLine();
+    		String desc = in.readLine();
+    		String date = in.readLine();
+    		String time = in.readLine();
+    		int points = Integer.parseInt(in.readLine());
+    		Event.eventList.add(new Event(name, desc, date, time, points));
+    	}
+    	in.close();
     }
 }

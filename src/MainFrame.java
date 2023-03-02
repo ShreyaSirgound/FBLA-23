@@ -303,7 +303,7 @@ public class MainFrame {
         leaderboard.add(randomWinner);
 
         frame.add(leaderboard);
-        System.out.printf("Current user: " + curUser.getName() + "\n");
+//        System.out.printf("Current user: " + curUser.getName() + "\n");
 
 
         //leaderboard panel that shows the final winners at the end of the quarter or from the previous quarter

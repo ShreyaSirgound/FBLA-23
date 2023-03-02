@@ -114,7 +114,12 @@ public class LoginPage {
         JButton adminView = new JButton("AdminView");
         adminView.setBounds(900, 600, 100, 60);
         adminView.addActionListener(e -> {
-            new AdminView();
+            try {
+				new AdminView();
+			} catch (ClassNotFoundException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             frame.dispose();
         });
         frame.add(adminView);
