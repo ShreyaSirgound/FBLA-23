@@ -1,12 +1,28 @@
 
-import java.awt.event.*;
+// Import packages as needed
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.font.TextAttribute;
+import java.io.*;
+import java.util.Map;
+
 import javax.swing.*;
+   
+   // This method contains all the GUI elements required to form up the JFrame
+
+	  
+	  // Initializing all variables needed for this frame (Labels, buttons, colours, images), and declaring them as desired
+	  
+
 
 class Survey extends JFrame implements ItemListener {
 
 	// frame
-	static JFrame f;
+	frame = new JFrame();
+	frame.setLayout(null);
 
 	// label
 	static JLabel l, l1;
@@ -18,13 +34,13 @@ class Survey extends JFrame implements ItemListener {
 	public static void main(String[] args)
 	{
 		// create a new frame
-		f = new JFrame("frame");
+		JFrame f1 = new JFrame("frame");
 
 		// create a object
 		Survey s = new Survey();
 
 		// set layout of frame
-		f.setLayout(new FlowLayout());
+		f1.setLayout(new FlowLayout());
 
 		// array of string containing cities
 		String s1[] = { "Strongly Interested", "Interested", "Neutral stance", "Not Interested", "Absolutely not!" };
@@ -54,12 +70,12 @@ class Survey extends JFrame implements ItemListener {
 		p.add(l1);
 
 		// add panel to frame
-		f.add(p);
+		f1.add(p);
 
 		// set the size of frame
-		f.setSize(400, 300);
+		f1.setSize(400, 300);
 
-		f.show();
+		f1.show();
 	}
 	public void itemStateChanged(ItemEvent e)
 	{
