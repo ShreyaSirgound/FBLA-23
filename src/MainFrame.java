@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 
 //TODO: create homepage layout
 public class MainFrame {
+    /*
 	final int MAX = 10000; //max amount of people
 
 	JButton button;
@@ -30,6 +31,7 @@ public class MainFrame {
 	static BufferedWriter out;
 	static int numOfUsers;
 	String fullName;
+<<<<<<< Updated upstream
     String[] name, emails, passwords, grades, points;
 	static String fileName = "accounts.txt";
 	static Student curUser;
@@ -53,6 +55,41 @@ public class MainFrame {
     		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
     	}
     	in.close();
+=======
+    String[] name = new String[10000];
+    for (int i = 0; i < 20000; i++) {
+    	  name[i] = "";
+    	}
+	String[] emails = new String[10000];
+	String[] passwords = new String[10000];
+	String[] grades = new String[10000];
+	String[] points = new String[10000];
+	String fileName = "accounts.txt";
+    */
+	
+	static Student curUser;
+    public MainFrame() {
+        /*
+    	//read in students
+    	try {
+			in = new BufferedReader(new FileReader(fileName));
+			out = new BufferedWriter(new FileWriter(fileName));
+			name = in.readLine().split(" ");
+			emails = in.readLine().split(" ");
+			passwords = in.readLine().split(" ");
+			grades = in.readLine().split(" ");
+			points = in.readLine().split(" ");
+			numOfUsers = points.length;
+			for(int i = 0, n = 0; i < numOfUsers; i++) {
+				fullName = name[n] + " " + name[n+1]; n+=2;
+				Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
+			}
+			in.close();
+		} catch (IOException e) {
+			System.out.print("Error");
+		}*/
+
+>>>>>>> Stashed changes
         //setup the frame
         JFrame frame = new JFrame("Home Page");
         Main.setMainFrame(frame);
@@ -94,10 +131,9 @@ public class MainFrame {
         JPanel allEvents = new JPanel();
         allEvents.setLayout(new BoxLayout(allEvents, BoxLayout.Y_AXIS));
         allEvents.setBackground(Color.white);
-        //allEvents.setSize(490, 555);
         allEvents.setBorder(new EmptyBorder(15, 15, 15, 15));
         JScrollPane eventsPane = new JScrollPane(allEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        eventsPane.setBounds(325, 110, 490, 555);
+        eventsPane.setBounds(320, 110, 490, 555);
         eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
@@ -191,26 +227,18 @@ public class MainFrame {
         };
         frame.add(eventsPane);
 
-        //leaderboard panel
-        JLabel title2 = new JLabel("Leaderboard");
+        //leaderboard panel that shows an updated leaderboard everytime the page is opened
+        JLabel title2 = new JLabel("Current Leaderboard");
         title2. setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         title2. setForeground(Color.gray);
-        title2.setBounds(825, 360, 170, 50);
+        title2.setBounds(825, 70, 200, 50);
         frame.add(title2);
 
         JPanel leaderboard = new JPanel();
         leaderboard.setLayout(new BoxLayout(leaderboard, BoxLayout.Y_AXIS));
         leaderboard.setBackground(Color.decode("#F66845"));
-        leaderboard.setBounds(825, 400, 420, 265);
-        leaderboard.setBorder( new EmptyBorder(10, 10, 10, 10));
-
-        JTextField winners = new JTextField("ðŸ�† Winners ðŸ�†");
-        winners.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-        winners.setBackground(Color.decode("#F66845"));
-        winners.setForeground(Color.white);
-        winners.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-
-        leaderboard.add(winners);
+        leaderboard.setBounds(825, 110, 420, 250);
+        leaderboard.setBorder( new EmptyBorder(15, 15, 15, 15));
 
         //students for testing
         Student.addNineStudent(new Student("Sophie", "sophie@student.ca", "testing", 9, 10));
@@ -314,12 +342,51 @@ public class MainFrame {
         leaderboard.add(randomWinner);
 
         frame.add(leaderboard);
+<<<<<<< Updated upstream
         System.out.printf("Current user: " + curUser.getName() + "\n");
+=======
+
+        //leaderboard panel that shows the final winners at the end of the quarter or from the previous quarter
+        JLabel title3 = new JLabel("Quarterly Leaderboard");
+        title3. setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
+        title3. setForeground(Color.gray);
+        title3.setBounds(825, 375, 300, 50);
+        frame.add(title3);
+
+        JPanel leaderboardFinal = new JPanel();
+        leaderboardFinal.setLayout(new BoxLayout(leaderboardFinal, BoxLayout.Y_AXIS));
+        leaderboardFinal.setBackground(Color.decode("#F66845"));
+        leaderboardFinal.setBounds(825, 415, 420, 250); 
+        leaderboardFinal.setBorder( new EmptyBorder(15, 15, 15, 15));
+
+        JTextField winnersFinal = new JTextField("Winners");
+        winnersFinal.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        winnersFinal.setBackground(Color.decode("#F66845"));
+        winnersFinal.setForeground(Color.white);
+        winnersFinal.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+
+        leaderboardFinal.add(winnersFinal);
+        frame.add(leaderboardFinal);
+
+        /*
+        //only generate winners for this leaderboard if it is the end of the quarter
+        if () {
+
+        } else {
+            JLabel() msg = new JLabel("No one winners have been selected yet. Check again later");
+            msg.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+            leaderboardFinal.add(msg);
+        }
+        */
+        
+        /*
+>>>>>>> Stashed changes
         for(Student s : Student.getStudents()) {
         	System.out.println(s.getName());
-        }
+        }*/
         frame.setVisible(true);
     }
+<<<<<<< Updated upstream
     protected static void saveUser() throws IOException {
     	
 		out = new BufferedWriter(new FileWriter(fileName));
@@ -348,3 +415,6 @@ public class MainFrame {
     	
     }
 }
+=======
+}
+>>>>>>> Stashed changes
