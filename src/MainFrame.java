@@ -100,23 +100,22 @@ public class MainFrame {
         eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
-        List<Event> eventsList = new ArrayList<Event>(); //use Event.getEvents(); after testing
-
+        
         //events used for testing
-        eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Tchoukball", "Tchouk what?! Are you new to this sport? If so, come on down, and learn the art of tchouk-ing the ball! No experience necessary!", "March 13, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Badminton", "Oh! and that goes for a six! Come down and play in our school's monthly intramural! Be ready to practice your dropshots!", "March 13, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Jump rope for heart", "Come outside during lunch and do some skipping to fund heart disease research!", "March 15, 2023", "12:30PM", 15));		
-        eventsList.add(new Event ("Model UN Conference", "That motion is passed delegates! Come down to the library and represent your country well, at our demo model UN conference. Experience recommended!", "March 14, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Chess Tournament", "Bishop to E5! Come unleash your inner Magnus!", "March 16, 2023", "12:30PM", 20));
-        eventsList.add(new Event ("Entrepreneurship Festival", "Do you think you have the capabilities of a snake oil salesman? Come pitch your product and get rich!", "March 17, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Science Fair", "Do you think you have the solution to climate change or aging! Present your invention here!", "March 20, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Yearbook Committee Design Voting", "Come and appreciate the multitude of fine artwork done by your fellow peers!", "March 21, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Knitting Club", "Knitting isn't only for old people, it's for the young anew, everyone welcome!", "March 22, 2023", "12:30PM", 15));
+        Event.eventList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
+        Event.eventList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
+        Event.eventList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
+        Event.eventList.add(new Event ("Tchoukball", "Tchouk what?! Are you new to this sport? If so, come on down, and learn the art of tchouk-ing the ball! No experience necessary!", "March 13, 2023", "12:30PM", 10));
+        Event.eventList.add(new Event ("Badminton", "Oh! and that goes for a six! Come down and play in our school's monthly intramural! Be ready to practice your dropshots!", "March 13, 2023", "3:30PM", 20));
+        Event.eventList.add(new Event ("Jump rope for heart", "Come outside during lunch and do some skipping to fund heart disease research!", "March 15, 2023", "12:30PM", 15));		
+        Event.eventList.add(new Event ("Model UN Conference", "That motion is passed delegates! Come down to the library and represent your country well, at our demo model UN conference. Experience recommended!", "March 14, 2023", "12:30PM", 10));
+        Event.eventList.add(new Event ("Chess Tournament", "Bishop to E5! Come unleash your inner Magnus!", "March 16, 2023", "12:30PM", 20));
+        Event.eventList.add(new Event ("Entrepreneurship Festival", "Do you think you have the capabilities of a snake oil salesman? Come pitch your product and get rich!", "March 17, 2023", "3:30PM", 15));
+		Event.eventList.add(new Event ("Science Fair", "Do you think you have the solution to climate change or aging! Present your invention here!", "March 20, 2023", "12:30PM", 10));
+        Event.eventList.add(new Event ("Yearbook Committee Design Voting", "Come and appreciate the multitude of fine artwork done by your fellow peers!", "March 21, 2023", "3:30PM", 20));
+        Event.eventList.add(new Event ("Knitting Club", "Knitting isn't only for old people, it's for the young anew, everyone welcome!", "March 22, 2023", "12:30PM", 15));
 
-        for (int i = 0; i < eventsList.size(); i++) {
+        for (int i = 0; i < Event.eventList.size(); i++) {
             //creates a mini panel to hold all the info about a specific event
             JPanel eventInfoPane = new JPanel();
             eventInfoPane.setLayout(new BoxLayout(eventInfoPane, BoxLayout.Y_AXIS));
@@ -127,7 +126,7 @@ public class MainFrame {
             eventInfoPane.setMaximumSize(new Dimension(480, 200));
 
             //holds event points
-            JTextField eventPointsInfo = new JTextField("WORTH " + eventsList.get(i).getPoints() + " POINTS!"); //gets the points the event is worth
+            JTextField eventPointsInfo = new JTextField("WORTH " + Event.eventList.get(i).getPoints() + " POINTS!"); //gets the points the event is worth
             eventPointsInfo.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
             eventPointsInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventPointsInfo.setEditable(false);
@@ -136,7 +135,7 @@ public class MainFrame {
             eventPointsInfo.setBorder(new EmptyBorder(8, 5, 5, 0));
 
             //holds event name
-            JTextField eventNameInfo = new JTextField(eventsList.get(i).getName()); //gets the event name
+            JTextField eventNameInfo = new JTextField(Event.eventList.get(i).getName()); //gets the event name
             eventNameInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
             eventNameInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventNameInfo.setEditable(false);
@@ -144,7 +143,7 @@ public class MainFrame {
             eventNameInfo.setBorder(new EmptyBorder(8, 5, 0, 0));
             
             //holds the event description
-            JTextArea eventDescInfo = new JTextArea(eventsList.get(i).getDesc());
+            JTextArea eventDescInfo = new JTextArea(Event.eventList.get(i).getDesc());
             eventDescInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
             eventDescInfo.setForeground(Color.gray);
             eventDescInfo.setEditable(false);
@@ -153,8 +152,8 @@ public class MainFrame {
             eventDescInfo.setBorder(new EmptyBorder(0, 5, 3, 0));
 
             //holds the event date, and time
-			JTextField eventSetting = new JTextField(eventsList.get(i).getDate() //gets the event date
-                                                    + "  @ " + eventsList.get(i).getTime()); //gets the event time
+			JTextField eventSetting = new JTextField(Event.eventList.get(i).getDate() //gets the event date
+                                                    + "  @ " + Event.eventList.get(i).getTime()); //gets the event time
             eventSetting.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
             eventSetting.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventSetting.setEditable(false);
@@ -170,7 +169,13 @@ public class MainFrame {
             registerPane.insertComponent(register);
             registerPane.setBackground(Color.white);
             registerPane.setBorder(new EmptyBorder(0, 5, 8, 0));
-
+            int idx = i;
+            register.addActionListener(e -> {
+            	int curPoints = curUser.getPoints();
+            	curPoints += Event.eventList.get(idx).getPoints();
+            	curUser.setPoints(curPoints);
+            	
+            });
             eventInfoPane.add(eventPointsInfo);
 			eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
 			eventInfoPane.add(eventNameInfo);
@@ -309,6 +314,7 @@ public class MainFrame {
         leaderboardFinal.setBorder( new EmptyBorder(15, 15, 15, 15));
 
         JTextField winnersFinal = new JTextField("Winners");
+        winnersFinal.setEditable(false);
         winnersFinal.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         winnersFinal.setBackground(Color.decode("#F66845"));
         winnersFinal.setForeground(Color.white);

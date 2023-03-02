@@ -1,6 +1,22 @@
-1
-Test
-Testing for FBLA!
-March 1, 2023
-11:59PM
+12
+Cross Country 
+Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!
+March 6, 2023
+12:30PM 
 10
+Volleyball
+BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!
+March 9, 2023
+3:30PM 
+20
+
+        Event.eventList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
+        Event.eventList.add(new Event ("Tchoukball", "Tchouk what?! Are you new to this sport? If so, come on down, and learn the art of tchouk-ing the ball! No experience necessary!", "March 13, 2023", "12:30PM", 10));
+        Event.eventList.add(new Event ("Badminton", "Oh! and that goes for a six! Come down and play in our school's monthly intramural! Be ready to practice your dropshots!", "March 13, 2023", "3:30PM", 20));
+        Event.eventList.add(new Event ("Jump rope for heart", "Come outside during lunch and do some skipping to fund heart disease research!", "March 15, 2023", "12:30PM", 15));		
+        Event.eventList.add(new Event ("Model UN Conference", "That motion is passed delegates! Come down to the library and represent your country well, at our demo model UN conference. Experience recommended!", "March 14, 2023", "12:30PM", 10));
+        Event.eventList.add(new Event ("Chess Tournament", "Bishop to E5! Come unleash your inner Magnus!", "March 16, 2023", "12:30PM", 20));
+        Event.eventList.add(new Event ("Entrepreneurship Festival", "Do you think you have the capabilities of a snake oil salesman? Come pitch your product and get rich!", "March 17, 2023", "3:30PM", 15));
+		Event.eventList.add(new Event ("Science Fair", "Do you think you have the solution to climate change or aging! Present your invention here!", "March 20, 2023", "12:30PM", 10));
+        Event.eventList.add(new Event ("Yearbook Committee Design Voting", "Come and appreciate the multitude of fine artwork done by your fellow peers!", "March 21, 2023", "3:30PM", 20));
+        Event.eventList.add(new Event ("Knitting Club", "Knitting isn't only for old people, it's for the young anew, everyone welcome!", "March 22, 2023", "12:30PM", 15));

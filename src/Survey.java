@@ -76,6 +76,7 @@ class Survey extends JFrame implements ItemListener {
 		f1.setSize(400, 300);
 
 		f1.show();
+		f1.setVisible(true);
 	}
 	public void itemStateChanged(ItemEvent e)
 	{
