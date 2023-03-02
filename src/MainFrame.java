@@ -109,8 +109,7 @@ public class MainFrame {
         eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
 		eventsList.add(new Event ("Tchoukball", "Tchouk what?! Are you new to this sport? If so, come on down, and learn the art of tchouk-ing the ball! No experience necessary!", "March 13, 2023", "12:30PM", 10));
         eventsList.add(new Event ("Badminton", "Oh! and that goes for a six! Come down and play in our school's monthly intramural! Be ready to practice your dropshots!", "March 13, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Jump rope for heart", "Come outside during lunch and do some skipping to fund heart disease research!", "March 15, 2023", "12:30PM", 15));
-		
+        eventsList.add(new Event ("Jump rope for heart", "Come outside during lunch and do some skipping to fund heart disease research!", "March 15, 2023", "12:30PM", 15));		
         eventsList.add(new Event ("Model UN Conference", "That motion is passed delegates! Come down to the library and represent your country well, at our demo model UN conference. Experience recommended!", "March 14, 2023", "12:30PM", 10));
         eventsList.add(new Event ("Chess Tournament", "Bishop to E5! Come unleash your inner Magnus!", "March 16, 2023", "12:30PM", 20));
         eventsList.add(new Event ("Entrepreneurship Festival", "Do you think you have the capabilities of a snake oil salesman? Come pitch your product and get rich!", "March 17, 2023", "3:30PM", 15));
@@ -203,20 +202,10 @@ public class MainFrame {
         leaderboard.setBorder( new EmptyBorder(15, 15, 15, 15));
 
         //students for testing
-        Student.addNineStudent(new Student("Sophie", "sophie@student.ca", "testing", 9, 10));
-        Student.addNineStudent(new Student("Gracelyn James Potter", "gjp@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Leah Henri Saint-Claire", "lhsc@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Amy", "amy@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Sarah", "sarah@student.ca", "testing", 9, 30));
-        Student.addTenStudent(new Student("Liam", "liam@student.ca", "testing", 10, 10));
-        Student.addTenStudent(new Student("Michelle", "michelle@student.ca", "testing", 10, 20));
-        Student.addTenStudent(new Student("Bob", "bob@student.ca", "testing", 10, 30));
-        Student.addElevenStudent(new Student("Ian", "ian@student.ca", "testing", 11, 10));
-        Student.addElevenStudent(new Student("Shreya", "shreya@student.ca", "testing", 11, 20));
-        Student.addElevenStudent(new Student("Neo", "neo@student.ca", "testing", 11, 30));
-        Student.addTwelveStudent(new Student("Dan", "dan@student.ca", "testing", 12, 10));
-        Student.addTwelveStudent(new Student("Kia", "kia@student.ca", "testing", 12, 20));
-        Student.addTwelveStudent(new Student("Phoebe", "phoebe@student.ca", "testing", 12, 30));
+        Student.addNineStudent(new Student("Sophie Tester", "sophie@student.ca", "testing", 9, 10));
+        Student.addTenStudent(new Student("Liam Tester", "liam@student.ca", "testing", 10, 10));
+        Student.addElevenStudent(new Student("Neo Tester", "neo@student.ca", "testing", 11, 30));
+        Student.addTwelveStudent(new Student("Dan Tester", "dan@student.ca", "testing", 12, 10));
 
         JTextArea nineWinner = new JTextArea("Grade 9: " + PointSystem.nineWinners().get(0).getName());
         for (int i = 1; i < PointSystem.nineWinners().size(); i++) {
