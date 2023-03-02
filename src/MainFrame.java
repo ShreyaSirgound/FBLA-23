@@ -35,11 +35,14 @@ public class MainFrame {
 	BufferedWriter out;
 	int numOfUsers;
 	String fullName;
-	String[] name = new String[2*MAX];
-	String[] emails = new String[MAX];
-	String[] passwords = new String[MAX];
-	String[] grades = new String[MAX];
-	String[] points = new String[MAX];
+    String[] name = new String[10000];
+    for (int i = 0; i < 20000; i++) {
+    	  name[i] = "";
+    	}
+	String[] emails = new String[10000];
+	String[] passwords = new String[10000];
+	String[] grades = new String[10000];
+	String[] points = new String[10000];
 	String fileName = "accounts.txt";
 	
 	static Student curUser;
@@ -60,7 +63,7 @@ public class MainFrame {
 			}
 			in.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.print("Error");
 		}
         //setup the frame
         JFrame frame = new JFrame("Home Page");
