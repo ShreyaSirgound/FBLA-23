@@ -35,23 +35,24 @@ public class MainFrame {
 	static Student curUser;
     public MainFrame() throws IOException {
     	//read in students
-//    	in = new BufferedReader(new FileReader(fileName));
-//    	name = new String[2*MAX];
-//    	emails = new String[MAX];
-//    	passwords = new String[MAX];
-//    	grades = new String[MAX];
-//    	points = new String[MAX];
-//    	name = in.readLine().split(" ");
-//    	emails = in.readLine().split(" ");
-//    	passwords = in.readLine().split(" ");
-//    	grades = in.readLine().split(" ");
-//    	points = in.readLine().split(" ");
-//    	numOfUsers = points.length;
-//    	for(int i = 0, n = 0; i < numOfUsers; i++) {
-//    		fullName = name[n] + " " + name[n+1]; n+=2;
-//    		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
-//    	}
-//    	in.close();
+    	in = new BufferedReader(new FileReader(fileName));
+//    	out = new BufferedWriter(new FileWriter(fileName));
+    	name = new String[2*MAX];
+    	emails = new String[MAX];
+    	passwords = new String[MAX];
+    	grades = new String[MAX];
+    	points = new String[MAX];
+    	name = in.readLine().split(" ");
+    	emails = in.readLine().split(" ");
+    	passwords = in.readLine().split(" ");
+    	grades = in.readLine().split(" ");
+    	points = in.readLine().split(" ");
+    	numOfUsers = points.length;
+    	for(int i = 0, n = 0; i < numOfUsers; i++) {
+    		fullName = name[n] + " " + name[n+1]; n+=2;
+    		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
+    	}
+    	in.close();
    
         //setup the frame
         JFrame frame = new JFrame("Home Page");
@@ -106,18 +107,16 @@ public class MainFrame {
         eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
         eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
         eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
-		eventsList.add(new Event ("Cross Country", "Come to cross-country! Where you meet other runners and get some exercise while you're at it! Students of all levels are welcome!", "March 6, 2023", "12:30PM", 10));
-        eventsList.add(new Event ("Volleyball", "BUMP! SMASH! VOLLEY! You know what we're talking about! Come tryout for volleyball and represent our school!", "March 9, 2023", "3:30PM", 20));
-        eventsList.add(new Event ("Soccer", "Do you think you have the ability to be the Messi of our school? Join and find out!", "March 7, 2023", "3:30PM", 15));
+		eventsList.add(new Event ("Tchoukball", "Tchouk what?! Are you new to this sport? If so, come on down, and learn the art of tchouk-ing the ball! No experience necessary!", "March 13, 2023", "12:30PM", 10));
+        eventsList.add(new Event ("Badminton", "Oh! and that goes for a six! Come down and play in our school's monthly intramural! Be ready to practice your dropshots!", "March 13, 2023", "3:30PM", 20));
+        eventsList.add(new Event ("Jump rope for heart", "Come outside during lunch and do some skipping to fund heart disease research!", "March 15, 2023", "12:30PM", 15));
+		
+        eventsList.add(new Event ("Model UN Conference", "That motion is passed delegates! Come down to the library and represent your country well, at our demo model UN conference. Experience recommended!", "March 14, 2023", "12:30PM", 10));
+        eventsList.add(new Event ("Chess Tournament", "Bishop to E5! Come unleash your inner Magnus!", "March 16, 2023", "12:30PM", 20));
+        eventsList.add(new Event ("Entrepreneurship Festival", "Do you think you have the capabilities of a snake oil salesman? Come pitch your product and get rich!", "March 17, 2023", "3:30PM", 15));
+		eventsList.add(new Event ("Science Fair", "Do you think you have the solution to climate change or aging! Present your invention here!", "March 20, 2023", "12:30PM", 10));
+        eventsList.add(new Event ("Yearbook Committee Design Voting", "Come and appreciate the multitude of fine artwork done by your fellow peers!", "March 21, 2023", "3:30PM", 20));
+        eventsList.add(new Event ("Knitting Club", "Knitting isn't only for old people, it's for the young anew, everyone welcome!", "March 22, 2023", "12:30PM", 15));
 
         for (int i = 0; i < eventsList.size(); i++) {
             //creates a mini panel to hold all the info about a specific event
@@ -204,18 +203,20 @@ public class MainFrame {
         leaderboard.setBorder( new EmptyBorder(15, 15, 15, 15));
 
         //students for testing
-        Student.addNineStudent(new Student("Sophie S", "sophie@student.ca", "testing", 9, 10));
-        Student.addNineStudent(new Student("Gracelyn J", "gjp@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Leah H", "lhsc@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Amy A", "amy@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Sarah S", "sarah@student.ca", "testing", 9, 30));
-        Student.addTenStudent(new Student("Liam L", "liam@student.ca", "testing", 10, 10));
-        Student.addTenStudent(new Student("Michelle M", "michelle@student.ca", "testing", 10, 20));
-        Student.addTenStudent(new Student("Bob B", "bob@student.ca", "testing", 10, 30));
-        Student.addElevenStudent(new Student("Shreya S", "shreya@student.ca", "testing", 11, 30));
-        Student.addTwelveStudent(new Student("Dan D", "dan@student.ca", "testing", 12, 10));
-        Student.addTwelveStudent(new Student("Kia K", "kia@student.ca", "testing", 12, 20));
-        Student.addTwelveStudent(new Student("Phoebe P", "phoebe@student.ca", "testing", 12, 30));
+        Student.addNineStudent(new Student("Sophie", "sophie@student.ca", "testing", 9, 10));
+        Student.addNineStudent(new Student("Gracelyn James Potter", "gjp@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Leah Henri Saint-Claire", "lhsc@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Amy", "amy@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Sarah", "sarah@student.ca", "testing", 9, 30));
+        Student.addTenStudent(new Student("Liam", "liam@student.ca", "testing", 10, 10));
+        Student.addTenStudent(new Student("Michelle", "michelle@student.ca", "testing", 10, 20));
+        Student.addTenStudent(new Student("Bob", "bob@student.ca", "testing", 10, 30));
+        Student.addElevenStudent(new Student("Ian", "ian@student.ca", "testing", 11, 10));
+        Student.addElevenStudent(new Student("Shreya", "shreya@student.ca", "testing", 11, 20));
+        Student.addElevenStudent(new Student("Neo", "neo@student.ca", "testing", 11, 30));
+        Student.addTwelveStudent(new Student("Dan", "dan@student.ca", "testing", 12, 10));
+        Student.addTwelveStudent(new Student("Kia", "kia@student.ca", "testing", 12, 20));
+        Student.addTwelveStudent(new Student("Phoebe", "phoebe@student.ca", "testing", 12, 30));
 
         JTextArea nineWinner = new JTextArea("Grade 9: " + PointSystem.nineWinners().get(0).getName());
         for (int i = 1; i < PointSystem.nineWinners().size(); i++) {
@@ -338,6 +339,11 @@ public class MainFrame {
             leaderboardFinal.add(msg);
         }
         */
+        
+        
+        for(Student s : Student.getStudents()) {
+        	System.out.println(s.getName());
+        }
         frame.setVisible(true);
     }
     protected static void saveUser() throws IOException {
