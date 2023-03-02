@@ -35,24 +35,23 @@ public class MainFrame {
 	static Student curUser;
     public MainFrame() throws IOException {
     	//read in students
-    	in = new BufferedReader(new FileReader(fileName));
-//    	out = new BufferedWriter(new FileWriter(fileName));
-    	name = new String[2*MAX];
-    	emails = new String[MAX];
-    	passwords = new String[MAX];
-    	grades = new String[MAX];
-    	points = new String[MAX];
-    	name = in.readLine().split(" ");
-    	emails = in.readLine().split(" ");
-    	passwords = in.readLine().split(" ");
-    	grades = in.readLine().split(" ");
-    	points = in.readLine().split(" ");
-    	numOfUsers = points.length;
-    	for(int i = 0, n = 0; i < numOfUsers; i++) {
-    		fullName = name[n] + " " + name[n+1]; n+=2;
-    		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
-    	}
-    	in.close();
+//    	in = new BufferedReader(new FileReader(fileName));
+//    	name = new String[2*MAX];
+//    	emails = new String[MAX];
+//    	passwords = new String[MAX];
+//    	grades = new String[MAX];
+//    	points = new String[MAX];
+//    	name = in.readLine().split(" ");
+//    	emails = in.readLine().split(" ");
+//    	passwords = in.readLine().split(" ");
+//    	grades = in.readLine().split(" ");
+//    	points = in.readLine().split(" ");
+//    	numOfUsers = points.length;
+//    	for(int i = 0, n = 0; i < numOfUsers; i++) {
+//    		fullName = name[n] + " " + name[n+1]; n+=2;
+//    		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
+//    	}
+//    	in.close();
    
         //setup the frame
         JFrame frame = new JFrame("Home Page");
@@ -205,20 +204,18 @@ public class MainFrame {
         leaderboard.setBorder( new EmptyBorder(15, 15, 15, 15));
 
         //students for testing
-        Student.addNineStudent(new Student("Sophie", "sophie@student.ca", "testing", 9, 10));
-        Student.addNineStudent(new Student("Gracelyn James Potter", "gjp@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Leah Henri Saint-Claire", "lhsc@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Amy", "amy@student.ca", "testing", 9, 30));
-        Student.addNineStudent(new Student("Sarah", "sarah@student.ca", "testing", 9, 30));
-        Student.addTenStudent(new Student("Liam", "liam@student.ca", "testing", 10, 10));
-        Student.addTenStudent(new Student("Michelle", "michelle@student.ca", "testing", 10, 20));
-        Student.addTenStudent(new Student("Bob", "bob@student.ca", "testing", 10, 30));
-        Student.addElevenStudent(new Student("Ian", "ian@student.ca", "testing", 11, 10));
-        Student.addElevenStudent(new Student("Shreya", "shreya@student.ca", "testing", 11, 20));
-        Student.addElevenStudent(new Student("Neo", "neo@student.ca", "testing", 11, 30));
-        Student.addTwelveStudent(new Student("Dan", "dan@student.ca", "testing", 12, 10));
-        Student.addTwelveStudent(new Student("Kia", "kia@student.ca", "testing", 12, 20));
-        Student.addTwelveStudent(new Student("Phoebe", "phoebe@student.ca", "testing", 12, 30));
+        Student.addNineStudent(new Student("Sophie S", "sophie@student.ca", "testing", 9, 10));
+        Student.addNineStudent(new Student("Gracelyn J", "gjp@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Leah H", "lhsc@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Amy A", "amy@student.ca", "testing", 9, 30));
+        Student.addNineStudent(new Student("Sarah S", "sarah@student.ca", "testing", 9, 30));
+        Student.addTenStudent(new Student("Liam L", "liam@student.ca", "testing", 10, 10));
+        Student.addTenStudent(new Student("Michelle M", "michelle@student.ca", "testing", 10, 20));
+        Student.addTenStudent(new Student("Bob B", "bob@student.ca", "testing", 10, 30));
+        Student.addElevenStudent(new Student("Shreya S", "shreya@student.ca", "testing", 11, 30));
+        Student.addTwelveStudent(new Student("Dan D", "dan@student.ca", "testing", 12, 10));
+        Student.addTwelveStudent(new Student("Kia K", "kia@student.ca", "testing", 12, 20));
+        Student.addTwelveStudent(new Student("Phoebe P", "phoebe@student.ca", "testing", 12, 30));
 
         JTextArea nineWinner = new JTextArea("Grade 9: " + PointSystem.nineWinners().get(0).getName());
         for (int i = 1; i < PointSystem.nineWinners().size(); i++) {
@@ -341,11 +338,6 @@ public class MainFrame {
             leaderboardFinal.add(msg);
         }
         */
-        
-        
-        for(Student s : Student.getStudents()) {
-        	System.out.println(s.getName());
-        }
         frame.setVisible(true);
     }
     protected static void saveUser() throws IOException {

@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -15,6 +16,11 @@ import javax.swing.WindowConstants;
 
 //TODO: create login page
 public class LoginPage {
+	char[] enteredPassword;
+	String curPassword = "";
+	String curUsername = "";
+	JPasswordField password;
+	JTextField username;
     public LoginPage() {
         JFrame frame = new JFrame("Login");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -45,7 +51,7 @@ public class LoginPage {
         userDesc.setForeground(Color.gray);
         userDesc.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
         loginPanel.add(userDesc);
-        JTextField username = new JTextField(21);
+        username = new JTextField(21);
         username.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         loginPanel.add(username);
 
@@ -60,10 +66,9 @@ public class LoginPage {
         passwordDesc.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
         loginPanel.add(passwordDesc);
 
-        JPasswordField password = new JPasswordField(21);
+        password = new JPasswordField(21);
         password.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         password.setEchoChar('*');
-        char[] enteredPassword = password.getPassword();
         loginPanel.add(password);
 
         JPanel filler3 = new JPanel();
@@ -79,7 +84,9 @@ public class LoginPage {
 
         login.addActionListener(e -> {
             try {
-				new MainFrame();
+            	if(validate()) {
+    				new MainFrame();
+            	} 
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -102,7 +109,7 @@ public class LoginPage {
         
         newAccountPanel.add(newAccount);
         frame.add(newAccount);
-
+        
         //THIS IS A TEMP BUTTON TO GET TO ADMIN VIEW
         JButton adminView = new JButton("AdminView");
         adminView.setBounds(900, 600, 100, 60);
@@ -113,6 +120,27 @@ public class LoginPage {
         frame.add(adminView);
 
         frame.setVisible(true);
+        
+    }
+    	public boolean validate() {
+    		enteredPassword = password.getPassword();
+    		for(int i = 0; i < enteredPassword.length; i++) {
+    			curPassword += enteredPassword[i];
+    		}
+    		curUsername = username.getText();
+    		System.out.println(curUsername);
+    		System.out.println(curPassword);
+    		for(Student s : Student.getStudents()) {
+    			System.out.print(s.getName() + " ");
+    			System.out.println(s.getPassword());
+    			if(s.getName().equals(curUsername) && s.getPassword().equals(curPassword)) {
+    				MainFrame.curUser = s;
+    				return true;
+    			}
+    		}
+    		return false;
+    
+    	
     }
     
 }

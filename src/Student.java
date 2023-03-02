@@ -111,6 +111,7 @@ public class Student {
     public static void addNineStudent(Student student) {
         if (student.getGrade() == 9){
             nineStudents.add(student);
+            studentList.add(student);
         } else {
             System.out.println("The student is not in grade 9");
         }
@@ -120,6 +121,7 @@ public class Student {
     public static void removeNineStudent(Student student) {
         if (student.getGrade() == 9) {
             nineStudents.remove(student);
+            studentList.remove(student);
         } else {
             System.out.println("The student is not in grade 9");
         }
@@ -147,6 +149,7 @@ public class Student {
     public static void addTenStudent(Student student) {
         if (student.getGrade() == 10){
             tenStudents.add(student);
+            studentList.add(student);
         } else {
             System.out.println("The student is not in grade 10");
         }
@@ -156,6 +159,7 @@ public class Student {
     public static void removeTenStudent(Student student) {
         if (student.getGrade() == 10) {
             tenStudents.remove(student);
+            studentList.remove(student);
         } else {
             System.out.println("The student is not in grade 10");
         }
@@ -183,6 +187,7 @@ public class Student {
     public static void addElevenStudent(Student student) {
         if (student.getGrade() == 11){
             elevenStudents.add(student);
+            studentList.add(student);
         } else {
             System.out.println("The student is not in grade 11");
         }
@@ -192,6 +197,7 @@ public class Student {
     public static void removeElevenStudent(Student student) {
         if (student.getGrade() == 11) {
             elevenStudents.remove(student);
+            studentList.remove(student);
         } else {
             System.out.println("The student is not in grade 11");
         }
@@ -219,6 +225,7 @@ public class Student {
     public static void addTwelveStudent(Student student) {
         if (student.getGrade() == 12){
             twelveStudents.add(student);
+            studentList.add(student);
         } else {
             System.out.println("The student is not in grade 12");
         }
@@ -228,6 +235,7 @@ public class Student {
     public static void removeTwelveStudent(Student student) {
         if (student.getGrade() == 12) {
             twelveStudents.remove(student);
+            studentList.remove(student);
         } else {
             System.out.println("The student is not in grade 12");
         }
