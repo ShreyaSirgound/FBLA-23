@@ -26,12 +26,12 @@ public class MainFrame {
 	final int MAX = 10000; //max amount of people
 
 	JButton button;
-	BufferedReader in; 
-	BufferedWriter out;
-	int numOfUsers;
+	static BufferedReader in; 
+	static BufferedWriter out;
+	static int numOfUsers;
 	String fullName;
     String[] name, emails, passwords, grades, points;
-	String fileName = "accounts.txt";
+	static String fileName = "accounts.txt";
 	static Student curUser;
     public MainFrame() throws IOException {
     	//read in students
@@ -319,5 +319,32 @@ public class MainFrame {
         	System.out.println(s.getName());
         }
         frame.setVisible(true);
+    }
+    protected static void saveUser() throws IOException {
+    	
+		out = new BufferedWriter(new FileWriter(fileName));
+		
+		for(Student s : Student.getStudents()) {
+			out.write(s.getName() + " ");
+		}
+		out.newLine();
+		for(Student s : Student.getStudents()) {
+			out.write(s.getEmail() + " ");
+		}
+		out.newLine();
+		for(Student s : Student.getStudents()) {
+			out.write(s.getPassword() + " ");
+		}
+		out.newLine();
+		for(Student s : Student.getStudents()) {
+			out.write(s.getGrade() + " ");
+		}
+		out.newLine();
+		for(Student s : Student.getStudents()) {
+			out.write(s.getPoints() + " ");
+		}
+		out.newLine();
+		out.close();
+    	
     }
 }

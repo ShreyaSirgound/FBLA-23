@@ -23,6 +23,7 @@ public class AccountSetup {
 	List<Student> studentList = Student.getStudents();
 	String auth, name, grade, email;
 	String enteredPassword = "";
+	char[] p;
     public AccountSetup() {
         JFrame frame = new JFrame("Create an account");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -124,7 +125,6 @@ public class AccountSetup {
         label5.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
         JPasswordField password = new JPasswordField(30);
         password.setEchoChar('*');
-        char[] p = password.getPassword();
         panel5.add(label5);
         panel5.add(password);
         mainPanel.add(panel5);
@@ -137,6 +137,7 @@ public class AccountSetup {
         	name = input2.getText();
         	grade = gradeDropdown.getSelectedItem().toString();
         	email = studentNumber.getText();
+        	p = password.getPassword();
         	enteredPassword = "";
         	for(int i = 0; i < p.length; i++) {
             	enteredPassword += p[i];
@@ -144,9 +145,9 @@ public class AccountSetup {
         	enteredPassword.strip();
         	MainFrame.curUser = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
         	studentList.add(MainFrame.curUser);
-        	
             try {
 				new MainFrame();
+				MainFrame.saveUser();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
