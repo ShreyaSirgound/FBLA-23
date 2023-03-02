@@ -23,15 +23,13 @@ import javax.swing.border.EmptyBorder;
 
 //TODO: create homepage layout
 public class MainFrame {
-    /*
-	final int MAX = 10000; //max amount of people
 
+	final int MAX = 10000; //max amount of people
 	JButton button;
 	static BufferedReader in; 
 	static BufferedWriter out;
 	static int numOfUsers;
 	String fullName;
-<<<<<<< Updated upstream
     String[] name, emails, passwords, grades, points;
 	static String fileName = "accounts.txt";
 	static Student curUser;
@@ -55,41 +53,7 @@ public class MainFrame {
     		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
     	}
     	in.close();
-=======
-    String[] name = new String[10000];
-    for (int i = 0; i < 20000; i++) {
-    	  name[i] = "";
-    	}
-	String[] emails = new String[10000];
-	String[] passwords = new String[10000];
-	String[] grades = new String[10000];
-	String[] points = new String[10000];
-	String fileName = "accounts.txt";
-    */
-	
-	static Student curUser;
-    public MainFrame() {
-        /*
-    	//read in students
-    	try {
-			in = new BufferedReader(new FileReader(fileName));
-			out = new BufferedWriter(new FileWriter(fileName));
-			name = in.readLine().split(" ");
-			emails = in.readLine().split(" ");
-			passwords = in.readLine().split(" ");
-			grades = in.readLine().split(" ");
-			points = in.readLine().split(" ");
-			numOfUsers = points.length;
-			for(int i = 0, n = 0; i < numOfUsers; i++) {
-				fullName = name[n] + " " + name[n+1]; n+=2;
-				Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
-			}
-			in.close();
-		} catch (IOException e) {
-			System.out.print("Error");
-		}*/
-
->>>>>>> Stashed changes
+   
         //setup the frame
         JFrame frame = new JFrame("Home Page");
         Main.setMainFrame(frame);
@@ -342,9 +306,8 @@ public class MainFrame {
         leaderboard.add(randomWinner);
 
         frame.add(leaderboard);
-<<<<<<< Updated upstream
         System.out.printf("Current user: " + curUser.getName() + "\n");
-=======
+
 
         //leaderboard panel that shows the final winners at the end of the quarter or from the previous quarter
         JLabel title3 = new JLabel("Quarterly Leaderboard");
@@ -379,14 +342,12 @@ public class MainFrame {
         }
         */
         
-        /*
->>>>>>> Stashed changes
+        
         for(Student s : Student.getStudents()) {
         	System.out.println(s.getName());
-        }*/
+        }
         frame.setVisible(true);
     }
-<<<<<<< Updated upstream
     protected static void saveUser() throws IOException {
     	
 		out = new BufferedWriter(new FileWriter(fileName));
@@ -415,6 +376,3 @@ public class MainFrame {
     	
     }
 }
-=======
-}
->>>>>>> Stashed changes
