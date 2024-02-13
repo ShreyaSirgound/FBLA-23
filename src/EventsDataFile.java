@@ -50,6 +50,8 @@ public class EventsDataFile {
     		out.newLine();
     		out.write(e.getDesc());
     		out.newLine();
+            out.write(e.getLocation());
+            out.newLine();
     		out.write(e.getDate());
     		out.newLine();
     		out.write(e.getTime());
@@ -66,16 +68,17 @@ public class EventsDataFile {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static void Input() throws IOException, ClassNotFoundException{
+    public static void Input() throws IOException, ClassNotFoundException {
     	BufferedReader in = new BufferedReader(new FileReader("events.txt"));
     	int numOfEvents = Integer.parseInt(in.readLine());
-    	for(int i = 0; i < numOfEvents; i++) {
+    	for (int i = 0; i < numOfEvents; i++) {
     		String name = in.readLine();
     		String desc = in.readLine();
+            String location = in.readLine();
     		String date = in.readLine();
     		String time = in.readLine();
     		int points = Integer.parseInt(in.readLine());
-    		Event.eventList.add(new Event(name, desc, date, time, points));
+    		Event.eventList.add(new Event(name, desc, location, date, time, points));
     	}
     	in.close();
     }

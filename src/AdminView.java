@@ -1,14 +1,11 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Color;
-import java.awt.Font;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,13 +18,38 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 public class AdminView {
-	
+	final int MAX = 10000; //maximum amount of people
+	static BufferedReader in; 
+	static BufferedWriter out;
+	static int numOfUsers;
+	String fullName;
+    String[] names, emails, passwords;
+	static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\admins.txt";
+	static Admin curUser;
+	static String[][] quarterDates = new String[4][3];
+
 	public AdminView() throws ClassNotFoundException, IOException {
+		//read in admins
+    	in = new BufferedReader(new FileReader(fileName));
+    	names = new String[2*MAX];
+    	emails = new String[MAX];
+    	passwords = new String[MAX];
+    	names = in.readLine().split(" ");
+    	emails = in.readLine().split(" ");
+    	passwords = in.readLine().split(" ");
+    	numOfUsers = emails.length;
+    	for(int i = 0, n = 0; i < numOfUsers; i++) {
+    		fullName = names[n] + " " + names[n+1]; 
+			n+=2;
+    		Admin.getAdmins().add(new Admin(fullName, emails[i], passwords[i]));
+    	}
+    	in.close();
 		if(Event.eventList.isEmpty())EventsDataFile.Input(); 
+	
+		//set up the frame
 		JFrame frame = new JFrame("Admin View");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -63,7 +85,6 @@ public class AdminView {
 		eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
-
 		for (int i = 0; i < Event.eventList.size(); i++) {
             //creates a mini panel to hold all the info about a specific event
             JPanel eventInfoPane = new JPanel();
@@ -71,8 +92,7 @@ public class AdminView {
             eventInfoPane.setBackground(Color.white);
             eventInfoPane.setBorder(new EmptyBorder(5, 5, 5, 5));
             eventInfoPane.setBorder(BorderFactory.createLineBorder(Color.gray));
-            
-            eventInfoPane.setMaximumSize(new Dimension(480, 200));
+            eventInfoPane.setMaximumSize(new Dimension(480, 220));
 
 			//holds event points
             JTextField eventPointsInfo = new JTextField("WORTH " + Event.eventList.get(i).getPoints() + " POINTS!"); //gets the points the event is worth
@@ -98,7 +118,15 @@ public class AdminView {
             eventDescInfo.setEditable(false);
             eventDescInfo.setLineWrap(true);
             eventDescInfo.setWrapStyleWord(true);
-            eventDescInfo.setBorder(new EmptyBorder(0, 5, 3, 0));
+            eventDescInfo.setBorder(new EmptyBorder(5, 5, 5, 0));
+
+			//holds the event location
+            JTextField eventLocation = new JTextField(Event.eventList.get(i).getLocation());
+            eventLocation.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+            eventLocation.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            eventLocation.setEditable(false);
+            eventLocation.setBackground(Color.white);
+            eventLocation.setBorder(new EmptyBorder(0, 5, 1, 0));
 
 			//holds the event date, and time
 			JTextField eventSetting = new JTextField(Event.eventList.get(i).getDate() //gets the event date
@@ -107,7 +135,7 @@ public class AdminView {
 			eventSetting.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventSetting.setEditable(false);
             eventSetting.setBackground(Color.white);
-            eventSetting.setBorder(new EmptyBorder(5, 5, 3, 0));
+            eventSetting.setBorder(new EmptyBorder(0, 5, 5, 0));
 
 			//panel that holds the buttons to edit/delete any event
 			JPanel eventChange = new JPanel();
@@ -143,9 +171,11 @@ public class AdminView {
 			eventInfoPane.add(eventNameInfo);
             eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
             eventInfoPane.add(eventDescInfo);
-            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
+            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
+			eventInfoPane.add(eventLocation);
+            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 4)));
             eventInfoPane.add(eventSetting);
-			eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
+			eventInfoPane.add(Box.createRigidArea(new Dimension(0, 3)));
 			eventInfoPane.add(eventChange);
             eventInfoPane.setAlignmentX(Component.LEFT_ALIGNMENT);
             allEvents.add(eventInfoPane);
@@ -157,7 +187,6 @@ public class AdminView {
 
 		//panel to create a new event
 		//TO DO: get entered text in the textfields to disappear after the event has been created
-		//TO DO: update gui to look more professional
 		JLabel title2 = new JLabel("New Event");
         title2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         title2.setForeground(Color.gray);
@@ -180,6 +209,11 @@ public class AdminView {
 		JTextField evDesc = new JTextField(50);
 		evDesc.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 8));
 
+		JLabel locationLbl = new JLabel("Location");
+		locationLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+		JTextField evLocation = new JTextField(50);
+		evLocation.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 8));
+
 		JLabel dateLbl = new JLabel("Date");
 		dateLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
 		JTextField evDate = new JTextField(50);
@@ -201,10 +235,11 @@ public class AdminView {
 		newEvent.addActionListener(e -> {
 			String eventName = evName.getText();
 			String eventDesc = evDesc.getText();
+			String eventLocation = evLocation.getText();
 			String eventDate = evDate.getText();
 			String eventTime = evTime.getText();
 			int eventPoints = Integer.parseInt(evPoints.getText());
-			Event event = new Event(eventName, eventDesc, eventDate, eventTime, eventPoints);
+			Event event = new Event(eventName, eventDesc, eventLocation, eventDate, eventTime, eventPoints);
 			Event.addEvent(event);
 
 			//outputs the new event to the events data file
@@ -218,38 +253,46 @@ public class AdminView {
 				System.err.println("Failed to load data (Class): " + ex.getMessage());
 				System.out.println("Cause: " + ex.getCause());
 			}
-			
 		});
 
 		eventCreate.add(nameLbl);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(evName);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(descLbl);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(evDesc);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
+		eventCreate.add(locationLbl);
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
+		eventCreate.add(evLocation);
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(dateLbl);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(evDate);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(timeLbl);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(evTime);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(pointsLbl);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(evPoints);
-		eventCreate.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventCreate.add(Box.createRigidArea(new Dimension(0, 4)));
 		eventCreate.add(newEvent);
 		frame.add(eventCreate);
 
-		//button to switch to student view (this feature should only accesible for admins)
-		JButton mainMenu = new JButton("Main Menu");
+		//button to switch to student view (this feature is only accessible for admins)
+		JButton mainMenu = new JButton("Student Menu");
 		mainMenu.setBounds(1100, 600, 150, 60);
 		mainMenu.addActionListener(e -> {
-			new LoginPage();
-			frame.dispose();
+			try {
+				new MainFrame();
+				frame.dispose();
+			} catch (IOException | ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
+			//frame.dispose();
 		});
 		frame.add(mainMenu);
 
@@ -278,9 +321,9 @@ public class AdminView {
 		String[] year = new String[1001];
 		
 		for (int i = 0; i <= 1000; i++) {
-			year[i] = Integer.toString(i+2023);
+			year[i] = Integer.toString(i+2024);
 		}
-
+		
 		//quarter 1
 		JPanel q1Pane = new JPanel();
 		q1Pane.setBackground(Color.decode("#283880"));
@@ -291,20 +334,27 @@ public class AdminView {
 		JLabel d1Lbl = new JLabel("DD");
 		d1Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		d1Lbl.setForeground(Color.white);
-		JComboBox d1 = new JComboBox(day); 
-		int q1day = d1.getSelectedIndex();  
+		JComboBox d1 = new JComboBox(day);   
 
 		JLabel m1Lbl = new JLabel("MM");
 		m1Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		m1Lbl.setForeground(Color.white);
 		JComboBox m1 = new JComboBox(months);
-		int q1month = m1.getSelectedIndex();    
 
 		JLabel y1Lbl = new JLabel("YY");
 		y1Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		y1Lbl.setForeground(Color.white);
 		JComboBox y1 = new JComboBox(year);
-		int q1year = y1.getSelectedIndex();
+
+		JButton save1 = new JButton("Save");
+		save1.setPreferredSize(new Dimension(60, 20));
+		save1.addActionListener(e -> {
+			String q1d = String.valueOf(d1.getSelectedItem());
+			String q1day = String.format("%02d", Integer.parseInt(q1d));
+			String q1month = String.format("%02d", m1.getSelectedIndex()+1); 
+			String q1year = String.valueOf(y1.getSelectedItem());
+			saveQDates(1, q1day, q1month, q1year);
+		});
 
 		q1Pane.add(q1Lbl);
 		q1Pane.add(d1Lbl);
@@ -313,6 +363,7 @@ public class AdminView {
 		q1Pane.add(m1);
 		q1Pane.add(y1Lbl);
 		q1Pane.add(y1);
+		q1Pane.add(save1);
 		datesPane.add(q1Pane);
 
 		//quarter 2
@@ -326,19 +377,26 @@ public class AdminView {
 		d2Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		d2Lbl.setForeground(Color.white);
 		JComboBox d2 = new JComboBox(day); 
-		int q2day = d2.getSelectedIndex();
 
 		JLabel m2Lbl = new JLabel("MM");
 		m2Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		m2Lbl.setForeground(Color.white);
 		JComboBox m2 = new JComboBox(months); 
-		int q2month = m2.getSelectedIndex();
-
+		
 		JLabel y2Lbl = new JLabel("YY");
 		y2Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		y2Lbl.setForeground(Color.white);
 		JComboBox y2 = new JComboBox(year); 
-		int q2year = y2.getSelectedIndex();
+
+		JButton save2 = new JButton("Save");
+		save2.setPreferredSize(new Dimension(60, 20));
+		save2.addActionListener(e -> {
+			String q2d = String.valueOf(d2.getSelectedItem());
+			String q2day = String.format("%02d", Integer.parseInt(q2d)); 
+			String q2month = String.format("%02d", m2.getSelectedIndex()+1);
+			String q2year = String.valueOf(y2.getSelectedItem());
+			saveQDates(2, q2day, q2month, q2year);
+		});
 
 		q2Pane.add(q2Lbl);
 		q2Pane.add(d2Lbl);
@@ -347,6 +405,7 @@ public class AdminView {
 		q2Pane.add(m2);
 		q2Pane.add(y2Lbl);
 		q2Pane.add(y2);
+		q2Pane.add(save2);
 		datesPane.add(q2Pane);
 
 		//quarter 3
@@ -360,19 +419,26 @@ public class AdminView {
 		d3Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		d3Lbl.setForeground(Color.white);
 		JComboBox d3 = new JComboBox(day); 
-		int q3day = d3.getSelectedIndex();
 
 		JLabel m3Lbl = new JLabel("MM");
 		m3Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		m3Lbl.setForeground(Color.white);
 		JComboBox m3 = new JComboBox(months); 
-		int q3month = m3.getSelectedIndex();
 
 		JLabel y3Lbl = new JLabel("YY");
 		y3Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		y3Lbl.setForeground(Color.white);
 		JComboBox y3 = new JComboBox(year); 
-		int q3year = y3.getSelectedIndex();
+		
+		JButton save3 = new JButton("Save");
+		save3.setPreferredSize(new Dimension(60, 20));
+		save3.addActionListener(e -> {
+			String q3d = String.valueOf(d3.getSelectedItem());
+			String q3day = String.format("%02d", Integer.parseInt(q3d)); 
+			String q3month = String.format("%02d", m3.getSelectedIndex()+1);
+			String q3year = String.valueOf(y3.getSelectedItem());
+			saveQDates(3, q3day, q3month, q3year);
+		});
 
 		q3Pane.add(q3Lbl);
 		q3Pane.add(d3Lbl);
@@ -381,6 +447,7 @@ public class AdminView {
 		q3Pane.add(m3);
 		q3Pane.add(y3Lbl);
 		q3Pane.add(y3);
+		q3Pane.add(save3);
 		datesPane.add(q3Pane);
 
 		//quarter 4
@@ -393,20 +460,27 @@ public class AdminView {
 		JLabel d4Lbl = new JLabel("DD");
 		d4Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		d4Lbl.setForeground(Color.white);
-		JComboBox d4 = new JComboBox(day); 
-		int q4day = d4.getSelectedIndex();
+		JComboBox d4 = new JComboBox(day);  
 
 		JLabel m4Lbl = new JLabel("MM");
 		m4Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		m4Lbl.setForeground(Color.white);
 		JComboBox m4 = new JComboBox(months);
-		int q4month = m4.getSelectedIndex();
 
 		JLabel y4Lbl = new JLabel("YY");
 		y4Lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		y4Lbl.setForeground(Color.white);
 		JComboBox y4 = new JComboBox(year);
-		int q4year = y4.getSelectedIndex();
+
+		JButton save4 = new JButton("Save");
+		save4.setPreferredSize(new Dimension(60, 20));
+		save4.addActionListener(e -> {
+			String q4d = String.valueOf(d4.getSelectedItem());
+			String q4day = String.format("%02d", Integer.parseInt(q4d));
+			String q4month = String.format("%02d", m4.getSelectedIndex()+1);
+			String q4year = String.valueOf(y4.getSelectedItem());
+			saveQDates(4, q4day, q4month, q4year);
+		});
 
 		q4Pane.add(q4Lbl);
 		q4Pane.add(d4Lbl);
@@ -415,11 +489,35 @@ public class AdminView {
 		q4Pane.add(m4);
 		q4Pane.add(y4Lbl);
 		q4Pane.add(y4);
+		q4Pane.add(save4);
 		datesPane.add(q4Pane);
-		
+
 		frame.add(datesPane);
 		
 		frame.setVisible(true);
 	}
-    
+
+	protected static void saveUser() throws IOException {
+		out = new BufferedWriter(new FileWriter(fileName));
+		
+		for(Admin a : Admin.getAdmins()) {
+			out.write(a.getName() + " ");
+		}
+		out.newLine();
+		for(Admin a : Admin.getAdmins()) {
+			out.write(a.getEmail() + " ");
+		}
+		out.newLine();
+		for(Admin a : Admin.getAdmins()) {
+			out.write(a.getPassword() + " ");
+		}
+		out.newLine();
+		out.close();
+    }
+
+	public void saveQDates(int quarter, String day, String month, String year) {
+		quarterDates[quarter-1][0] = day;
+		quarterDates[quarter-1][1] = month + "-";
+		quarterDates[quarter-1][2] = year + "-";
+	}
 }

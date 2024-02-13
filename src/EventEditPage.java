@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
-//TO DO: update gui to look more professional
 public class EventEditPage {
     public EventEditPage(int index) {
         JFrame frame = new JFrame("Event Edit Page");
@@ -45,6 +44,11 @@ public class EventEditPage {
 		JTextField evDesc = new JTextField(50);
 		evDesc.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 8));
 
+		JLabel locationLbl = new JLabel("Location");
+		locationLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+		JTextField evLocation = new JTextField(50);
+		evLocation.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 8));
+
 		JLabel dateLbl = new JLabel("Date");
 		dateLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
 		JTextField evDate = new JTextField(50);
@@ -67,6 +71,7 @@ public class EventEditPage {
             //get inputs from textfields and update the event
             Event.getEvents().get(index).setName(evName.getText());
             Event.getEvents().get(index).setDesc(evDesc.getText());
+			Event.getEvents().get(index).setLocation(evLocation.getText());
             Event.getEvents().get(index).setDate(evDate.getText());
             Event.getEvents().get(index).setTime(evTime.getText());
             Event.getEvents().get(index).setPoints(Integer.parseInt(evPoints.getText()));
@@ -79,6 +84,10 @@ public class EventEditPage {
 		eventEdit.add(descLbl);
 		eventEdit.add(Box.createRigidArea(new Dimension(0, 5)));
 		eventEdit.add(evDesc);
+		eventEdit.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventEdit.add(locationLbl);
+		eventEdit.add(Box.createRigidArea(new Dimension(0, 5)));
+		eventEdit.add(evLocation);
 		eventEdit.add(Box.createRigidArea(new Dimension(0, 5)));
 		eventEdit.add(dateLbl);
 		eventEdit.add(Box.createRigidArea(new Dimension(0, 5)));

@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.List;
@@ -18,9 +19,9 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 public class AccountSetup {
-    //TODO: backend for setting up an account (student/admin, personal info)
     //create user class to store all users, student info will be put into student objects from there
 	List<Student> studentList = Student.getStudents();
+    List<Admin> adminsList = Admin.getAdmins();
 	String auth, name, grade, email;
 	String enteredPassword = "";
 	char[] p;
@@ -43,7 +44,7 @@ public class AccountSetup {
         frame.add(headerPanel);
 
         JPanel mainPanel = new JPanel();
-        mainPanel.setBounds(400, 120, 465, 500);
+        mainPanel.setBounds(400, 120, 465, 540);
         mainPanel.setBackground(Color.white);
         mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 25));
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -69,7 +70,7 @@ public class AccountSetup {
         JPanel panel2 = new JPanel();
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
         panel2.setBackground(Color.white);
-        JLabel label2 = new JLabel("What is your name? (First, Last)", SwingConstants.RIGHT);
+        JLabel label2 = new JLabel("What is your name? (First Last)", SwingConstants.RIGHT);
         label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         label2.setBackground(Color.decode("#76BEE8"));
         label2.setForeground(Color.gray);
@@ -90,7 +91,7 @@ public class AccountSetup {
         label3.setBackground(Color.decode("#76BEE8"));
         label3.setForeground(Color.gray);
         label3.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
-        String grades[] = {"", "9", "10", "11", "12"};
+        String grades[] = {"", "9", "10", "11", "12", "N/A"};
         JComboBox<String> gradeDropdown = new JComboBox(grades);
         
         panel3.add(label3);
@@ -129,10 +130,15 @@ public class AccountSetup {
         panel5.add(password);
         mainPanel.add(panel5);
 
-        JButton submit = new JButton("Submit"); //530
+        JButton createAcc = new JButton("Create my account");
+        createAcc.setBackground(Color.decode("#76BEE8"));
+        createAcc.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+        createAcc.setPreferredSize(new Dimension(435,45));
+
+        /*JButton submit = new JButton("Submit"); //530
         submit.setBounds(1000, 550, 165, 25);
-        submit.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-        submit.addActionListener(e -> {
+        submit.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));*/
+        createAcc.addActionListener(e -> {
         	String auth = authority.getSelectedItem().toString();
         	name = input2.getText();
         	grade = gradeDropdown.getSelectedItem().toString();
@@ -142,21 +148,34 @@ public class AccountSetup {
         	for(int i = 0; i < p.length; i++) {
             	enteredPassword += p[i];
             }
-        	enteredPassword.strip();
-        	MainFrame.curUser = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
-        	studentList.add(MainFrame.curUser);
+        	enteredPassword.trim();
+
             try {
-				new MainFrame();
-				MainFrame.saveUser();
-			} catch (IOException e1) {
+                if(auth == "Student"){
+                    MainFrame.curUser = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
+                    Student.addStudent(MainFrame.curUser);
+                    MainFrame.saveUser();
+                } else if (auth == "Administrator"){
+                    AdminView.curUser = new Admin(name, email, enteredPassword);
+                    Admin.addAdmin(AdminView.curUser);
+                    AdminView.saveUser();
+                }
+            } catch (IOException e1) {
 				e1.printStackTrace();
-			}
+            }
+            //try {
+				new LoginPage();
+				//MainFrame.saveUser();
+			//} catch (IOException e1) {
+			//	e1.printStackTrace();
+			//}
             frame.dispose();
         });
-        frame.add(submit);
+        mainPanel.add(createAcc);
 
         frame.add(mainPanel);
 
+        frame.getRootPane().setDefaultButton(createAcc);
         frame.setVisible(true);
     }
 }

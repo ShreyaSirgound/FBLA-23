@@ -14,7 +14,7 @@ import javax.swing.JLabel;
  */
 public class Common {
 
-    public static final String VERSION = "1.0-2023-04-01"; //version set for program submission date
+    public static final String VERSION = "1.2-2024-02-26"; //version set for program submission date
 
 	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern(
 			"MMM d yyyy");

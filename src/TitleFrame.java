@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -6,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 
 public class TitleFrame {
     public TitleFrame() {
@@ -18,20 +20,13 @@ public class TitleFrame {
         frame.getContentPane().setBackground(Color.decode("#76BEE8"));
 
         //App logo
-        //TODO: create and add a better logo
-        JPanel logoPanel = new JPanel();
+        JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         logoPanel.add(Common.getImage("logo.png"));
-        logoPanel.setBounds(270, 180, 760, 155);
+        logoPanel.setBounds(270, 190, 760, 155);
         frame.add(logoPanel);
 
         //Developers
         final JPanel infoPanel = new JPanel();
-        /*final JLabel infoLabel = new JLabel("<html>" 
-        + "<p> Developers: Ian Tang, Shreya Sirgound, Nischae Tiwari</p>"
-        + "</html>");*/
-        //infoLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-        //infoLabel.setForeground(Color.white);
-        //infoPanel.add(infoLabel);
         infoPanel.setBounds(0, 615, 500, 90);
         infoPanel.setBackground(Color.decode("#76BEE8"));
         frame.add(infoPanel);

@@ -5,14 +5,16 @@ import java.util.List;
 public class Event {
     String eventName;
     String eventDesc;
+    String eventLocation;
     String eventDate;
     String eventTime;
     int eventPoints;
     protected static List<Event> eventList = new ArrayList<Event>(); //creates a list of all the events
     //creates an event object
-    public Event(String name, String desc, String date, String time, int points){
+    public Event(String name, String desc, String location, String date, String time, int points){
         this.eventName = name;
         this.eventDesc = desc;
+        this.eventLocation = location;
         this.eventDate = date;
         this.eventTime = time;
         this.eventPoints = points;
@@ -38,6 +40,15 @@ public class Event {
         this.eventDesc = desc;
     }
 
+    //gets the event location
+    public String getLocation(){
+        return eventLocation;
+    }
+
+    //sets the event location
+    public void setLocation(String location){
+        this.eventLocation = location;
+    }
     //gets the event date
     public String getDate(){
         return eventDate;

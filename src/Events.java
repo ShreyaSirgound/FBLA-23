@@ -15,15 +15,9 @@ public class Events extends JFrame implements ActionListener {
    JFrame frame;
    JButton button1, button2, button3, survey;
    
-   // This method contains all the GUI elements required to form up the JFrame
    public Events() throws IOException {
-	  
-	  // Initializing all variables needed for this frame (Labels, buttons, colours, images), and declaring them as desired
 	  frame = new JFrame();
 	  frame.setLayout(null);
-	  //img = new ImageIcon(this.getClass().getResource("ImagesFolder1/3dDollarSign.png"));
-	  //img2 = new ImageIcon(this.getClass().getResource("ImagesFolder1/fatcapitalist.png"));
-	  //img3 = new ImageIcon(this.getClass().getResource("ImagesFolder1/3dDollarSign.png"));
 	  futureEvents = new JLabel("Events This Week:");
 	  futureEvents.setFont(new Font("Impact", Font.PLAIN, 25));
 	  futureEvents.setBounds(80,10,800,150);

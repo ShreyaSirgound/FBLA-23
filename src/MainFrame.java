@@ -1,10 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import javax.imageio.ImageIO;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -12,16 +10,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
-//TODO: create homepage layout
 public class MainFrame {
 
 	final int MAX = 10000; //max amount of people
@@ -30,28 +27,30 @@ public class MainFrame {
 	static BufferedWriter out;
 	static int numOfUsers;
 	String fullName;
-    String[] name, emails, passwords, grades, points;
-	static String fileName = "accounts.txt";
+    String[] names, emails, passwords, grades, points;
+	static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\students.txt";
 	static Student curUser;
-    public MainFrame() throws IOException {
-    	//read in students
+    public MainFrame() throws ClassNotFoundException, IOException {
+    	//reads in students
     	in = new BufferedReader(new FileReader(fileName));
-    	name = new String[2*MAX];
+    	names = new String[2*MAX];
     	emails = new String[MAX];
     	passwords = new String[MAX];
     	grades = new String[MAX];
     	points = new String[MAX];
-    	name = in.readLine().split(" ");
+    	names = in.readLine().split(" ");
     	emails = in.readLine().split(" ");
     	passwords = in.readLine().split(" ");
     	grades = in.readLine().split(" ");
     	points = in.readLine().split(" ");
     	numOfUsers = points.length;
     	for(int i = 0, n = 0; i < numOfUsers; i++) {
-    		fullName = name[n] + " " + name[n+1]; n+=2;
+    		fullName = names[n] + " " + names[n+1]; 
+            n+=2;
     		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
     	}
     	in.close();
+        if(Event.eventList.isEmpty())EventsDataFile.Input(); 
    
         //setup the frame
         JFrame frame = new JFrame("Home Page");
@@ -61,7 +60,7 @@ public class MainFrame {
         frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
-        frame.setBackground(Color.white); //get this to work
+        frame.setBackground(Color.white);
 
         //titlebar
         JPanel titlebar = new JPanel();
@@ -145,8 +144,7 @@ public class MainFrame {
             eventInfoPane.setBackground(Color.white);
             eventInfoPane.setBorder(new EmptyBorder(5, 5, 5, 5));
             eventInfoPane.setBorder(BorderFactory.createLineBorder(Color.gray));
-            
-            eventInfoPane.setMaximumSize(new Dimension(480, 200));
+            eventInfoPane.setMaximumSize(new Dimension(480, 220));
 
             //holds event points
             JTextField eventPointsInfo = new JTextField("WORTH " + Event.eventList.get(i).getPoints() + " POINTS!"); //gets the points the event is worth
@@ -174,6 +172,14 @@ public class MainFrame {
             eventDescInfo.setWrapStyleWord(true);
             eventDescInfo.setBorder(new EmptyBorder(0, 5, 3, 0));
 
+            //holds the event location
+            JTextField eventLocation = new JTextField(Event.eventList.get(i).getLocation());
+            eventLocation.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+            eventLocation.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            eventLocation.setEditable(false);
+            eventLocation.setBackground(Color.white);
+            eventLocation.setBorder(new EmptyBorder(0, 5, 1, 0));
+
             //holds the event date, and time
 			JTextField eventSetting = new JTextField(Event.eventList.get(i).getDate() //gets the event date
                                                     + "  @ " + Event.eventList.get(i).getTime()); //gets the event time
@@ -181,29 +187,40 @@ public class MainFrame {
             eventSetting.setBorder(javax.swing.BorderFactory.createEmptyBorder());
             eventSetting.setEditable(false);
             eventSetting.setBackground(Color.white);
-            eventSetting.setBorder(new EmptyBorder(5, 5, 3, 0));
+            eventSetting.setBorder(new EmptyBorder(0, 5, 5, 0));
 
             //register in an event
-            JButton register = new JButton("Register"); //TO DO: create actionListener
+            JButton register = new JButton("Register"); 
             register.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
             register.setBackground(Color.decode("#76BEE8"));
             register.setOpaque(true);
+            register.setCursor(new Cursor(Cursor.HAND_CURSOR));
             JTextPane registerPane = new JTextPane();
             registerPane.insertComponent(register);
             registerPane.setBackground(Color.white);
             registerPane.setBorder(new EmptyBorder(0, 5, 8, 0));
             int idx = i;
-            register.addActionListener(e -> {
-            	int curPoints = curUser.getPoints();
-            	curPoints += Event.eventList.get(idx).getPoints();
-            	curUser.setPoints(curPoints);
-            	
-            });
+            register.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int result = JOptionPane.showConfirmDialog(frame, "Would you like to register for this event?", 
+														"",
+															JOptionPane.YES_OPTION,
+															JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.YES_OPTION) {
+                        int curPoints = curUser.getPoints();
+                        curPoints += Event.eventList.get(idx).getPoints();
+                        curUser.setPoints(curPoints);
+					}
+				}
+			});
             eventInfoPane.add(eventPointsInfo);
 			eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
 			eventInfoPane.add(eventNameInfo);
             eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
             eventInfoPane.add(eventDescInfo);
+            eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
+            eventInfoPane.add(eventLocation);
             eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
             eventInfoPane.add(eventSetting);
             eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
@@ -228,7 +245,7 @@ public class MainFrame {
         leaderboard.setBounds(825, 110, 420, 250);
         leaderboard.setBorder( new EmptyBorder(15, 15, 15, 15));
 
-        //students for testing
+        //students for testing 
         Student.addNineStudent(new Student("Sophie Tester", "sophie@student.ca", "testing", 9, 10));
         Student.addTenStudent(new Student("Liam Tester", "liam@student.ca", "testing", 10, 10));
         Student.addElevenStudent(new Student("Neo Tester", "neo@student.ca", "testing", 11, 30));
@@ -320,8 +337,6 @@ public class MainFrame {
         leaderboard.add(randomWinner);
 
         frame.add(leaderboard);
-//        System.out.printf("Current user: " + curUser.getName() + "\n");
-
 
         //leaderboard panel that shows the final winners at the end of the quarter or from the previous quarter
         JLabel title3 = new JLabel("Quarterly Leaderboard");
@@ -346,26 +361,61 @@ public class MainFrame {
         leaderboardFinal.add(winnersFinal);
         frame.add(leaderboardFinal);
         
-        
-        /*
         //only generate winners for this leaderboard if it is the end of the quarter
-        if () {
+        //defining the quarter-end dates
+        String q1 = "", q2 = "", q3 = "", q4 = ""; 
+        LocalDate quarter1 = null, quarter2 = null, quarter3 = null, quarter4 = null;
+        try {
+            for(int i = 2; i >= 0; i--){
+                q1 += AdminView.quarterDates[0][i];
+            }
+            System.out.println("q1: " + q1);
+            quarter1 = LocalDate.parse(q1, DateTimeFormatter.ISO_LOCAL_DATE);
+            for(int i = 2; i > -1; i--){
+                q2 += AdminView.quarterDates[1][i];
+            }
+            System.out.println("q2: " + q2);
+            quarter2 = LocalDate.parse(q2, DateTimeFormatter.ISO_LOCAL_DATE);
+            for(int i = 2; i > -1; i--){
+                q3 += AdminView.quarterDates[2][i];
+            }
+            System.out.println("q3: " + q3);
+            quarter3 = LocalDate.parse(q3, DateTimeFormatter.ISO_LOCAL_DATE);
+            for(int i = 2; i > -1; i--){
+                q4 += AdminView.quarterDates[3][i];
+            }
+            System.out.println("q4: " + q4);
+            quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (ArrayIndexOutOfBoundsException | java.time.format.DateTimeParseException e){
+            e.printStackTrace();
+        }
+
+        LocalDate currDate = LocalDate.now();
+        System.out.println(currDate);
+
+        if(quarter1 != null && quarter2 != null && quarter3 != null && quarter4 != null) {
+            if(currDate.isAfter(quarter1) && currDate.isBefore(quarter2)) {
+                // TODO: find previous quarter's winners and present them here
+            }
+        } else {
+            JOptionPane.showConfirmDialog(frame, "  Quarterly dates incorrectly entered or not saved. Please input quarterly end dates. ", 
+								                    "Information Input Error",
+															JOptionPane.OK_CANCEL_OPTION);
+            new AdminView();
+        }
+
+        /**
+        if (currDate.equals(q1) || currDate.equals(q2) || currDate.equals(q3) || currDate.equals(q4)) {
 
         } else {
-            JLabel() msg = new JLabel("No one winners have been selected yet. Check again later");
+            JLabel msg = new JLabel("No one winners have been selected yet. Check again later.");
             msg.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
             leaderboardFinal.add(msg);
-        }
-        */
+        }*/
         
-        
-        for(Student s : Student.getStudents()) {
-        	System.out.println(s.getName());
-        }
         frame.setVisible(true);
     }
     protected static void saveUser() throws IOException {
-    	
 		out = new BufferedWriter(new FileWriter(fileName));
 		
 		for(Student s : Student.getStudents()) {
@@ -389,6 +439,5 @@ public class MainFrame {
 		}
 		out.newLine();
 		out.close();
-    	
     }
 }
