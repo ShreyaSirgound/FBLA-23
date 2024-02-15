@@ -78,6 +78,14 @@ public class Student {
         this.points = points;
     }
 
+    public static String toString(Student s){
+        String student = s.getName() + "|"
+                        + s.getGrade() + "|"
+                        + s.getPoints() + "|"
+                        + s.getEmail() + "|";
+        return student;
+    }
+
     //creates a list of all the students
     protected static List<Student> studentList = new ArrayList<Student>();
 

@@ -27,13 +27,13 @@ public class AdminView {
 	static int numOfUsers;
 	String fullName;
     String[] names, emails, passwords;
-	static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\admins.txt";
+	//static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\admins.txt";
 	static Admin curUser;
 	static String[][] quarterDates = new String[4][3];
 
 	public AdminView() throws ClassNotFoundException, IOException {
 		//read in admins
-    	in = new BufferedReader(new FileReader(fileName));
+    	in = new BufferedReader(new FileReader("data\\admins.txt"));
     	names = new String[2*MAX];
     	emails = new String[MAX];
     	passwords = new String[MAX];
@@ -498,7 +498,7 @@ public class AdminView {
 	}
 
 	protected static void saveUser() throws IOException {
-		out = new BufferedWriter(new FileWriter(fileName));
+		out = new BufferedWriter(new FileWriter("data\\admins.txt"));
 		
 		for(Admin a : Admin.getAdmins()) {
 			out.write(a.getName() + " ");

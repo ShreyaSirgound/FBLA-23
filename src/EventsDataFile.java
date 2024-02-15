@@ -35,7 +35,7 @@ public class EventsDataFile {
 
     /**
      * Outputs an event object to the events data file
-     * @param fileName the name of the events data file file
+     * @param fileName the name of the events data file
      * @throws FileNotFoundException
      * @throws IOException
      * @throws ClassNotFoundException

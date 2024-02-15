@@ -5,9 +5,8 @@ import java.util.Random;
 
 public class PointSystem {
 
-	
 	/**
-	 * finds the student with the highest points in the grade 9 students list
+	 * finds the student(s) with the highest points in the grade 9 students list
 	 * @return the list of students who have points equal to the highest possible points in that quarter
 	 */
 	public static List<Student> nineWinners() {
@@ -23,7 +22,7 @@ public class PointSystem {
 	}
 
 	/**
-	 * finds the student with the highest points in the grade 10 students list
+	 * finds the student(s) with the highest points in the grade 10 students list
 	 * @return the list of students who have points equal to the highest possible points in that quarter
 	 */
 	public static List<Student> tenWinners() {
@@ -39,7 +38,7 @@ public class PointSystem {
 	}
 
 	/**
-	 * finds the student with the highest points in the grade 11 students list
+	 * finds the student(s) with the highest points in the grade 11 students list
 	 * @return the list of students who have points equal to the highest possible points in that quarter
 	 */
 	public static List<Student> elevenWinners() {
@@ -55,7 +54,7 @@ public class PointSystem {
 	}
 
 	/**
-	 * finds the student with the highest points in the grade 12 students list
+	 * finds the student(s) with the highest points in the grade 12 students list
 	 * @return the list of students who have points equal to the highest possible points in that quarter
 	 */
 	public static List<Student> twelveWinners() {
@@ -85,6 +84,21 @@ public class PointSystem {
 
 		return winners;
 
+	}
+
+	public static List<Student>[] quarterWinners() {
+		List<Student> nineWinner = nineWinners();
+		List<Student> tenWinner = tenWinners();
+		List<Student> elevenWinner = elevenWinners();
+		List<Student> twelveWinner = twelveWinners();
+
+		List<Student>[] winners = new List[4];
+		winners[0] = (nineWinner);
+		winners[1] = (tenWinner);
+		winners[2] = (elevenWinner);
+		winners[3] = (twelveWinner);
+
+		return winners;
 	}
 		
 }

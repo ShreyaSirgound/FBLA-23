@@ -3,6 +3,8 @@ import java.awt.event.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -28,11 +30,11 @@ public class MainFrame {
 	static int numOfUsers;
 	String fullName;
     String[] names, emails, passwords, grades, points;
-	static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\students.txt";
+	//static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\students.txt";
 	static Student curUser;
     public MainFrame() throws ClassNotFoundException, IOException {
     	//reads in students
-    	in = new BufferedReader(new FileReader(fileName));
+    	in = new BufferedReader(new FileReader("data\\students.txt"));
     	names = new String[2*MAX];
     	emails = new String[MAX];
     	passwords = new String[MAX];
@@ -51,6 +53,70 @@ public class MainFrame {
     	}
     	in.close();
         if(Event.eventList.isEmpty())EventsDataFile.Input(); 
+
+        //students for testing 
+        Student.addNineStudent(new Student("Sophie Tester", "sophie@student.ca", "testing", 9, 10));
+        Student.addTenStudent(new Student("Liam Tester", "liam@student.ca", "testing", 10, 30));
+        Student.addElevenStudent(new Student("Neo Tester", "neo@student.ca", "testing", 11, 30));
+        Student.addTwelveStudent(new Student("Dan Tester", "dan@student.ca", "testing", 12, 20));
+        Student.addTenStudent(new Student("Sarah Tester", "sarah@student.ca", "testing", 10, 30));
+
+        //defining the quarter-end dates
+        String q1 = "", q2 = "", q3 = "", q4 = ""; 
+        LocalDate quarter1 = null, quarter2 = null, quarter3 = null, quarter4 = null;
+        try {
+            for(int i = 2; i >= 0; i--){
+                q1 += AdminView.quarterDates[0][i];
+            }
+            System.out.println("q1: " + q1);
+            quarter1 = LocalDate.parse(q1, DateTimeFormatter.ISO_LOCAL_DATE);
+            q1 = String.valueOf(quarter1);
+            for(int i = 2; i > -1; i--){
+                q2 += AdminView.quarterDates[1][i];
+            }
+            System.out.println("q2: " + q2);
+            quarter2 = LocalDate.parse(q2, DateTimeFormatter.ISO_LOCAL_DATE);
+            q2 = String.valueOf(quarter2);
+            for(int i = 2; i > -1; i--){
+                q3 += AdminView.quarterDates[2][i];
+            }
+            System.out.println("q3: " + q3);
+            quarter3 = LocalDate.parse(q3, DateTimeFormatter.ISO_LOCAL_DATE);
+            q3 = String.valueOf(quarter3);
+            for(int i = 2; i > -1; i--){
+                q4 += AdminView.quarterDates[3][i];
+            }
+            System.out.println("q4: " + q4);
+            quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
+            q4 = String.valueOf(quarter4);
+        } catch (ArrayIndexOutOfBoundsException | java.time.format.DateTimeParseException e){
+            e.printStackTrace();
+        }
+
+        LocalDate currDate = LocalDate.now();
+        System.out.println(currDate);
+
+        System.out.println(q1);
+        System.out.println(q2);
+        System.out.println(q3);
+        System.out.println(q4);
+
+        System.out.println(String.valueOf(currDate).equals(q1) + " 1");
+        System.out.println(String.valueOf(currDate).equals(q2) + " 2");
+        System.out.println(String.valueOf(currDate).equals(q3) + " 3");
+        System.out.println(String.valueOf(currDate).equals(q4) + " 4");
+
+
+        //finds and saves the quarterly winners as required
+        if(String.valueOf(currDate).equals(q1)){
+            saveWinners(PointSystem.quarterWinners(), "quarter1.txt");
+        } else if (String.valueOf(currDate).equals(q2)){
+            saveWinners(PointSystem.quarterWinners(), "quarter2.txt");
+        } else if (String.valueOf(currDate).equals(q3)){
+            saveWinners(PointSystem.quarterWinners(), "quarter3.txt");
+        } else if (String.valueOf(currDate).equals(q4)){
+            saveWinners(PointSystem.quarterWinners(), "quarter4.txt");
+        }
    
         //setup the frame
         JFrame frame = new JFrame("Home Page");
@@ -245,12 +311,6 @@ public class MainFrame {
         leaderboard.setBounds(825, 110, 420, 250);
         leaderboard.setBorder( new EmptyBorder(15, 15, 15, 15));
 
-        //students for testing 
-        Student.addNineStudent(new Student("Sophie Tester", "sophie@student.ca", "testing", 9, 10));
-        Student.addTenStudent(new Student("Liam Tester", "liam@student.ca", "testing", 10, 10));
-        Student.addElevenStudent(new Student("Neo Tester", "neo@student.ca", "testing", 11, 30));
-        Student.addTwelveStudent(new Student("Dan Tester", "dan@student.ca", "testing", 12, 10));
-
         JTextArea nineWinner = new JTextArea("Grade 9: " + PointSystem.nineWinners().get(0).getName());
         for (int i = 1; i < PointSystem.nineWinners().size(); i++) {
             if (PointSystem.nineWinners().size() == 1) {
@@ -340,8 +400,8 @@ public class MainFrame {
 
         //leaderboard panel that shows the final winners at the end of the quarter or from the previous quarter
         JLabel title3 = new JLabel("Quarterly Leaderboard");
-        title3. setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
-        title3. setForeground(Color.gray);
+        title3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
+        title3.setForeground(Color.gray);
         title3.setBounds(825, 375, 300, 50);
         frame.add(title3);
 
@@ -349,54 +409,65 @@ public class MainFrame {
         leaderboardFinal.setLayout(new BoxLayout(leaderboardFinal, BoxLayout.Y_AXIS));
         leaderboardFinal.setBackground(Color.decode("#F66845"));
         leaderboardFinal.setBounds(825, 415, 420, 250); 
-        leaderboardFinal.setBorder( new EmptyBorder(15, 15, 15, 15));
-
-        JTextField winnersFinal = new JTextField("Winners");
-        winnersFinal.setEditable(false);
-        winnersFinal.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-        winnersFinal.setBackground(Color.decode("#F66845"));
-        winnersFinal.setForeground(Color.white);
-        winnersFinal.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-
-        leaderboardFinal.add(winnersFinal);
-        frame.add(leaderboardFinal);
+        leaderboardFinal.setBorder(new EmptyBorder(15, 15, 15, 15));
         
         //only generate winners for this leaderboard if it is the end of the quarter
-        //defining the quarter-end dates
-        String q1 = "", q2 = "", q3 = "", q4 = ""; 
-        LocalDate quarter1 = null, quarter2 = null, quarter3 = null, quarter4 = null;
-        try {
-            for(int i = 2; i >= 0; i--){
-                q1 += AdminView.quarterDates[0][i];
-            }
-            System.out.println("q1: " + q1);
-            quarter1 = LocalDate.parse(q1, DateTimeFormatter.ISO_LOCAL_DATE);
-            for(int i = 2; i > -1; i--){
-                q2 += AdminView.quarterDates[1][i];
-            }
-            System.out.println("q2: " + q2);
-            quarter2 = LocalDate.parse(q2, DateTimeFormatter.ISO_LOCAL_DATE);
-            for(int i = 2; i > -1; i--){
-                q3 += AdminView.quarterDates[2][i];
-            }
-            System.out.println("q3: " + q3);
-            quarter3 = LocalDate.parse(q3, DateTimeFormatter.ISO_LOCAL_DATE);
-            for(int i = 2; i > -1; i--){
-                q4 += AdminView.quarterDates[3][i];
-            }
-            System.out.println("q4: " + q4);
-            quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (ArrayIndexOutOfBoundsException | java.time.format.DateTimeParseException e){
-            e.printStackTrace();
-        }
+        JTextArea msg = new JTextArea();
+        msg.setBackground(Color.decode("#F66845"));
+        msg.setForeground(Color.white);
+        msg.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        msg.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        msg.setEditable(false);
+        msg.setLineWrap(true);
+        msg.setWrapStyleWord(true);
 
-        LocalDate currDate = LocalDate.now();
-        System.out.println(currDate);
+        System.out.println();
+        System.out.println((String.valueOf(currDate).equals(q1)) || (currDate.isAfter(quarter1) && currDate.isBefore(quarter2)));
+        System.out.println((String.valueOf(currDate).equals(q2)) || (currDate.isAfter(quarter2) && currDate.isBefore(quarter3)));
+        System.out.println((String.valueOf(currDate).equals(q3)) || (currDate.isAfter(quarter3) && currDate.isBefore(quarter4)));
+        System.out.println(String.valueOf(currDate).equals(q4));
 
-        if(quarter1 != null && quarter2 != null && quarter3 != null && quarter4 != null) {
-            if(currDate.isAfter(quarter1) && currDate.isBefore(quarter2)) {
-                // TODO: find previous quarter's winners and present them here
+
+        @SuppressWarnings("unchecked")
+        ArrayList<String>[] s = new ArrayList[4];
+        if(quarter1 == null || quarter2 == null || quarter3 == null || quarter4 == null){
+            msg.append("Could not find winners. Check again later.");
+            leaderboardFinal.add(msg);
+        } else if(quarter1 != null && quarter2 != null && quarter3 != null && quarter4 != null) {
+            System.out.println("in here");
+            if(String.valueOf(currDate).equals(q1) || (currDate.isAfter(quarter1) && currDate.isBefore(quarter2))) {
+                System.out.println("in q1");
+                s = readWinners("quarter1.txt");
+                writeWinners(msg, s);
+                leaderboardFinal.add(msg);
+
+            } else if(String.valueOf(currDate).equals(q2) || (currDate.isAfter(quarter2) && currDate.isBefore(quarter3))) {
+                System.out.println("in q2");
+                s = readWinners("quarter2.txt");
+                writeWinners(msg, s);
+                leaderboardFinal.add(msg);
+
+            } else if(String.valueOf(currDate).equals(q3) || (currDate.isAfter(quarter3) && currDate.isBefore(quarter4))) {
+                System.out.println("in q3");
+                s = readWinners("quarter3.txt");
+                System.out.println("ouii");
+                writeWinners(msg, s);
+                leaderboardFinal.add(msg);
+
+            } else if(String.valueOf(currDate).equals(q4)) {
+                System.out.println("in q4");
+                s = readWinners("quarter4.txt");
+                writeWinners(msg, s);
+                leaderboardFinal.add(msg);
+            
+            } else if(currDate.isAfter(quarter4)) {
+                msg.append("All winners have been selected for this year.");
+                leaderboardFinal.add(msg);
+            } else if(currDate.isBefore(quarter1)) {
+                msg.append("No one winners have been selected yet. Check again later.");
+                leaderboardFinal.add(msg);
             }
+           
         } else {
             JOptionPane.showConfirmDialog(frame, "  Quarterly dates incorrectly entered or not saved. Please input quarterly end dates. ", 
 								                    "Information Input Error",
@@ -404,19 +475,12 @@ public class MainFrame {
             new AdminView();
         }
 
-        /**
-        if (currDate.equals(q1) || currDate.equals(q2) || currDate.equals(q3) || currDate.equals(q4)) {
-
-        } else {
-            JLabel msg = new JLabel("No one winners have been selected yet. Check again later.");
-            msg.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-            leaderboardFinal.add(msg);
-        }*/
-        
+        frame.add(leaderboardFinal);
         frame.setVisible(true);
     }
+    
     protected static void saveUser() throws IOException {
-		out = new BufferedWriter(new FileWriter(fileName));
+		out = new BufferedWriter(new FileWriter("data\\students.txt"));
 		
 		for(Student s : Student.getStudents()) {
 			out.write(s.getName() + " ");
@@ -439,5 +503,95 @@ public class MainFrame {
 		}
 		out.newLine();
 		out.close();
+    }
+
+    protected static void writeWinners(JTextArea ta, ArrayList<String>[] w){
+        for(int i = 0; i < 4; i++){
+            ta.append("Grade " + (i+9) + ": ");
+            for(String winners : w[i]){
+                ta.append(winners);
+            }
+            ta.append("\n\n");
+        }
+    }
+
+    protected static void saveWinners(java.util.List<Student>[] winners, String f) throws IOException {
+        out = new BufferedWriter(new FileWriter("data\\quarterlyWinners" + File.separator + f));
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < winners[i].size(); j++){
+                //out.write((winners[i].get(j)).toString() + " ");
+                out.write(Student.toString((winners[i].get(j))));
+                out.newLine();
+            }
+        }
+        out.close();
+    }
+
+    protected ArrayList<String>[] readWinners(String f) throws IOException {
+        in = new BufferedReader(new FileReader("data\\quarterlyWinners" + File.separator + f));
+        @SuppressWarnings("unchecked")
+        ArrayList<String>[] winners = new ArrayList[4];
+        String[] student;
+        String stud = new String();
+
+        //initializing winners array
+        for (int i = 0; i < 4; i++) { 
+            winners[i] = new ArrayList<String>(); 
+        }
+        ArrayList<String> wins9 = new ArrayList<String>();
+        ArrayList<String> wins10 = new ArrayList<String>();
+        ArrayList<String> wins11 = new ArrayList<String>();
+        ArrayList<String> wins12 = new ArrayList<String>();
+
+        while((stud = in.readLine()) != null){
+            try {
+                student = stud.split("\\|");
+                if(student[1].equals("9")){
+                    if(wins9.size() > 0){
+                        wins9.add(", " + student[0]);
+                    } else {
+                        wins9.add(student[0]);
+                    }
+                } else if(student[1].equals("10")){
+                    if(wins10.size() > 0){
+                        wins10.add(", " + student[0]);
+                    } else {
+                        wins10.add(student[0]);
+                    }
+                } else if(student[1].equals("11")){
+                    if(wins11.size() > 0){
+                        wins11.add(", " + student[0]);
+                    } else {
+                        wins11.add(student[0]);
+                    }
+                } else if(student[1].equals("12")){
+                    if(wins12.size() > 0){
+                        wins12.add(", " + student[0]);
+                    } else {
+                        wins12.add(student[0]);
+                    }
+                } else {
+                    System.out.println("Student does not have a registered grade.");
+                }
+            } catch (NullPointerException e1){
+                e1.printStackTrace();
+            }
+        }
+        
+        for(String h : wins9){
+            winners[0].add(h);
+        }
+        for(String h : wins10){
+            winners[1].add(h);
+        }
+        for(String h : wins11){
+            winners[2].add(h);
+        }
+        for(String h : wins12){
+            winners[3].add(h);
+        }
+
+        in.close();
+        return winners;
     }
 }

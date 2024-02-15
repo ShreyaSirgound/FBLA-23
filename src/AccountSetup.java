@@ -134,10 +134,6 @@ public class AccountSetup {
         createAcc.setBackground(Color.decode("#76BEE8"));
         createAcc.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         createAcc.setPreferredSize(new Dimension(435,45));
-
-        /*JButton submit = new JButton("Submit"); //530
-        submit.setBounds(1000, 550, 165, 25);
-        submit.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));*/
         createAcc.addActionListener(e -> {
         	String auth = authority.getSelectedItem().toString();
         	name = input2.getText();

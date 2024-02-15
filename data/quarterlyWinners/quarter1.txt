@@ -1,0 +1,5 @@
+Sophie Tester|9|10|sophie@student.ca|
+Liam Tester|10|30|liam@student.ca|
+Sarah Tester|10|30|sarah@student.ca|
+Neo Tester|11|30|neo@student.ca|
+Dan Tester|12|20|dan@student.ca|
