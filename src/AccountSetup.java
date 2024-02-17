@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -20,12 +21,17 @@ import javax.swing.WindowConstants;
 
 public class AccountSetup {
     //create user class to store all users, student info will be put into student objects from there
-	List<Student> studentList = Student.getStudents();
+	List<Student> studentsList = Student.getStudents();
     List<Admin> adminsList = Admin.getAdmins();
 	String auth, name, grade, email;
 	String enteredPassword = "";
 	char[] p;
     public AccountSetup() {
+        System.out.println();
+        for(Student s : studentsList){
+            System.out.println(Student.toString(s));
+        }
+
         JFrame frame = new JFrame("Create an account");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -148,23 +154,45 @@ public class AccountSetup {
 
             try {
                 if(auth == "Student"){
-                    MainFrame.curUser = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
-                    Student.addStudent(MainFrame.curUser);
-                    MainFrame.saveUser();
+                    Student newStudent = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
+                    System.out.println(studentsList.contains(newStudent) + " auth1 good");
+                    if(studentsList.contains(newStudent) == false){
+                        System.out.println("first 1");
+                        MainFrame.curUser = newStudent;
+                        Student.addStudent(MainFrame.curUser);
+                        MainFrame.saveUser();
+                    } else {
+                        System.out.println("first 2");
+                        JOptionPane.showConfirmDialog(frame, "  An account with this data has already been created. Please log in to use Schoolsync services. ", 
+								                    "Duplicate Input Error",
+															JOptionPane.OK_CANCEL_OPTION);
+                        new LoginPage();
+                        frame.dispose();
+                    }
+                    
                 } else if (auth == "Administrator"){
-                    AdminView.curUser = new Admin(name, email, enteredPassword);
-                    Admin.addAdmin(AdminView.curUser);
-                    AdminView.saveUser();
+                    Admin newAdmin = new Admin(name, email, enteredPassword);
+                    System.out.println(adminsList.contains(newAdmin) + " auth2 good");
+                    if(adminsList.contains(newAdmin) == false){
+                        System.out.println("second 1");
+                        AdminView.curUser = newAdmin;
+                        Admin.addAdmin(AdminView.curUser);
+                        AdminView.saveUser();
+                    } else {
+                        System.out.println("second 2");
+                        JOptionPane.showConfirmDialog(frame, "  An account with this data has already been created. Please log in to use Schoolsync services. ", 
+								                    "Duplicate Input Error",
+															JOptionPane.OK_CANCEL_OPTION);
+                        new LoginPage();
+                        frame.dispose();
+                    }
                 }
             } catch (IOException e1) {
 				e1.printStackTrace();
             }
-            //try {
-				new LoginPage();
-				//MainFrame.saveUser();
-			//} catch (IOException e1) {
-			//	e1.printStackTrace();
-			//}
+            
+			new LoginPage();
+
             frame.dispose();
         });
         mainPanel.add(createAcc);

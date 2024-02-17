@@ -3,9 +3,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.StandardOpenOption;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -30,8 +37,11 @@ public class AdminView {
 	//static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\admins.txt";
 	static Admin curUser;
 	static String[][] quarterDates = new String[4][3];
+	static String[][] quarterlyDates = new String[4][1];
 
 	public AdminView() throws ClassNotFoundException, IOException {
+		JFrame frame = new JFrame("Admin View");
+
 		//read in admins
     	in = new BufferedReader(new FileReader("data\\admins.txt"));
     	names = new String[2*MAX];
@@ -48,9 +58,20 @@ public class AdminView {
     	}
     	in.close();
 		if(Event.eventList.isEmpty())EventsDataFile.Input(); 
+
+		try {
+			in = new BufferedReader(new FileReader("data\\quarterlyDates.txt"));
+			for(int i = 0; i < 4; i++){
+				quarterlyDates[i][0] = in.readLine();
+			}
+		} catch (NullPointerException e1) {
+			JOptionPane.showConfirmDialog(frame, "  Quarterly dates incorrectly entered or not saved. Please input quarterly end dates. ", 
+								                    "Information Input Error",
+															JOptionPane.OK_CANCEL_OPTION);
+			new AdminView();
+		}
 	
 		//set up the frame
-		JFrame frame = new JFrame("Admin View");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setResizable(false);
@@ -68,11 +89,43 @@ public class AdminView {
         titlebar.add(Common.getImage("logo_small.png"), BorderLayout.EAST);
         frame.add(titlebar);
 
+		//sidebar
+        JPanel sidebar = new JPanel();//new FlowLayout(FlowLayout.LEFT));
+		sidebar.setLayout(null);
+        sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
+        sidebar.setBackground(Color.decode("#3E3F40"));
+        sidebar.setBounds(0, 60, 275, 720);
+		//button to access search records (this feature is only accessible for admins)
+		JButton search = new JButton("Data Records");
+		search.setBounds(50, 100, 180, 75);
+		search.addActionListener(e -> {
+			try {
+				new SearchRecords();
+				frame.dispose();
+			} catch (NullPointerException e1) {
+				e1.printStackTrace();
+			}
+		});
+		sidebar.add(search);
+		//button to switch to student view (this feature is only accessible for admins)
+		JButton mainMenu = new JButton("Access Student View");
+		mainMenu.setBounds(50, 500, 180, 75);
+		mainMenu.addActionListener(e -> {
+			try {
+				new MainFrame();
+				frame.dispose();
+			} catch (IOException | ClassNotFoundException | NullPointerException e1) {
+				e1.printStackTrace();
+			}
+		});
+		sidebar.add(mainMenu);
+        frame.add(sidebar);
+
 		//section that presents all the events + event info
         JLabel title1 = new JLabel("Current Events");
         title1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         title1.setForeground(Color.gray);
-        title1.setBounds(25, 70, 150, 50);
+        title1.setBounds(290, 70, 150, 50);
         frame.add(title1);
 
 		//TO DO: get the scroll thing to stay at the top when first running the program
@@ -81,7 +134,7 @@ public class AdminView {
         allEvents.setBackground(Color.white);
         allEvents.setBorder(new EmptyBorder(15, 15, 15, 15));
         JScrollPane eventsPane = new JScrollPane(allEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        eventsPane.setBounds(25, 110, 490, 555);
+        eventsPane.setBounds(290, 110, 490, 555);
 		eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
@@ -190,13 +243,13 @@ public class AdminView {
 		JLabel title2 = new JLabel("New Event");
         title2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         title2.setForeground(Color.gray);
-        title2.setBounds(550, 70, 150, 50);
+        title2.setBounds(800, 70, 150, 50);
         frame.add(title2);
 
 		JPanel eventCreate = new JPanel();
 		eventCreate.setLayout(new BoxLayout(eventCreate, BoxLayout.Y_AXIS));
 		eventCreate.setBorder(new EmptyBorder(10, 10, 10, 30));
-		eventCreate.setBounds(550, 110, 450, 300);
+		eventCreate.setBounds(800, 110, 450, 300);
 		
 		// add an event name
 		JLabel nameLbl = new JLabel("Event Name");
@@ -282,31 +335,17 @@ public class AdminView {
 		eventCreate.add(newEvent);
 		frame.add(eventCreate);
 
-		//button to switch to student view (this feature is only accessible for admins)
-		JButton mainMenu = new JButton("Student Menu");
-		mainMenu.setBounds(1100, 600, 150, 60);
-		mainMenu.addActionListener(e -> {
-			try {
-				new MainFrame();
-				frame.dispose();
-			} catch (IOException | ClassNotFoundException e1) {
-				e1.printStackTrace();
-			}
-			//frame.dispose();
-		});
-		frame.add(mainMenu);
-
 		//section that allows admin to choose when their quarters end (dates on which winners are generated)
         JLabel title3 = new JLabel("Quarterly End Dates");
         title3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         title3.setForeground(Color.gray);
-        title3.setBounds(550, 405, 200, 50);
+        title3.setBounds(800, 405, 200, 50);
         frame.add(title3);
 
 		JPanel datesPane = new JPanel();
 		datesPane.setLayout(new BoxLayout(datesPane, BoxLayout.Y_AXIS));
 		datesPane.setBorder(new EmptyBorder(10, 10, 10, 30));
-		datesPane.setBounds(550, 445, 450, 220);
+		datesPane.setBounds(800, 445, 450, 220);
 		datesPane.setBackground(Color.decode("#283880"));
 
 		//array of days
@@ -353,7 +392,11 @@ public class AdminView {
 			String q1day = String.format("%02d", Integer.parseInt(q1d));
 			String q1month = String.format("%02d", m1.getSelectedIndex()+1); 
 			String q1year = String.valueOf(y1.getSelectedItem());
-			saveQDates(1, q1day, q1month, q1year);
+			try {
+				saveQDates(1, q1day, q1month, q1year);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		q1Pane.add(q1Lbl);
@@ -395,7 +438,11 @@ public class AdminView {
 			String q2day = String.format("%02d", Integer.parseInt(q2d)); 
 			String q2month = String.format("%02d", m2.getSelectedIndex()+1);
 			String q2year = String.valueOf(y2.getSelectedItem());
-			saveQDates(2, q2day, q2month, q2year);
+			try {
+				saveQDates(2, q2day, q2month, q2year);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		q2Pane.add(q2Lbl);
@@ -437,7 +484,11 @@ public class AdminView {
 			String q3day = String.format("%02d", Integer.parseInt(q3d)); 
 			String q3month = String.format("%02d", m3.getSelectedIndex()+1);
 			String q3year = String.valueOf(y3.getSelectedItem());
-			saveQDates(3, q3day, q3month, q3year);
+			try {
+				saveQDates(3, q3day, q3month, q3year);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		q3Pane.add(q3Lbl);
@@ -479,7 +530,11 @@ public class AdminView {
 			String q4day = String.format("%02d", Integer.parseInt(q4d));
 			String q4month = String.format("%02d", m4.getSelectedIndex()+1);
 			String q4year = String.valueOf(y4.getSelectedItem());
-			saveQDates(4, q4day, q4month, q4year);
+			try {
+				saveQDates(4, q4day, q4month, q4year);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		q4Pane.add(q4Lbl);
@@ -515,9 +570,17 @@ public class AdminView {
 		out.close();
     }
 
-	public void saveQDates(int quarter, String day, String month, String year) {
+	public void saveQDates(int quarter, String day, String month, String year) throws IOException {
+		String file = ("data" + File.separator + "quarterlyDates.txt");
+		boolean shouldAppendFile = true; 
+		OutputStreamWriter writerOutputStream = new OutputStreamWriter(new FileOutputStream(file, shouldAppendFile), "UTF-8"); 
+
 		quarterDates[quarter-1][0] = day;
 		quarterDates[quarter-1][1] = month + "-";
 		quarterDates[quarter-1][2] = year + "-";
+ 
+		out = new BufferedWriter(writerOutputStream); 
+		out.write(quarterDates[quarter-1][2] + quarterDates[quarter-1][1] + quarterDates[quarter-1][0] + "|" + quarter + "\n");
+		out.close();
 	}
 }

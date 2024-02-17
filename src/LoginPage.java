@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -84,10 +83,10 @@ public class LoginPage {
             	if(validate()) {
                     if (auth == "student"){
                         new MainFrame();
-                        MainFrame.saveUser();
+                        //MainFrame.saveUser();
                     } else if (auth == "admin"){
                         new AdminView();
-                        AdminView.saveUser();
+                        //AdminView.saveUser();
                     }
             	}
             

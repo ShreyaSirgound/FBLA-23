@@ -51,6 +51,13 @@ public class Admin {
         this.password = password;
     }
 
+    public static String toString(Admin a){
+        String admin = a.getName() + "|"
+                        + a.getEmail() + "|"
+                        + a.getPassword() + "|";
+        return admin;
+    }
+
     //creates a list of all the administrators
     protected static List<Admin> adminList = new ArrayList<Admin>();
 

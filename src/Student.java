@@ -82,7 +82,8 @@ public class Student {
         String student = s.getName() + "|"
                         + s.getGrade() + "|"
                         + s.getPoints() + "|"
-                        + s.getEmail() + "|";
+                        + s.getEmail() + "|"
+                        + s.getPassword() + "|";
         return student;
     }
 

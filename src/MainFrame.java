@@ -4,7 +4,6 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -34,7 +33,7 @@ public class MainFrame {
 	static Student curUser;
     public MainFrame() throws ClassNotFoundException, IOException {
     	//reads in students
-    	in = new BufferedReader(new FileReader("data\\students.txt"));
+    	/**in = new BufferedReader(new FileReader("data\\students.txt"));
     	names = new String[2*MAX];
     	emails = new String[MAX];
     	passwords = new String[MAX];
@@ -51,21 +50,68 @@ public class MainFrame {
             n+=2;
     		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
     	}
-    	in.close();
+    	in.close();*/
         if(Event.eventList.isEmpty())EventsDataFile.Input(); 
 
-        //students for testing 
+        /**students for testing 
         Student.addNineStudent(new Student("Sophie Tester", "sophie@student.ca", "testing", 9, 10));
         Student.addTenStudent(new Student("Liam Tester", "liam@student.ca", "testing", 10, 30));
         Student.addElevenStudent(new Student("Neo Tester", "neo@student.ca", "testing", 11, 30));
         Student.addTwelveStudent(new Student("Dan Tester", "dan@student.ca", "testing", 12, 20));
         Student.addTenStudent(new Student("Sarah Tester", "sarah@student.ca", "testing", 10, 30));
+        */
 
         //defining the quarter-end dates
+        System.out.println();
         String q1 = "", q2 = "", q3 = "", q4 = ""; 
+        String[] date = new String[2];
         LocalDate quarter1 = null, quarter2 = null, quarter3 = null, quarter4 = null;
-        try {
-            for(int i = 2; i >= 0; i--){
+        //try {
+            in = new BufferedReader(new FileReader("data\\quarterlyDates.txt"));
+            for(int i = 0; i < 4; i++){
+                date = in.readLine().split("\\|");
+                if(date[1].equals("1")){
+                    q1 = date[0];
+                } else if (date[1].equals("2")){
+                    q2 = date[0];
+                } else if (date[1].equals("3")){
+                    q3 = date[0];  
+                } else if (date[1].equals("4")){
+                    q4 = date[0];
+                }
+            }
+            /**while(!date.equals("")){
+                for(String n : date){
+                    System.out.print(n);
+                }
+                System.out.println();
+                if(date[1].equals("1")){
+                    q1 = date[0];
+                } else if (date[1].equals("2")){
+                    q2 = date[0];
+                } else if (date[1].equals("3")){
+                    q3 = date[0];  
+                } else if (date[1].equals("4")){
+                    q4 = date[0];
+                }
+                date = in.readLine().split("|");
+            }*/
+       // } catch (NullPointerException e){
+         //   e.printStackTrace();
+        //}
+
+        System.out.println(q1);
+        System.out.println(q2);
+        System.out.println(q3);
+        System.out.println(q4);
+        System.out.println();
+        
+        quarter1 = LocalDate.parse(q1, DateTimeFormatter.ISO_LOCAL_DATE);
+        quarter2 = LocalDate.parse(q2, DateTimeFormatter.ISO_LOCAL_DATE);
+        quarter3 = LocalDate.parse(q3, DateTimeFormatter.ISO_LOCAL_DATE);
+        quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
+
+            /**for(int i = 2; i >= 0; i--){
                 q1 += AdminView.quarterDates[0][i];
             }
             System.out.println("q1: " + q1);
@@ -89,17 +135,12 @@ public class MainFrame {
             System.out.println("q4: " + q4);
             quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
             q4 = String.valueOf(quarter4);
-        } catch (ArrayIndexOutOfBoundsException | java.time.format.DateTimeParseException e){
+        /} catch (ArrayIndexOutOfBoundsException | java.time.format.DateTimeParseException e){
             e.printStackTrace();
-        }
+        }*/
 
         LocalDate currDate = LocalDate.now();
         System.out.println(currDate);
-
-        System.out.println(q1);
-        System.out.println(q2);
-        System.out.println(q3);
-        System.out.println(q4);
 
         System.out.println(String.valueOf(currDate).equals(q1) + " 1");
         System.out.println(String.valueOf(currDate).equals(q2) + " 2");
@@ -176,6 +217,7 @@ public class MainFrame {
         prize4.setBounds(25, 480, 200, 75);
 
         frame.add(prize4); 
+       
         //sidebar
         JPanel sidebar = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
