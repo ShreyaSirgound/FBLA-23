@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.StandardOpenOption;
+import java.util.Base64;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -33,11 +34,12 @@ public class AdminView {
 	static BufferedWriter out;
 	static int numOfUsers;
 	String fullName;
-    String[] names, emails, passwords;
+    String[] names, emails, passwords, salts;
 	//static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\admins.txt";
 	static Admin curUser;
 	static String[][] quarterDates = new String[4][3];
 	static String[][] quarterlyDates = new String[4][1];
+	
 
 	public AdminView() throws ClassNotFoundException, IOException {
 		JFrame frame = new JFrame("Admin View");
@@ -50,11 +52,13 @@ public class AdminView {
     	names = in.readLine().split(" ");
     	emails = in.readLine().split(" ");
     	passwords = in.readLine().split(" ");
+		salts = in.readLine().split(" ");
     	numOfUsers = emails.length;
     	for(int i = 0, n = 0; i < numOfUsers; i++) {
     		fullName = names[n] + " " + names[n+1]; 
 			n+=2;
-    		Admin.getAdmins().add(new Admin(fullName, emails[i], passwords[i]));
+			byte[] uSalt = salts[i].getBytes();
+    		Admin.getAdmins().add(new Admin(fullName, emails[i], passwords[i], uSalt));
     	}
     	in.close();
 		if(Event.eventList.isEmpty())EventsDataFile.Input(); 
@@ -565,6 +569,14 @@ public class AdminView {
 		out.newLine();
 		for(Admin a : Admin.getAdmins()) {
 			out.write(a.getPassword() + " ");
+		}
+		out.newLine();
+		for(Admin a : Admin.getAdmins()) {
+			out.write(a.getSalt() + " ");
+			try (FileOutputStream fos = new FileOutputStream("data\\salts\\adminSalts.txt")) {
+				fos.write(a.getSalt());
+				//fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
+			 }
 		}
 		out.newLine();
 		out.close();

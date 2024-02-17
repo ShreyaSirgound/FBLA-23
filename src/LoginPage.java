@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +21,7 @@ public class LoginPage {
 	JPasswordField password;
 	JTextField username;
     String auth;
+    static Credentials userCredentials;
     public LoginPage() {
         JFrame frame = new JFrame("Login");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -88,9 +93,9 @@ public class LoginPage {
                         new AdminView();
                         //AdminView.saveUser();
                     }
-            	}
+            	} else {
             
-                if (!validate()) {
+                //if (!validate()) {
             		new LoginPage();
             	}
 			} catch (IOException | ClassNotFoundException e1) {
@@ -157,33 +162,50 @@ public class LoginPage {
     }
     	public boolean validate() {
             System.out.println("validating");
-            curPassword = "";
+            curUsername = username.getText();
     		enteredPassword = password.getPassword();
-    		for(int i = 0; i < enteredPassword.length; i++) {
-    			curPassword += enteredPassword[i];
-    		}
-    		curUsername = username.getText();
+            curPassword = new String(enteredPassword);
+            curPassword.trim();
+            
     		System.out.println(curUsername);
-    		System.out.println(curPassword);
+    		System.out.println(curPassword + " now");
     		for(Student s : Student.getStudents()) {
-    			System.out.print(s.getName() + " ");
-    			System.out.println(s.getPassword());
-    			if(s.getName().equals(curUsername) && s.getPassword().equals(curPassword)) {
-    				auth = "student";
-                    MainFrame.curUser = s;
-                    System.out.println("yes student");
-    				return true;
-    			}
+    			if(s.getName().equals(curUsername)){
+                    try {
+                        System.out.println(s.getSalt() + " inside");
+                        userCredentials = Common.hash(curPassword, s.getSalt());
+                        curPassword = userCredentials.getPassword();
+                    } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+                    if(s.getPassword().equals(curPassword)){
+                        auth = "student";
+                        MainFrame.curUser = s;
+                        System.out.println("yes student");
+                        return true;
+                    }
+                }
     		}
             for(Admin a : Admin.getAdmins()) {
     			System.out.print(a.getName() + " ");
-    			System.out.println(a.getPassword());
-    			if(a.getName().equals(curUsername) && a.getPassword().equals(curPassword)) {
-    				auth = "admin";
+    			System.out.println(a.getPassword() + " org");
+    			if(a.getName().equals(curUsername)){
+                    try {
+                        System.out.println(a.getSalt() + " inside");
+                        userCredentials = Common.hash(curPassword, a.getSalt());
+                        curPassword = userCredentials.getPassword();
+                        System.out.println(curPassword);
+                    } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(a.getPassword().equals(curPassword)){
+                        auth = "admin";
                     AdminView.curUser = a;
                     System.out.println("yes admin");
     				return true;
-    			}
+                    }
+                }
     		}
             curUsername = "";
             curPassword = "";

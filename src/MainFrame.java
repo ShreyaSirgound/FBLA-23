@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -58,8 +59,13 @@ public class MainFrame {
         Student.addTenStudent(new Student("Liam Tester", "liam@student.ca", "testing", 10, 30));
         Student.addElevenStudent(new Student("Neo Tester", "neo@student.ca", "testing", 11, 30));
         Student.addTwelveStudent(new Student("Dan Tester", "dan@student.ca", "testing", 12, 20));
-        Student.addTenStudent(new Student("Sarah Tester", "sarah@student.ca", "testing", 10, 30));
-        */
+        Student.addTenStudent(new Student("Sarah Tester", "sarah@student.ca", "testing", 10, 30));*/
+
+        System.out.println(String.valueOf(Student.getNineStudents()));
+        System.out.println(String.valueOf(Student.getTenStudents()));
+        System.out.println(String.valueOf(Student.getElevenStudents()));
+        System.out.println(String.valueOf(Student.getTwelveStudents()));
+        
 
         //defining the quarter-end dates
         System.out.println();
@@ -542,6 +548,14 @@ public class MainFrame {
 		out.newLine();
 		for(Student s : Student.getStudents()) {
 			out.write(s.getPoints() + " ");
+		}
+		out.newLine();
+        for(Student s : Student.getStudents()) {
+			out.write(s.getSalt() + " ");
+			try (FileOutputStream fos = new FileOutputStream("data\\salts\\studentSalts.txt")) {
+				fos.write(s.getSalt());
+				//fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
+			 }
 		}
 		out.newLine();
 		out.close();

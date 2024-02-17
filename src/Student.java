@@ -27,15 +27,22 @@ public class Student {
 	
 	private String password;
 
+    /**
+     * The student's password
+     */
+	
+	private byte[] salt;
+
      /**
       * Creates a new student object
       */
-    public Student(String name, String email, String password, int grade, int points){
+    public Student(String name, String email, String password, int grade, int points, byte[] salt){
         this.name = name;
         this.email = email;
         this.password = password;
         this.grade = grade;
         this.points = points;
+        this.salt = salt;
     }
 
     public String getName(){
@@ -78,12 +85,17 @@ public class Student {
         this.points = points;
     }
 
+    public byte[] getSalt(){
+        return salt;
+    }
+
     public static String toString(Student s){
         String student = s.getName() + "|"
                         + s.getGrade() + "|"
                         + s.getPoints() + "|"
                         + s.getEmail() + "|"
-                        + s.getPassword() + "|";
+                        + s.getPassword() + "|"
+                        + String.valueOf(s.getSalt());
         return student;
     }
 

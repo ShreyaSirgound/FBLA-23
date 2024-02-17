@@ -2,7 +2,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.FlowLayout;
 
@@ -146,21 +153,44 @@ public class AccountSetup {
         	grade = gradeDropdown.getSelectedItem().toString();
         	email = studentNumber.getText();
         	p = password.getPassword();
-        	enteredPassword = "";
-        	for(int i = 0; i < p.length; i++) {
-            	enteredPassword += p[i];
-            }
+        	enteredPassword = new String(p);
         	enteredPassword.trim();
+            Credentials userCredentials;
+            byte[] userSalt = null;
+
+            try {
+                userCredentials = Common.hash(enteredPassword, userSalt);
+                enteredPassword = userCredentials.getPassword();
+                userSalt = userCredentials.getSalt();
+
+                /**String s = String.valueOf(userCredentials.get(1));
+                userSalt = s.getBytes(StandardCharsets.UTF_8);
+                //userSalt = s.getBytes();
+                System.out.println("salt: " + s);
+                System.out.println("userSalt: " + new String(userSalt));//String.valueOf(userSalt));*/
+            } catch (InvalidKeySpecException | NoSuchAlgorithmException e1) {
+                e1.printStackTrace();
+            }
 
             try {
                 if(auth == "Student"){
-                    Student newStudent = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
+                    Student newStudent = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0, userSalt);
                     System.out.println(studentsList.contains(newStudent) + " auth1 good");
                     if(studentsList.contains(newStudent) == false){
                         System.out.println("first 1");
                         MainFrame.curUser = newStudent;
                         Student.addStudent(MainFrame.curUser);
                         MainFrame.saveUser();
+
+                        if(Integer.parseInt(grade) == 9){
+                            Student.addNineStudent(newStudent);
+                        } else if (Integer.parseInt(grade) == 10){
+                            Student.addTenStudent(newStudent);
+                        } else if (Integer.parseInt(grade) == 11) {
+                            Student.addElevenStudent(newStudent);
+                        } else if (Integer.parseInt(grade) == 12) {
+                            Student.addTwelveStudent(newStudent);
+                        }
                     } else {
                         System.out.println("first 2");
                         JOptionPane.showConfirmDialog(frame, "  An account with this data has already been created. Please log in to use Schoolsync services. ", 
@@ -171,7 +201,7 @@ public class AccountSetup {
                     }
                     
                 } else if (auth == "Administrator"){
-                    Admin newAdmin = new Admin(name, email, enteredPassword);
+                    Admin newAdmin = new Admin(name, email, enteredPassword, userSalt);
                     System.out.println(adminsList.contains(newAdmin) + " auth2 good");
                     if(adminsList.contains(newAdmin) == false){
                         System.out.println("second 1");
@@ -196,10 +226,11 @@ public class AccountSetup {
             frame.dispose();
         });
         mainPanel.add(createAcc);
-
+    
         frame.add(mainPanel);
-
+    
         frame.getRootPane().setDefaultButton(createAcc);
         frame.setVisible(true);
     }
+
 }

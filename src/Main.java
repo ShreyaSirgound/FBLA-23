@@ -2,6 +2,8 @@ import java.awt.EventQueue;
 import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -15,7 +17,7 @@ public class Main {
 	static BufferedWriter out;
 	static int numOfUsers;
 	static String fullName;
-    static String[] names, emails, passwords, grades, points;
+    static String[] names, emails, passwords, grades, points, salts;
 	static String fileName1 = "data\\admins.txt";
 	static String fileName2 = "data\\students.txt";
 	static Student curUser;
@@ -25,6 +27,7 @@ public class Main {
     	passwords = new String[MAX];
     	grades = new String[MAX];
     	points = new String[MAX]; 
+		salts = new String[MAX];
 
 		//reads in all existing administrator accounts
 		try {
@@ -35,12 +38,19 @@ public class Main {
 			System.out.println(emails + "**");
 			passwords = in.readLine().split(" ");
 			System.out.println(passwords + "***");
+			salts = in.readLine().split(" ");
 			numOfUsers = emails.length;
 			for(int i = 0, n = 0; i < numOfUsers; i++) {
 				if(n < names.length){
 					fullName = names[n] + " " + names[n+1];
 					n+=2;
-					Admin.addAdmin(new Admin(fullName, emails[i], passwords[i]));
+
+					byte[] uSalt = new byte[(int) (new File("data\\salts\\adminSalts.txt").length())];
+					try (FileInputStream in = new FileInputStream("data\\salts\\adminSalts.txt")) {
+						in.read(uSalt);
+					}
+					
+					Admin.addAdmin(new Admin(fullName, emails[i], passwords[i], uSalt));
 				}
 			}
 			in.close();
@@ -54,21 +64,28 @@ public class Main {
 		//reads in all existing student accounts
 		try {
 			in = new BufferedReader(new FileReader("data\\students.txt"));
-			names = new String[2*MAX];
+			/**names = new String[2*MAX];
 			emails = new String[MAX];
 			passwords = new String[MAX];
 			grades = new String[MAX];
-			points = new String[MAX];
+			points = new String[MAX];*/
 			names = in.readLine().split(" ");
 			emails = in.readLine().split(" ");
 			passwords = in.readLine().split(" ");
 			grades = in.readLine().split(" ");
 			points = in.readLine().split(" ");
+			salts = in.readLine().split(" ");
 			numOfUsers = points.length;
 			for(int i = 0, n = 0; i < numOfUsers; i++) {
 				fullName = names[n] + " " + names[n+1]; 
 				n+=2;
-				Student s = new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i]));
+
+				byte[] uSalt = new byte[(int) (new File("data\\salts\\studentSalts.txt").length())];
+				try (FileInputStream in = new FileInputStream("data\\salts\\studentSalts.txt")) {
+					in.read(uSalt);
+				}
+
+				Student s = new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i]), uSalt);
 				Student.addStudent(s);
 				if(grades[i].equals("9") && (Student.getNineStudents().contains(s) == false)){
 					Student.addNineStudent(s);

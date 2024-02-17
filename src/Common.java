@@ -1,10 +1,20 @@
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -68,5 +78,30 @@ public class Common {
 			System.err.println("Failed to read image: " + name);
 			return null;
 		}
+	}
+
+	public static Credentials hash(String password, byte[] salt) throws InvalidKeySpecException, NoSuchAlgorithmException{
+		System.out.println("hashing fr");
+		System.out.println(String.valueOf(salt) + " before hash");
+
+		if (salt == null){
+			SecureRandom random = new SecureRandom();
+			salt = new byte[16];
+			random.nextBytes(salt);
+		}
+
+		System.out.println(String.valueOf(salt) + " after hash");
+		System.out.println(password);
+
+		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+
+		byte[] hash = factory.generateSecret(spec).getEncoded();
+		String hashedPassword = String.format("%x", new BigInteger(hash));
+
+		Credentials credentials = new Credentials(hashedPassword, salt);
+		System.out.println(credentials.getPassword() + " " + String.valueOf(credentials.getSalt()));
+		
+		return credentials;
 	}
 }

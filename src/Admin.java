@@ -19,12 +19,19 @@ public class Admin {
     private String password;
 
     /**
+     * The administrator's salt
+     */
+    
+     private byte[] salt;
+
+    /**
      * Creates a new admin object
     */
-    public Admin(String name, String email, String password){
+    public Admin(String name, String email, String password, byte[] salt){
         this.name = name;
         this.email = email;
         this.password = password;
+        this.salt = salt;
     }
 
     public String getName(){
@@ -51,10 +58,15 @@ public class Admin {
         this.password = password;
     }
 
+    public byte[] getSalt() {
+        return salt;
+    }
+
     public static String toString(Admin a){
         String admin = a.getName() + "|"
                         + a.getEmail() + "|"
-                        + a.getPassword() + "|";
+                        + a.getPassword() + "|"
+                        + String.valueOf(a.getSalt());
         return admin;
     }
 
