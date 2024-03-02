@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,120 +32,34 @@ public class MainFrame {
 	//static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\students.txt";
 	static Student curUser;
     public MainFrame() throws ClassNotFoundException, IOException {
-    	//reads in students
-    	/**in = new BufferedReader(new FileReader("data\\students.txt"));
-    	names = new String[2*MAX];
-    	emails = new String[MAX];
-    	passwords = new String[MAX];
-    	grades = new String[MAX];
-    	points = new String[MAX];
-    	names = in.readLine().split(" ");
-    	emails = in.readLine().split(" ");
-    	passwords = in.readLine().split(" ");
-    	grades = in.readLine().split(" ");
-    	points = in.readLine().split(" ");
-    	numOfUsers = points.length;
-    	for(int i = 0, n = 0; i < numOfUsers; i++) {
-    		fullName = names[n] + " " + names[n+1]; 
-            n+=2;
-    		Student.getStudents().add(new Student(fullName, emails[i], passwords[i], Integer.parseInt(grades[i]), Integer.parseInt(points[i])));
-    	}
-    	in.close();*/
-        if(Event.eventList.isEmpty())EventsDataFile.Input(); 
-
-        /**students for testing 
-        Student.addNineStudent(new Student("Sophie Tester", "sophie@student.ca", "testing", 9, 10));
-        Student.addTenStudent(new Student("Liam Tester", "liam@student.ca", "testing", 10, 30));
-        Student.addElevenStudent(new Student("Neo Tester", "neo@student.ca", "testing", 11, 30));
-        Student.addTwelveStudent(new Student("Dan Tester", "dan@student.ca", "testing", 12, 20));
-        Student.addTenStudent(new Student("Sarah Tester", "sarah@student.ca", "testing", 10, 30));*/
-
-        System.out.println(String.valueOf(Student.getNineStudents()));
-        System.out.println(String.valueOf(Student.getTenStudents()));
-        System.out.println(String.valueOf(Student.getElevenStudents()));
-        System.out.println(String.valueOf(Student.getTwelveStudents()));
-        
+    	//reads in events
+        if(Event.eventList.isEmpty())EventsDataFile.Input();
 
         //defining the quarter-end dates
         System.out.println();
         String q1 = "", q2 = "", q3 = "", q4 = ""; 
         String[] date = new String[2];
         LocalDate quarter1 = null, quarter2 = null, quarter3 = null, quarter4 = null;
-        //try {
-            in = new BufferedReader(new FileReader("data\\quarterlyDates.txt"));
-            for(int i = 0; i < 4; i++){
-                date = in.readLine().split("\\|");
-                if(date[1].equals("1")){
-                    q1 = date[0];
-                } else if (date[1].equals("2")){
-                    q2 = date[0];
-                } else if (date[1].equals("3")){
-                    q3 = date[0];  
-                } else if (date[1].equals("4")){
-                    q4 = date[0];
-                }
+        in = new BufferedReader(new FileReader("data\\quarterlyDates.txt"));
+        for(int i = 0; i < 4; i++){
+            date = in.readLine().split("\\|");
+            if(date[1].equals("1")){
+                q1 = date[0];
+            } else if (date[1].equals("2")){
+                q2 = date[0];
+            } else if (date[1].equals("3")){
+                q3 = date[0];  
+            } else if (date[1].equals("4")){
+                q4 = date[0];
             }
-            /**while(!date.equals("")){
-                for(String n : date){
-                    System.out.print(n);
-                }
-                System.out.println();
-                if(date[1].equals("1")){
-                    q1 = date[0];
-                } else if (date[1].equals("2")){
-                    q2 = date[0];
-                } else if (date[1].equals("3")){
-                    q3 = date[0];  
-                } else if (date[1].equals("4")){
-                    q4 = date[0];
-                }
-                date = in.readLine().split("|");
-            }*/
-       // } catch (NullPointerException e){
-         //   e.printStackTrace();
-        //}
-
-        System.out.println(q1);
-        System.out.println(q2);
-        System.out.println(q3);
-        System.out.println(q4);
-        System.out.println();
+        }
         
         quarter1 = LocalDate.parse(q1, DateTimeFormatter.ISO_LOCAL_DATE);
         quarter2 = LocalDate.parse(q2, DateTimeFormatter.ISO_LOCAL_DATE);
         quarter3 = LocalDate.parse(q3, DateTimeFormatter.ISO_LOCAL_DATE);
         quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
 
-            /**for(int i = 2; i >= 0; i--){
-                q1 += AdminView.quarterDates[0][i];
-            }
-            System.out.println("q1: " + q1);
-            quarter1 = LocalDate.parse(q1, DateTimeFormatter.ISO_LOCAL_DATE);
-            q1 = String.valueOf(quarter1);
-            for(int i = 2; i > -1; i--){
-                q2 += AdminView.quarterDates[1][i];
-            }
-            System.out.println("q2: " + q2);
-            quarter2 = LocalDate.parse(q2, DateTimeFormatter.ISO_LOCAL_DATE);
-            q2 = String.valueOf(quarter2);
-            for(int i = 2; i > -1; i--){
-                q3 += AdminView.quarterDates[2][i];
-            }
-            System.out.println("q3: " + q3);
-            quarter3 = LocalDate.parse(q3, DateTimeFormatter.ISO_LOCAL_DATE);
-            q3 = String.valueOf(quarter3);
-            for(int i = 2; i > -1; i--){
-                q4 += AdminView.quarterDates[3][i];
-            }
-            System.out.println("q4: " + q4);
-            quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
-            q4 = String.valueOf(quarter4);
-        /} catch (ArrayIndexOutOfBoundsException | java.time.format.DateTimeParseException e){
-            e.printStackTrace();
-        }*/
-
         LocalDate currDate = LocalDate.now();
-        System.out.println(currDate);
 
         System.out.println(String.valueOf(currDate).equals(q1) + " 1");
         System.out.println(String.valueOf(currDate).equals(q2) + " 2");
@@ -229,12 +142,24 @@ public class MainFrame {
         sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
         sidebar.setBackground(Color.decode("#3E3F40"));
         sidebar.setBounds(0, 60, 300, 720);
-        JLabel stats = new JLabel("Prizes");
-        stats.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 23));
-        stats.setForeground(Color.white);
-        sidebar.add(stats);
+        JLabel prizeLbl = new JLabel("Prizes");
+        prizeLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 23));
+        prizeLbl.setForeground(Color.white);
+        JButton personalView = new JButton("My Registered Events");
+        personalView.setBounds(50, 585, 180, 75);
+        personalView.addActionListener(e -> {
+			try {
+				new PersonalListView();
+				frame.dispose();
+			} catch (NullPointerException e1) {
+				e1.printStackTrace();
+                JOptionPane.showMessageDialog(frame, "You have not registered for any events yet.");
+			}
+		});
+        sidebar.add(prizeLbl);
+        frame.add(personalView);
         frame.add(sidebar);
-
+       
         //section that presents all the events + event info
         JLabel title1 = new JLabel("Current Events");
         title1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
@@ -322,9 +247,20 @@ public class MainFrame {
 															JOptionPane.YES_OPTION,
 															JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.YES_OPTION) {
-                        int curPoints = curUser.getPoints();
-                        curPoints += Event.eventList.get(idx).getPoints();
-                        curUser.setPoints(curPoints);
+                        if(curUser.getMyEvents().contains(Event.eventList.get(idx))){
+                            JOptionPane.showMessageDialog(frame, "You have already registered for this event.");
+                        } else {
+                            int curPoints = curUser.getPoints();
+                            curPoints += Event.eventList.get(idx).getPoints();
+                            curUser.setPoints(curPoints);
+                            curUser.addEvent(Event.eventList.get(idx));
+                            try {
+                                saveRegEvents();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                            JOptionPane.showMessageDialog(frame, "Successfully registered!");
+                        }
 					}
 				}
 			});
@@ -550,15 +486,25 @@ public class MainFrame {
 			out.write(s.getPoints() + " ");
 		}
 		out.newLine();
-        for(Student s : Student.getStudents()) {
-			out.write(s.getSalt() + " ");
-			try (FileOutputStream fos = new FileOutputStream("data\\salts\\studentSalts.txt")) {
-				fos.write(s.getSalt());
-				//fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
-			 }
-		}
-		out.newLine();
 		out.close();
+    }
+
+    protected static void saveRegEvents() throws IOException {
+        out = new BufferedWriter(new FileWriter("data\\registeredEvents.txt"));
+
+        System.out.println("saving personal events");
+        for(Student s : Student.getStudents()) {
+            System.out.println(s.getName() + s.getMyEvents().toString());
+            if(s.getMyEvents().isEmpty()){
+                out.write("null" + "*");
+            } else {
+                for(Event e : s.getMyEvents()){
+                    out.write(Event.toString(e) + "*");
+                }
+            }
+            out.newLine();
+		}
+        out.close();
     }
 
     protected static void writeWinners(JTextArea ta, ArrayList<String>[] w){

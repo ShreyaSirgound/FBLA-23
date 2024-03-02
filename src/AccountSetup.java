@@ -2,14 +2,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.FlowLayout;
 
@@ -57,7 +51,7 @@ public class AccountSetup {
         frame.add(headerPanel);
 
         JPanel mainPanel = new JPanel();
-        mainPanel.setBounds(400, 120, 465, 540);
+        mainPanel.setBounds(400, 95, 465, 565);
         mainPanel.setBackground(Color.white);
         mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 25));
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -72,12 +66,18 @@ public class AccountSetup {
         label1.setBackground(Color.decode("#76BEE8"));
         label1.setForeground(Color.gray);
         panel1.setAlignmentX(Component.LEFT_ALIGNMENT);
-        label1.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        label1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        JPanel pane1 = new JPanel();
+        pane1.setLayout(new BoxLayout(pane1, BoxLayout.Y_AXIS));
+        pane1.setBackground(Color.white);
         String roles[] = {"", "Student", "Administrator"};
         JComboBox<String> authority = new JComboBox(roles);
+        authority.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+        authority.setPreferredSize(new Dimension(430, 30));
         panel1.add(label1);
-        panel1.add(authority);
+        pane1.add(authority);
         mainPanel.add(panel1);
+        mainPanel.add(pane1);
 
         //name input
         JPanel panel2 = new JPanel();
@@ -87,10 +87,11 @@ public class AccountSetup {
         label2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         label2.setBackground(Color.decode("#76BEE8"));
         label2.setForeground(Color.gray);
-        label2.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
+        label2.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         JTextField input2 = new JTextField();
+        input2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         
-        input2.setColumns(30);
+        input2.setColumns(19);
         panel2.add(label2);
         panel2.add(input2);
         mainPanel.add(panel2);
@@ -103,14 +104,17 @@ public class AccountSetup {
         label3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         label3.setBackground(Color.decode("#76BEE8"));
         label3.setForeground(Color.gray);
-        label3.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        label3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        JPanel pane3 = new JPanel();
+        pane3.setBackground(Color.white);
         String grades[] = {"", "9", "10", "11", "12", "N/A"};
         JComboBox<String> gradeDropdown = new JComboBox(grades);
-        
+        gradeDropdown.setPreferredSize(new Dimension(420, 30));
+        gradeDropdown.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         panel3.add(label3);
-        panel3.add(gradeDropdown);
-        panel3.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pane3.add(gradeDropdown);
         mainPanel.add(panel3);
+        mainPanel.add(pane3);
 
         //email input
         JPanel panel4 = new JPanel();
@@ -121,11 +125,12 @@ public class AccountSetup {
         label4.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         label4.setBackground(Color.decode("#76BEE8"));
         label4.setForeground(Color.gray);
-        label4.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
-        JTextField studentNumber = new JTextField();
-        studentNumber.setColumns(30);
+        label4.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        JTextField emailInput = new JTextField();
+        emailInput.setColumns(29);
+        emailInput.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         panel4.add(label4);
-        panel4.add(studentNumber);
+        panel4.add(emailInput);
         mainPanel.add(panel4);
 
         //password input
@@ -136,8 +141,9 @@ public class AccountSetup {
         label5.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         label5.setBackground(Color.decode("#76BEE8"));
         label5.setForeground(Color.gray);
-        label5.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
-        JPasswordField password = new JPasswordField(30);
+        label5.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        JPasswordField password = new JPasswordField(32);
+        password.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         password.setEchoChar('*');
         panel5.add(label5);
         panel5.add(password);
@@ -151,30 +157,19 @@ public class AccountSetup {
         	String auth = authority.getSelectedItem().toString();
         	name = input2.getText();
         	grade = gradeDropdown.getSelectedItem().toString();
-        	email = studentNumber.getText();
+        	email = emailInput.getText();
         	p = password.getPassword();
         	enteredPassword = new String(p);
         	enteredPassword.trim();
-            Credentials userCredentials;
-            byte[] userSalt = null;
-
             try {
-                userCredentials = Common.hash(enteredPassword, userSalt);
-                enteredPassword = userCredentials.getPassword();
-                userSalt = userCredentials.getSalt();
-
-                /**String s = String.valueOf(userCredentials.get(1));
-                userSalt = s.getBytes(StandardCharsets.UTF_8);
-                //userSalt = s.getBytes();
-                System.out.println("salt: " + s);
-                System.out.println("userSalt: " + new String(userSalt));//String.valueOf(userSalt));*/
-            } catch (InvalidKeySpecException | NoSuchAlgorithmException e1) {
+                enteredPassword = Common.hashPassword(enteredPassword); //hashes the user's password for security
+            } catch (NoSuchAlgorithmException e1) { 
                 e1.printStackTrace();
-            }
+            } 
 
             try {
                 if(auth == "Student"){
-                    Student newStudent = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0, userSalt);
+                    Student newStudent = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
                     System.out.println(studentsList.contains(newStudent) + " auth1 good");
                     if(studentsList.contains(newStudent) == false){
                         System.out.println("first 1");
@@ -182,6 +177,7 @@ public class AccountSetup {
                         Student.addStudent(MainFrame.curUser);
                         MainFrame.saveUser();
 
+                        //sorts the student into their respective grade lists
                         if(Integer.parseInt(grade) == 9){
                             Student.addNineStudent(newStudent);
                         } else if (Integer.parseInt(grade) == 10){
@@ -201,7 +197,7 @@ public class AccountSetup {
                     }
                     
                 } else if (auth == "Administrator"){
-                    Admin newAdmin = new Admin(name, email, enteredPassword, userSalt);
+                    Admin newAdmin = new Admin(name, email, enteredPassword);
                     System.out.println(adminsList.contains(newAdmin) + " auth2 good");
                     if(adminsList.contains(newAdmin) == false){
                         System.out.println("second 1");

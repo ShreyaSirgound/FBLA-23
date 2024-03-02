@@ -1,11 +1,6 @@
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,7 +16,6 @@ public class LoginPage {
 	JPasswordField password;
 	JTextField username;
     String auth;
-    static Credentials userCredentials;
     public LoginPage() {
         JFrame frame = new JFrame("Login");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -88,17 +82,15 @@ public class LoginPage {
             	if(validate()) {
                     if (auth == "student"){
                         new MainFrame();
-                        //MainFrame.saveUser();
                     } else if (auth == "admin"){
                         new AdminView();
-                        //AdminView.saveUser();
                     }
             	} else {
             
                 //if (!validate()) {
             		new LoginPage();
             	}
-			} catch (IOException | ClassNotFoundException e1) {
+			} catch (IOException | ClassNotFoundException | NoSuchAlgorithmException e1) {
 				e1.printStackTrace();
             }
             frame.dispose();
@@ -128,21 +120,6 @@ public class LoginPage {
 
         frame.add(loginPanel);
         
-        //button to create an account
-        /*
-        JPanel newAccountPanel = new JPanel();
-        newAccountPanel.setBounds(425, 0, 200, 75);
-        JButton newAccount = new JButton("Create an account");
-        newAccount.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        newAccount.setBounds(470, 460, 160, 40);
-        newAccount.addActionListener(e -> {
-            new AccountSetup();
-            frame.dispose();
-        });*/
-        
-        //newAccountPanel.add(newAccount);
-        //frame.add(newAccount);
-        
         //THIS IS A TEMP BUTTON TO GET TO ADMIN VIEW
         JButton adminView = new JButton("AdminView");
         adminView.setBounds(900, 600, 100, 60);
@@ -160,9 +137,9 @@ public class LoginPage {
         frame.setVisible(true);
         
     }
-    	public boolean validate() {
+    	public boolean validate() throws NoSuchAlgorithmException {
             System.out.println("validating");
-            curUsername = username.getText();
+            curUsername = username.getText().toLowerCase();
     		enteredPassword = password.getPassword();
             curPassword = new String(enteredPassword);
             curPassword.trim();
@@ -170,15 +147,8 @@ public class LoginPage {
     		System.out.println(curUsername);
     		System.out.println(curPassword + " now");
     		for(Student s : Student.getStudents()) {
-    			if(s.getName().equals(curUsername)){
-                    try {
-                        System.out.println(s.getSalt() + " inside");
-                        userCredentials = Common.hash(curPassword, s.getSalt());
-                        curPassword = userCredentials.getPassword();
-                    } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    }
-                    if(s.getPassword().equals(curPassword)){
+    			if(s.getName().toLowerCase().equals(curUsername)){
+                    if(s.getPassword().equals(Common.hashPassword(curPassword))){ //Common.hash(curPassword, 2)
                         auth = "student";
                         MainFrame.curUser = s;
                         System.out.println("yes student");
@@ -189,17 +159,8 @@ public class LoginPage {
             for(Admin a : Admin.getAdmins()) {
     			System.out.print(a.getName() + " ");
     			System.out.println(a.getPassword() + " org");
-    			if(a.getName().equals(curUsername)){
-                    try {
-                        System.out.println(a.getSalt() + " inside");
-                        userCredentials = Common.hash(curPassword, a.getSalt());
-                        curPassword = userCredentials.getPassword();
-                        System.out.println(curPassword);
-                    } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(a.getPassword().equals(curPassword)){
+    			if(a.getName().toLowerCase().equals(curUsername)){
+                    if(Common.comparePassword(curPassword, Common.hashPassword(curPassword))){ //Common.hash(curPassword, 2)
                         auth = "admin";
                     AdminView.curUser = a;
                     System.out.println("yes admin");
@@ -210,6 +171,6 @@ public class LoginPage {
             curUsername = "";
             curPassword = "";
     		return false;
-    }
+        }
     
 }

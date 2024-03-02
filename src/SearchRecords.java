@@ -26,7 +26,7 @@ public class SearchRecords {
     JScrollPane sp;
 
     public SearchRecords() {
-    //setup the frame
+        //setup the frame
         JFrame frame = new JFrame("Data Records");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);

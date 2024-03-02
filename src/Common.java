@@ -1,20 +1,12 @@
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -80,8 +72,46 @@ public class Common {
 		}
 	}
 
-	public static Credentials hash(String password, byte[] salt) throws InvalidKeySpecException, NoSuchAlgorithmException{
-		System.out.println("hashing fr");
+	public static String hashPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        return bytesToHex(digest);
+    }
+    
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            hexString.append(String.format("%02x",b));
+        }
+        return hexString.toString();
+    }
+    
+    public static boolean comparePassword(String enteredPassword, String hash) throws NoSuchAlgorithmException {
+        String hashed = hashPassword(enteredPassword);
+        return hashed.equals(hash);
+    }
+
+	/////////
+
+	public static String hash(String password, int shift){
+		StringBuilder encryption = new StringBuilder();
+		password = password.toLowerCase();
+
+		for(int i = 0; i < password.length(); i++){
+			char c = password.charAt(i);
+			if(Character.isLetter(c)){
+				c = (char) ((c - 'a' + shift + 26) % 26 + 'a');
+			}
+
+			encryption.append(c);
+		}
+
+		return encryption.toString();
+	}
+
+	/**public static Credentials hash(String password, byte[] salt) throws InvalidKeySpecException, NoSuchAlgorithmException{
+		System.out.println("hashing");
 		System.out.println(String.valueOf(salt) + " before hash");
 
 		if (salt == null){
@@ -103,5 +133,5 @@ public class Common {
 		System.out.println(credentials.getPassword() + " " + String.valueOf(credentials.getSalt()));
 		
 		return credentials;
-	}
+	}*/
 }

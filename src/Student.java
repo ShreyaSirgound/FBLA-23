@@ -28,21 +28,20 @@ public class Student {
 	private String password;
 
     /**
-     * The student's password
+     * The list of events the student is registered to
      */
 	
-	private byte[] salt;
+	private ArrayList<Event> myEvents = new ArrayList<Event>();
 
      /**
       * Creates a new student object
       */
-    public Student(String name, String email, String password, int grade, int points, byte[] salt){
+    public Student(String name, String email, String password, int grade, int points){
         this.name = name;
         this.email = email;
         this.password = password;
         this.grade = grade;
         this.points = points;
-        this.salt = salt;
     }
 
     public String getName(){
@@ -85,8 +84,16 @@ public class Student {
         this.points = points;
     }
 
-    public byte[] getSalt(){
-        return salt;
+    public ArrayList<Event> getMyEvents(){
+        return myEvents;
+    }
+
+    public void addEvent(Event e){
+        myEvents.add(e); 
+    }
+
+    public void removeEvent(int index){
+        myEvents.remove(index);
     }
 
     public static String toString(Student s){
@@ -94,8 +101,7 @@ public class Student {
                         + s.getGrade() + "|"
                         + s.getPoints() + "|"
                         + s.getEmail() + "|"
-                        + s.getPassword() + "|"
-                        + String.valueOf(s.getSalt());
+                        + s.getPassword();
         return student;
     }
 
@@ -132,7 +138,6 @@ public class Student {
     public static void addNineStudent(Student student) {
         if (student.getGrade() == 9){
             nineStudents.add(student);
-            studentList.add(student);
         } else {
             System.out.println("The student is not in grade 9");
         }
@@ -170,7 +175,6 @@ public class Student {
     public static void addTenStudent(Student student) {
         if (student.getGrade() == 10){
             tenStudents.add(student);
-            studentList.add(student);
         } else {
             System.out.println("The student is not in grade 10");
         }
@@ -208,7 +212,6 @@ public class Student {
     public static void addElevenStudent(Student student) {
         if (student.getGrade() == 11){
             elevenStudents.add(student);
-            studentList.add(student);
         } else {
             System.out.println("The student is not in grade 11");
         }
@@ -246,7 +249,6 @@ public class Student {
     public static void addTwelveStudent(Student student) {
         if (student.getGrade() == 12){
             twelveStudents.add(student);
-            studentList.add(student);
         } else {
             System.out.println("The student is not in grade 12");
         }

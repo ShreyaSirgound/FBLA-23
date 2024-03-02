@@ -79,6 +79,16 @@ public class Event {
         this.eventPoints = points;
     }
 
+    public static String toString(Event e){
+        String event = e.getName() + "|"
+                        + e.getDesc() + "|"
+                        + e.getLocation() + "|"
+                        + e.getDate() + "|"
+                        + e.getTime() + "|"
+                        + e.getPoints() + "|";
+        return event;
+    }
+
 
     //add an event to the events list
     public static void addEvent(Event event) {

@@ -9,10 +9,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.StandardOpenOption;
-import java.util.Base64;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -32,6 +28,7 @@ public class AdminView {
 	final int MAX = 10000; //maximum amount of people
 	static BufferedReader in; 
 	static BufferedWriter out;
+	static FileOutputStream fos;
 	static int numOfUsers;
 	String fullName;
     String[] names, emails, passwords, salts;
@@ -52,13 +49,11 @@ public class AdminView {
     	names = in.readLine().split(" ");
     	emails = in.readLine().split(" ");
     	passwords = in.readLine().split(" ");
-		salts = in.readLine().split(" ");
     	numOfUsers = emails.length;
     	for(int i = 0, n = 0; i < numOfUsers; i++) {
     		fullName = names[n] + " " + names[n+1]; 
 			n+=2;
-			byte[] uSalt = salts[i].getBytes();
-    		Admin.getAdmins().add(new Admin(fullName, emails[i], passwords[i], uSalt));
+    		Admin.getAdmins().add(new Admin(fullName, emails[i], passwords[i]));
     	}
     	in.close();
 		if(Event.eventList.isEmpty())EventsDataFile.Input(); 
@@ -113,7 +108,7 @@ public class AdminView {
 		sidebar.add(search);
 		//button to switch to student view (this feature is only accessible for admins)
 		JButton mainMenu = new JButton("Access Student View");
-		mainMenu.setBounds(50, 500, 180, 75);
+		mainMenu.setBounds(50, 300, 180, 75);
 		mainMenu.addActionListener(e -> {
 			try {
 				new MainFrame();
@@ -123,6 +118,18 @@ public class AdminView {
 			}
 		});
 		sidebar.add(mainMenu);
+		//button to switch to calender view
+		JButton calenderView = new JButton("Access Calender");
+		calenderView.setBounds(50, 500, 180, 75);
+		calenderView.addActionListener(e -> {
+			try {
+				new CalenderView();
+				frame.dispose();
+			} catch (NullPointerException e1) {
+				e1.printStackTrace();
+			}
+		});
+		sidebar.add(calenderView);
         frame.add(sidebar);
 
 		//section that presents all the events + event info
@@ -569,14 +576,6 @@ public class AdminView {
 		out.newLine();
 		for(Admin a : Admin.getAdmins()) {
 			out.write(a.getPassword() + " ");
-		}
-		out.newLine();
-		for(Admin a : Admin.getAdmins()) {
-			out.write(a.getSalt() + " ");
-			try (FileOutputStream fos = new FileOutputStream("data\\salts\\adminSalts.txt")) {
-				fos.write(a.getSalt());
-				//fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
-			 }
 		}
 		out.newLine();
 		out.close();
