@@ -1,22 +1,17 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.EventObject;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -35,7 +30,7 @@ import javax.swing.table.TableCellEditor;
 /**
  * The panel displaying reminders in a calendar.
  */
-public class CalenderView {//extends JPanel {
+public class CalenderView {
 
   private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"};
@@ -73,6 +68,7 @@ public class CalenderView {//extends JPanel {
    * The current month being viewed.
    */
   private int month;
+
   /**
    * The current year being viewed.
    */
@@ -135,9 +131,12 @@ public class CalenderView {//extends JPanel {
     title1.setBounds(325, 70, 250, 50);
     frame.add(title1);
 
+    //the panel to hold the calender
     JPanel mainPanel = new JPanel();
+    mainPanel.setBounds(325, 115, 920, 560);
+    mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
     mainPanel.setLayout(new BorderLayout());
-
+ 
     JPanel header = new JPanel(new BorderLayout());
     header.setBorder(new EmptyBorder(10, 5, 5, 5));
 
@@ -159,7 +158,7 @@ public class CalenderView {//extends JPanel {
         month -= 1;
       }
 
-      //refresh();
+      refresh();
     });
 
     nextButton.addActionListener(e -> {
@@ -172,7 +171,7 @@ public class CalenderView {//extends JPanel {
         month += 1;
       }
 
-      //refresh();
+      refresh();
     });
 
     header.add(previousButton, BorderLayout.LINE_START);
@@ -181,7 +180,7 @@ public class CalenderView {//extends JPanel {
 
     this.tableModel = new DefaultTableModel();
 
-    // Create a new table with our custom model.
+    // Create a new table with the custom model.
     this.table = new JTable(tableModel);
 
     for (String dayOfWeek : DAYS_OF_WEEK) {
@@ -200,13 +199,14 @@ public class CalenderView {//extends JPanel {
     this.year = now.getYear();
 
     // Fill the calendar.
-    //refresh();
+    refresh();
 
+  
     frame.add(mainPanel);
     frame.setVisible(true);
   }
 
-  /**@Override
+  //@Override
   public void refresh() {
 
     GregorianCalendar calendar = new GregorianCalendar(year, month, 1);
@@ -262,29 +262,28 @@ public class CalenderView {//extends JPanel {
   private class CalendarRenderer extends DefaultTableCellRenderer {
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-        boolean isFocused, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean isFocused, int row, int column) {
       super.getTableCellRendererComponent(table, value, isSelected, isFocused, row, column);
 
       setBorder(null);
       setForeground(Color.BLACK);
 
       if (value == null) {
-        // The "day" is outside the current month.
+        // the "day" is outside the current month.
         setBackground(Color.LIGHT_GRAY);
         return this;
       }
 
       JPanel panel = new JPanel(new BorderLayout(0, 0));
-
       int day = Integer.parseInt(((String) value).trim());
 
       // The label displaying the current day.
-      JLabel dayLabel = new JLabel("" + day);
-      dayLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 11));
+      JLabel dayLabel = new JLabel(" " + day);
+      dayLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
+      dayLabel.setOpaque(true);
 
-      // The panel containing all tasks for the day.
-      JPanel tasksPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+      // The panel containing all events for the day.
+      JPanel eventsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
       // Collect all reminders with a due date between the start and end of the day.
       //List<Reminder> reminders = getRemindersFromDay(year, month + 1, day);
@@ -302,8 +301,18 @@ public class CalenderView {//extends JPanel {
         tasksPanel.add(moreLabel);
       }*/
 
+      //highlights the cell only if it shows the current date
+      if(day == now.getDayOfMonth() && MONTHS[month].toUpperCase().equals(String.valueOf(now.getMonth()).trim()) && year == now.getYear()){
+        dayLabel.setBackground(Color.decode("#DFF1F3"));
+        eventsPanel.setBackground(Color.decode("#DFF1F3"));
+      } else {
+        dayLabel.setBackground(Color.WHITE);
+        eventsPanel.setBackground(Color.WHITE);
+      }
+
       panel.add(dayLabel, BorderLayout.PAGE_START);
-      panel.add(tasksPanel, BorderLayout.CENTER);
+      panel.add(eventsPanel, BorderLayout.CENTER);
+
       return panel;
     }
 
@@ -396,8 +405,7 @@ public class CalenderView {//extends JPanel {
 
     public DayView(int day) {
       this.day = day;
-      this.dateMillis = LocalDate.of(year, month + 1, day)
-          .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
+      this.dateMillis = LocalDate.of(year, month + 1, day).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
       this.dialog = new JDialog(Main.getMainFrame(), MONTHS[month] + " " + day + ", " + year, true);
       dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -430,12 +438,12 @@ public class CalenderView {//extends JPanel {
               null, null, dateMillis, null, Collections.emptyList()))));
     }*/
 
-    /**@Override
+    //@Override
     public void refresh() {
       dialog.getContentPane().removeAll();
       //addListPanel();
       dialog.revalidate();
       dialog.repaint();
-    }*/
+    }
   }
 }
