@@ -1,24 +1,36 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.EventObject;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
@@ -74,6 +86,12 @@ public class CalenderView {
    */
   private int year;
 
+  /**
+   * The set of colors to be used within the calender events.
+   */
+  private Color[] colors = {Color.decode("#6EA6D0"), Color.decode("#DCC4E7"), Color.decode("#A6D59D")};
+  private int colorCount = 0;
+
   public CalenderView() {
     //setup the frame
     JFrame frame = new JFrame("CalenderView");
@@ -128,20 +146,22 @@ public class CalenderView {
     JLabel title1 = new JLabel("Calender View");
     title1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
     title1.setForeground(Color.gray);
-    title1.setBounds(325, 70, 250, 50);
+    title1.setBounds(310, 70, 250, 50);
     frame.add(title1);
 
     //the panel to hold the calender
     JPanel mainPanel = new JPanel();
-    mainPanel.setBounds(325, 115, 920, 560);
+    mainPanel.setBounds(310, 115, 945, 560);
     mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
     mainPanel.setLayout(new BorderLayout());
  
     JPanel header = new JPanel(new BorderLayout());
     header.setBorder(new EmptyBorder(10, 5, 5, 5));
+    header.setBackground(Color.decode("#1A2371"));
 
     this.headerLabel = new JLabel();
-    headerLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 24));
+    headerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+    headerLabel.setForeground(Color.WHITE);
     headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     this.previousButton = new JButton("<<");
@@ -220,6 +240,8 @@ public class CalenderView {
 
     // Refresh the header label.
     headerLabel.setText(MONTHS[month] + " - " + year);
+    headerLabel.setBackground(Color.decode("#1A2371"));
+    headerLabel.setOpaque(true);
 
     // Clear the current table.
     for (int i = 0; i < 6; i++) {
@@ -265,6 +287,7 @@ public class CalenderView {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean isFocused, int row, int column) {
       super.getTableCellRendererComponent(table, value, isSelected, isFocused, row, column);
 
+      List<Event> dayEvents = new ArrayList<Event>();
       setBorder(null);
       setForeground(Color.BLACK);
 
@@ -276,6 +299,8 @@ public class CalenderView {
 
       JPanel panel = new JPanel(new BorderLayout(0, 0));
       int day = Integer.parseInt(((String) value).trim());
+      String m = (MONTHS[month]).toUpperCase();
+
 
       // The label displaying the current day.
       JLabel dayLabel = new JLabel(" " + day);
@@ -285,23 +310,31 @@ public class CalenderView {
       // The panel containing all events for the day.
       JPanel eventsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
-      // Collect all reminders with a due date between the start and end of the day.
-      //List<Reminder> reminders = getRemindersFromDay(year, month + 1, day);
+      // Get all events with a date between the start and end of the day
+      for(Event e : Event.getEvents()){
+        String[] eventDate = e.getDate().split(",");
+        int evDay = Integer.parseInt(eventDate[0].split(" ")[1]);
+        String evMonth = eventDate[0].split(" ")[0].toUpperCase();
+        int evYear = Integer.parseInt(eventDate[1].trim());
 
-      // Add a label for each reminder. Maximum of 3 (others won't fit).
-      /**reminders.stream().limit(3)
-          .forEachOrdered(reminder -> tasksPanel.add(reminderLabel(reminder)));
+        if(evDay == day && evMonth.equals(m) && evYear == year) {
+          dayEvents.add(e);
+        }
+      }
 
-      // Add a note saying there are more reminders if the number exceeds 3.
-      if (reminders.size() > 3) {
-        JLabel moreLabel = new JLabel("...and " + (reminders.size() - 3) + " more");
+      // Add a label for each event. Maximum of three (others won't fit).
+      dayEvents.stream().limit(3).forEachOrdered(event -> eventsPanel.add(eventLabel(event)));
+
+      // Add a note saying there are more reminders if the number exceeds three.
+      if (dayEvents.size() > 3) {
+        JLabel moreLabel = new JLabel("...and " + (dayEvents.size() - 3) + " more");
         moreLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
         moreLabel.setPreferredSize(new Dimension(165, 18));
         moreLabel.setForeground(Color.DARK_GRAY);
-        tasksPanel.add(moreLabel);
-      }*/
+        eventsPanel.add(moreLabel);
+      }
 
-      //highlights the cell only if it shows the current date
+      //highlights the calender cell only if it shows the current date
       if(day == now.getDayOfMonth() && MONTHS[month].toUpperCase().equals(String.valueOf(now.getMonth()).trim()) && year == now.getYear()){
         dayLabel.setBackground(Color.decode("#DFF1F3"));
         eventsPanel.setBackground(Color.decode("#DFF1F3"));
@@ -316,19 +349,21 @@ public class CalenderView {
       return panel;
     }
 
-    /**
-     * Creates a JLabel for the given reminder.
-     *
-     * @param reminder The reminder to create a label for
-     * @return The label for the reminder
-     */
-    /**private JLabel reminderLabel(Reminder reminder) {
-      JLabel label = new JLabel("- " + reminder.getTask());
-      label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
-      label.setPreferredSize(new Dimension(165, 18));
-      label.setForeground(reminder.getPriority().getColor());
+    //Creates a JLabel for the given event
+    private JLabel eventLabel(Event e) {
+      JLabel label = new JLabel(" " + e.getName());
+      label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 11));
+      label.setPreferredSize(new Dimension(120, 18));
+      label.setForeground(Color.BLACK);
+      label.setBackground(colors[colorCount]);
+      if(colorCount == 2){
+        colorCount = 0;
+      } else {
+        colorCount++;
+      }
+      label.setOpaque(true);
       return label;
-    }*/
+    }
   }
 
   /**
@@ -413,7 +448,126 @@ public class CalenderView {
       dialog.setSize(1200, 650);
       dialog.setLocationRelativeTo(null);
 
-      //addListPanel();
+      JPanel allEvents = new JPanel();
+      allEvents.setLayout(new BoxLayout(allEvents, BoxLayout.Y_AXIS));
+      allEvents.setBackground(Color.white);
+      allEvents.setBorder(new EmptyBorder(15, 15, 15, 15));
+      JScrollPane eventsPane = new JScrollPane(allEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+      eventsPane.setBounds(320, 110, 490, 555);
+      eventsPane.getVerticalScrollBar().setUnitIncrement(15);
+
+      //gets all events with the same date as the calender cell
+      List<Event> dayEvents = new ArrayList<Event>();
+      for(Event e : Event.getEvents()){
+        String[] eventDate = e.getDate().split(",");
+        int evDay = Integer.parseInt(eventDate[0].split(" ")[1]);
+        String evMonth = eventDate[0].split(" ")[0];
+        int evYear = Integer.parseInt(eventDate[1].trim());
+
+        if(evDay == day && evMonth.equals(MONTHS[month]) && evYear == year) {
+          dayEvents.add(e);
+        }
+      }
+      
+      //gets information from each event for that day and adds it all to a single panel
+      for (int i = 0; i < dayEvents.size(); i++) {
+          //creates a mini panel to hold all the info about a specific event
+          JPanel eventInfoPane = new JPanel();
+          eventInfoPane.setLayout(new BoxLayout(eventInfoPane, BoxLayout.Y_AXIS));
+          eventInfoPane.setBackground(Color.white);
+          eventInfoPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+          eventInfoPane.setBorder(BorderFactory.createLineBorder(Color.gray));
+          eventInfoPane.setMaximumSize(new Dimension(480, 245));
+
+          //holds event points
+          JTextField eventPointsInfo = new JTextField("WORTH " + dayEvents.get(i).getPoints() + " POINTS!"); //gets the points the event is worth
+          eventPointsInfo.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
+          eventPointsInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+          eventPointsInfo.setEditable(false);
+          eventPointsInfo.setBackground(Color.decode("#76BEE8"));
+          eventPointsInfo.setForeground(Color.white);
+          eventPointsInfo.setBorder(new EmptyBorder(8, 5, 5, 0));
+
+          //holds event name
+          JTextField eventNameInfo = new JTextField(dayEvents.get(i).getName()); //gets the event name
+          eventNameInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+          eventNameInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+          eventNameInfo.setEditable(false);
+          eventNameInfo.setBackground(Color.white);
+          eventNameInfo.setBorder(new EmptyBorder(8, 5, 0, 0));
+          
+          //holds the event description
+          JTextArea eventDescInfo = new JTextArea(dayEvents.get(i).getDesc());
+          eventDescInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+          eventDescInfo.setForeground(Color.gray);
+          eventDescInfo.setEditable(false);
+          eventDescInfo.setLineWrap(true);
+          eventDescInfo.setWrapStyleWord(true);
+          eventDescInfo.setBorder(new EmptyBorder(0, 5, 3, 0));
+
+          //holds the event location
+          JTextField eventLocation = new JTextField(dayEvents.get(i).getLocation());
+          eventLocation.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+          eventLocation.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+          eventLocation.setEditable(false);
+          eventLocation.setBackground(Color.white);
+          eventLocation.setBorder(new EmptyBorder(0, 5, 1, 0));
+
+          //holds the event date, and time
+          JTextField eventSetting = new JTextField(dayEvents.get(i).getDate() //gets the event date
+                                                  + "  @ " + dayEvents.get(i).getTime()); //gets the event time
+          eventSetting.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+          eventSetting.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+          eventSetting.setEditable(false);
+          eventSetting.setBackground(Color.white);
+          eventSetting.setBorder(new EmptyBorder(0, 5, 5, 0));
+
+          //unregister from an event
+          JButton unregister = new JButton("Unregister"); 
+          unregister.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+          unregister.setBackground(Color.decode("#76BEE8"));
+          unregister.setOpaque(true);
+          unregister.setCursor(new Cursor(Cursor.HAND_CURSOR));
+          JTextPane unregisterPane = new JTextPane();
+          unregisterPane.insertComponent(unregister);
+          unregisterPane.setBackground(Color.white);
+          unregisterPane.setBorder(new EmptyBorder(0, 5, 8, 0));
+          int idx = i;
+          unregister.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you want to unregister from this event?", 
+                              "",
+                                JOptionPane.YES_OPTION,
+                                JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {
+              int curPoints = MainFrame.curUser.getPoints();
+              curPoints -= Event.eventList.get(idx).getPoints();
+              MainFrame.curUser.setPoints(curPoints);
+              MainFrame.curUser.removeEvent(idx);
+              new PersonalListView();
+              dialog.dispose();
+              JOptionPane.showMessageDialog(dialog, "Successfully unregistered.");
+            }
+          }
+        });
+        eventInfoPane.add(eventPointsInfo);
+        eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
+        eventInfoPane.add(eventNameInfo);
+        eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
+        eventInfoPane.add(eventDescInfo);
+        eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
+        eventInfoPane.add(eventLocation);
+        eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
+        eventInfoPane.add(eventSetting);
+        eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
+        eventInfoPane.add(unregisterPane);
+        eventInfoPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+        allEvents.add(eventInfoPane);
+        allEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
+        allEvents.add(Box.createRigidArea(new Dimension(0, 20)));
+      };
+      dialog.add(eventsPane);
 
       // Refresh the main calendar view when the window is close.
       /**dialog.addWindowListener(new WindowAdapter() {

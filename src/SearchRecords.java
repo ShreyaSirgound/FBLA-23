@@ -107,8 +107,9 @@ public class SearchRecords {
 
         //creating the search filter feature
         JLabel lbl = new JLabel("Enter Search:");
-        lbl.setBackground(Color.white);
-        lbl.setForeground(Color.gray);
+        //lbl.setBackground(Color.decode("#1A2371"));
+        //lbl.setOpaque(true);
+        lbl.setForeground(Color.white);
         lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         lbl.setBounds(355, 120, 150, 50);
         JTextField tf = new JTextField();
