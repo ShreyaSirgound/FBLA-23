@@ -4,6 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -96,6 +97,7 @@ public class MainFrame {
         sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
         sidebar.setBackground(Color.decode("#3E3F40"));
         sidebar.setBounds(0, 60, 275, 720);
+
 		//button to view current prizes
 		JButton prizes = new JButton("View Prizes");
 		prizes.setBounds(50, 100, 180, 75);
@@ -125,6 +127,7 @@ public class MainFrame {
             }
 		});
 		sidebar.add(personalView);
+
 		//button to switch to calender view
 		JButton calenderView = new JButton("Access Calender");
 		calenderView.setBounds(50, 500, 180, 75);
@@ -215,6 +218,7 @@ public class MainFrame {
             register.setCursor(new Cursor(Cursor.HAND_CURSOR));
             JTextPane registerPane = new JTextPane();
             registerPane.insertComponent(register);
+            registerPane.setEditable(false);
             registerPane.setBackground(Color.white);
             registerPane.setBorder(new EmptyBorder(0, 5, 8, 0));
             int idx = i;
@@ -238,6 +242,8 @@ public class MainFrame {
                                 curUser.addEvent(Event.eventList.get(idx));
                                 try {
                                     saveRegEvents();
+                                    Event.addAttendance(Event.eventList.get(idx).getName(), curUser.getName());
+                                    saveEventsAttendance();
                                 } catch (IOException e1) {
                                     e1.printStackTrace();
                                 }
@@ -482,6 +488,29 @@ public class MainFrame {
 		}
         out.close();
     }
+
+    public static void saveEventsAttendance() throws IOException {
+        System.out.println("saving attendance");
+		out = new BufferedWriter(new FileWriter("eventsAttendance.txt"));
+        System.out.println("ouiouioui");
+        System.out.println(Event.evAttendance.size());
+		for(String key : Event.evAttendance.keySet()){
+            System.out.println(key);
+            out.write(key + "*");
+			for(String value : Event.evAttendance.get(key)) {
+                if(value == null){
+                    out.write("null|");
+                    System.out.println("null|");
+                } else {
+                    out.write(value + "|");
+                    System.out.println(value);
+                }
+			}
+            out.newLine();
+            System.out.println();
+		}
+        out.close();
+	}
 
     protected static void writeWinners(JTextArea ta, ArrayList<String>[] w){
         for(int i = 0; i < 4; i++){

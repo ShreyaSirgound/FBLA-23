@@ -1,11 +1,12 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.IOException;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -76,6 +77,16 @@ public class EventEditPage {
             Event.getEvents().get(index).setDate(evDate.getText());
             Event.getEvents().get(index).setTime(evTime.getText());
             Event.getEvents().get(index).setPoints(Integer.parseInt(evPoints.getText()));
+
+			//updates the attendance hashmap
+			List<String> evAttendees = Event.evAttendance.get(evName.getText());
+			Event.evAttendance.remove(evName.getText());
+			Event.evAttendance.put(evName.getText(), evAttendees);
+			try {
+				MainFrame.saveEventsAttendance();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
         });
 
         eventEdit.add(nameLbl);

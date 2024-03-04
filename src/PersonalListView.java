@@ -50,9 +50,22 @@ public class PersonalListView {
         sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
         sidebar.setBackground(Color.decode("#3E3F40"));
         sidebar.setBounds(0, 60, 300, 720);
+
+        //button to view current prizes
+		JButton prizes = new JButton("View Prizes");
+		prizes.setBounds(50, 100, 180, 75);
+		prizes.addActionListener(e -> {
+			try {
+				new ViewPrizes();
+			} catch (NullPointerException e1) {
+				e1.printStackTrace();
+			}
+		});
+		sidebar.add(prizes);
+
         //button to switch to general student view 
 		JButton studentView = new JButton("Homepage");
-		studentView.setBounds(50, 100, 180, 75);//50, 400, 180, 75);
+		studentView.setBounds(50, 300, 180, 75);
 		studentView.addActionListener(e -> {
 			try {
 				new MainFrame();
@@ -62,6 +75,20 @@ public class PersonalListView {
 			}
 		});
         sidebar.add(studentView);
+        frame.add(sidebar);
+
+        //button to switch to calender view
+		JButton calenderView = new JButton("Access Calender");
+		calenderView.setBounds(50, 500, 180, 75);
+		calenderView.addActionListener(e -> {
+			try {
+				new CalenderView("student");
+				frame.dispose();
+			} catch (NullPointerException e1) {
+				e1.printStackTrace();
+			}
+		});
+		sidebar.add(calenderView);
         frame.add(sidebar);
 
         //section that presents all the events + event info
@@ -142,6 +169,7 @@ public class PersonalListView {
             JTextPane unregisterPane = new JTextPane();
             unregisterPane.insertComponent(unregister);
             unregisterPane.setBackground(Color.white);
+            unregisterPane.setEditable(false);
             unregisterPane.setBorder(new EmptyBorder(0, 5, 8, 0));
             int idx = i;
             unregister.addActionListener(new ActionListener() {

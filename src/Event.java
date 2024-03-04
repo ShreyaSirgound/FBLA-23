@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Event {
@@ -9,6 +10,7 @@ public class Event {
     private String eventTime;
     private int eventPoints;
     protected static List<Event> eventList = new ArrayList<Event>(); //creates a list of all the events
+    protected static HashMap<String, ArrayList<String>> evAttendance = new HashMap<>(); //creates a hashmap of the events and a list of all the students registered to an event 
     
     //creates an event object
     public Event(String name, String desc, String location, String date, String time, int points){
@@ -77,6 +79,18 @@ public class Event {
     //sets the points the event is worth
     public void setPoints(int points){
         this.eventPoints = points;
+    }
+
+    //adds an attendee to the attendance hashmap
+    public static void addAttendance(String evName, String student){
+        if(Event.evAttendance.containsKey(evName)){
+            ArrayList<String> regStudents = Event.evAttendance.get(evName); //gets the registered students
+            regStudents.add(student); //adds new student to the registered list
+            Event.evAttendance.remove(evName); //removes the old map value of the event
+            Event.evAttendance.put(evName, regStudents); //adds the updated attendance list to the hashmap
+        } else {
+            System.out.println("The event does not exist in the hashmap");
+        }
     }
 
     public static String toString(Event e){

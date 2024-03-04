@@ -4,13 +4,16 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class Main {
     private static Frame mainFrame;
     final static int MAX = 10000;
-    static BufferedReader in, in2, in3; 
+    static BufferedReader in, in2, in3, in4; 
 	static BufferedWriter out;
 	static int numOfUsers;
 	static String fullName;
@@ -100,6 +103,25 @@ public class Main {
 		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
+
+		//reads in attendance records
+		try{
+			System.out.println("att");
+			in = new BufferedReader(new FileReader("eventsAttendance.txt"));
+			String[] info = new String[2];
+			String str = in.readLine();
+			while(str != null){
+				info = str.split("\\*");
+				System.out.println(new ArrayList<String>(Arrays.asList(info)).toString());
+				Event.evAttendance.put(info[0], new ArrayList<String>(Arrays.asList(info[1].split("\\|"))));
+				str = in.readLine();
+			}
+			System.out.println("atttttt");
+			in.close();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+
     	
     	// Set the look and feel of the GUI.
 		try {

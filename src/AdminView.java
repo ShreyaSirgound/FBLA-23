@@ -206,7 +206,8 @@ public class AdminView {
 															JOptionPane.YES_OPTION,
 															JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.YES_OPTION) {
-					Event.removeEvent(Event.getEvents().get(eventIndex)); //removes the event from the events list if the user selects YES
+						Event.evAttendance.remove(Event.getEvents().get(eventIndex).getName()); //removes the event from the attendance hashmap
+						Event.removeEvent(Event.getEvents().get(eventIndex)); //removes the event from the events list if the user selects YES
 					}
 				}
 			});
@@ -289,9 +290,10 @@ public class AdminView {
 			Event event = new Event(eventName, eventDesc, eventLocation, eventDate, eventTime, eventPoints);
 			Event.addEvent(event);
 
-			//outputs the new event to the events data file
+			//outputs the new event to the events data file and to the attendance hashmap
 			try {
 				EventsDataFile.output(Event.getEvents());
+				Event.evAttendance.put(event.getName(), null);
 			} catch (IOException ex) {
 				System.err.println("Failed to load data (IO): " + ex.getMessage());
 				System.out.println("Cause: " + ex.getCause());
