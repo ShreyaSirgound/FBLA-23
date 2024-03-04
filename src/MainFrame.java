@@ -25,6 +25,9 @@ public class MainFrame {
 	static BufferedReader in; 
 	static BufferedWriter out;
 	static Student curUser;
+    static String q1 = "", q2 = "", q3 = "", q4 = ""; 
+    static LocalDate quarter1 = null, quarter2 = null, quarter3 = null, quarter4 = null;
+    static LocalDate currDate = LocalDate.now();
     public MainFrame() throws ClassNotFoundException, IOException {
     	//reads in events
         if(Event.eventList.isEmpty()){
@@ -33,9 +36,9 @@ public class MainFrame {
 
         //defining the quarter-end dates
         System.out.println();
-        String q1 = "", q2 = "", q3 = "", q4 = ""; 
+        //String q1 = "", q2 = "", q3 = "", q4 = ""; 
         String[] date = new String[2];
-        LocalDate quarter1 = null, quarter2 = null, quarter3 = null, quarter4 = null;
+        //LocalDate quarter1 = null, quarter2 = null, quarter3 = null, quarter4 = null;
         in = new BufferedReader(new FileReader("data\\quarterlyDates.txt"));
         for(int i = 0; i < 4; i++){
             date = in.readLine().split("\\|");
@@ -55,7 +58,7 @@ public class MainFrame {
         quarter3 = LocalDate.parse(q3, DateTimeFormatter.ISO_LOCAL_DATE);
         quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
 
-        LocalDate currDate = LocalDate.now();
+        //LocalDate currDate = LocalDate.now();
 
         //finds and saves the quarterly winners as required
         if(String.valueOf(currDate).equals(q1)){
@@ -115,7 +118,11 @@ public class MainFrame {
 			} catch (NullPointerException e1) {
 				e1.printStackTrace();
                 JOptionPane.showMessageDialog(frame, "You have not registered for any events yet.");
-			}
+			} catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
 		});
 		sidebar.add(personalView);
 		//button to switch to calender view
@@ -497,7 +504,7 @@ public class MainFrame {
         out.close();
     }
 
-    protected ArrayList<String>[] readWinners(String f) throws IOException {
+    protected static ArrayList<String>[] readWinners(String f) throws IOException {
         in = new BufferedReader(new FileReader("data\\quarterlyWinners" + File.separator + f));
         @SuppressWarnings("unchecked")
         ArrayList<String>[] winners = new ArrayList[4];

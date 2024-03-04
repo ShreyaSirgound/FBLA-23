@@ -25,7 +25,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 public class PersonalListView {
-    public PersonalListView() {
+    public PersonalListView() throws ClassNotFoundException, IOException {
         //setup the frame
         JFrame frame = new JFrame("My Events");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -52,7 +52,7 @@ public class PersonalListView {
         sidebar.setBounds(0, 60, 300, 720);
         //button to switch to general student view 
 		JButton studentView = new JButton("Homepage");
-		studentView.setBounds(50, 400, 180, 75);
+		studentView.setBounds(50, 100, 180, 75);//50, 400, 180, 75);
 		studentView.addActionListener(e -> {
 			try {
 				new MainFrame();
@@ -156,7 +156,11 @@ public class PersonalListView {
                         curPoints -= Event.eventList.get(idx).getPoints();
                         MainFrame.curUser.setPoints(curPoints);
                         MainFrame.curUser.removeEvent(idx);
-                        new PersonalListView();
+                        try {
+                            new PersonalListView();
+                        } catch (ClassNotFoundException | IOException e1) {
+                            e1.printStackTrace();
+                        }
                         frame.dispose();
                         JOptionPane.showMessageDialog(frame, "Successfully unregistered.");
 					}
@@ -180,6 +184,177 @@ public class PersonalListView {
         };
         frame.add(eventsPane);
 
+        //leaderboard panel that shows an updated leaderboard everytime the page is opened
+        JLabel title2 = new JLabel("Current Leaderboard");
+        title2. setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
+        title2. setForeground(Color.gray);
+        title2.setBounds(825, 70, 200, 50);
+        frame.add(title2);
+
+        JPanel leaderboard = new JPanel();
+        leaderboard.setLayout(new BoxLayout(leaderboard, BoxLayout.Y_AXIS));
+        leaderboard.setBackground(Color.decode("#F66845"));
+        leaderboard.setBounds(825, 110, 420, 250);
+        leaderboard.setBorder( new EmptyBorder(15, 15, 15, 15));
+
+        JTextArea nineWinner = new JTextArea("Grade 9: " + PointSystem.nineWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.nineWinners().size(); i++) {
+            if (PointSystem.nineWinners().size() == 1) {
+                continue;
+            } else {
+                nineWinner.setText(nineWinner.getText() + ", " + (PointSystem.nineWinners().get(i)).getName());
+            } 
+        }
+        nineWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        nineWinner.setBackground(Color.decode("#F66845"));
+        nineWinner.setForeground(Color.white);
+        nineWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        nineWinner.setEditable(false);
+        nineWinner.setLineWrap(true);
+        nineWinner.setWrapStyleWord(true);
+        leaderboard.add(nineWinner);
+
+        JTextArea tenWinner = new JTextArea("Grade 10: " + PointSystem.tenWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.tenWinners().size(); i++) {
+            if (PointSystem.tenWinners().size() == 1) {
+                continue;
+            } else {
+                tenWinner.setText(tenWinner.getText() + ", " + (PointSystem.tenWinners().get(i)).getName());
+            } 
+        }
+        tenWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        tenWinner.setBackground(Color.decode("#F66845"));
+        tenWinner.setForeground(Color.white);
+        tenWinner.setEditable(false);
+        tenWinner.setLineWrap(true);
+        tenWinner.setWrapStyleWord(true);
+        tenWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        leaderboard.add(tenWinner);
+
+        JTextArea elevenWinner = new JTextArea("Grade 11: " + PointSystem.elevenWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.elevenWinners().size(); i++) {
+            if (PointSystem.elevenWinners().size() == 1) {
+                continue;
+            } else {
+                elevenWinner.setText(elevenWinner.getText() + ", " + (PointSystem.elevenWinners().get(i)).getName());
+            } 
+        }
+        elevenWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        elevenWinner.setBackground(Color.decode("#F66845"));
+        elevenWinner.setForeground(Color.white);
+        elevenWinner.setEditable(false);
+        elevenWinner.setLineWrap(true);
+        elevenWinner.setWrapStyleWord(true);
+        elevenWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        leaderboard.add(elevenWinner);
+
+        JTextArea twelveWinner = new JTextArea("Grade 12: " + PointSystem.twelveWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.twelveWinners().size(); i++) {
+            if (PointSystem.twelveWinners().size() == 1) {
+                continue;
+            } else {
+                twelveWinner.setText(twelveWinner.getText() + ", " + (PointSystem.twelveWinners().get(i)).getName());
+            } 
+        }
+        twelveWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        twelveWinner.setBackground(Color.decode("#F66845"));
+        twelveWinner.setForeground(Color.white);
+        twelveWinner.setEditable(false);
+        twelveWinner.setLineWrap(true);
+        twelveWinner.setWrapStyleWord(true);
+        twelveWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        leaderboard.add(twelveWinner);
+
+        JTextArea randomWinner = new JTextArea("Random Winners: " + PointSystem.randomWinners().get(0).getName());
+        for (int i = 1; i < PointSystem.randomWinners().size(); i++) {
+            if (PointSystem.randomWinners().size() == 1) {
+                continue;
+            } else {
+                randomWinner.setText(randomWinner.getText() + ", " + (PointSystem.randomWinners().get(i)).getName());
+            } 
+        }
+        randomWinner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        randomWinner.setBackground(Color.decode("#F66845"));
+        randomWinner.setForeground(Color.white);
+        randomWinner.setEditable(false);
+        randomWinner.setLineWrap(true);
+        randomWinner.setWrapStyleWord(true);
+        randomWinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        leaderboard.add(randomWinner);
+
+        frame.add(leaderboard);
+
+        //leaderboard panel that shows the final winners at the end of the quarter or from the previous quarter
+        JLabel title3 = new JLabel("Quarterly Leaderboard");
+        title3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
+        title3.setForeground(Color.gray);
+        title3.setBounds(825, 375, 300, 50);
+        frame.add(title3);
+
+        JPanel leaderboardFinal = new JPanel();
+        leaderboardFinal.setLayout(new BoxLayout(leaderboardFinal, BoxLayout.Y_AXIS));
+        leaderboardFinal.setBackground(Color.decode("#F66845"));
+        leaderboardFinal.setBounds(825, 415, 420, 250); 
+        leaderboardFinal.setBorder(new EmptyBorder(15, 15, 15, 15));
+        
+        //only generate winners for this leaderboard if it is the end of the quarter
+        JTextArea msg = new JTextArea();
+        msg.setBackground(Color.decode("#F66845"));
+        msg.setForeground(Color.white);
+        msg.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        msg.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        msg.setEditable(false);
+        msg.setLineWrap(true);
+        msg.setWrapStyleWord(true);
+
+        @SuppressWarnings("unchecked")
+        ArrayList<String>[] s = new ArrayList[4];
+        if(MainFrame.quarter1 == null || MainFrame.quarter2 == null || MainFrame.quarter3 == null || MainFrame.quarter4 == null){
+            msg.append("Could not find winners. Check again later.");
+            leaderboardFinal.add(msg);
+        } else if(MainFrame.quarter1 != null && MainFrame.quarter2 != null && MainFrame.quarter3 != null && MainFrame.quarter4 != null) {
+            System.out.println("in here");
+            if(String.valueOf(MainFrame.currDate).equals(MainFrame.q1) || (MainFrame.currDate.isAfter(MainFrame.quarter1) && MainFrame.currDate.isBefore(MainFrame.quarter2))) {
+                System.out.println("in q1");
+                s = MainFrame.readWinners("quarter1.txt");
+                MainFrame.writeWinners(msg, s);
+                leaderboardFinal.add(msg);
+
+            } else if(String.valueOf(MainFrame.currDate).equals(MainFrame.q2) || (MainFrame.currDate.isAfter(MainFrame.quarter2) && MainFrame.currDate.isBefore(MainFrame.quarter3))) {
+                System.out.println("in q2");
+                s = MainFrame.readWinners("quarter2.txt");
+                MainFrame.writeWinners(msg, s);
+                leaderboardFinal.add(msg);
+
+            } else if(String.valueOf(MainFrame.currDate).equals(MainFrame.q3) || (MainFrame.currDate.isAfter(MainFrame.quarter3) && MainFrame.currDate.isBefore(MainFrame.quarter4))) {
+                System.out.println("in q3");
+                s = MainFrame.readWinners("quarter3.txt");
+                System.out.println("ouii");
+                MainFrame.writeWinners(msg, s);
+                leaderboardFinal.add(msg);
+
+            } else if(String.valueOf(MainFrame.currDate).equals(MainFrame.q4)) {
+                System.out.println("in q4");
+                s = MainFrame.readWinners("quarter4.txt");
+                MainFrame.writeWinners(msg, s);
+                leaderboardFinal.add(msg);
+            
+            } else if(MainFrame.currDate.isAfter(MainFrame.quarter4)) {
+                msg.append("All winners have been selected for this year.");
+                leaderboardFinal.add(msg);
+            } else if(MainFrame.currDate.isBefore(MainFrame.quarter1)) {
+                msg.append("No one winners have been selected yet. Check again later.");
+                leaderboardFinal.add(msg);
+            }
+           
+        } else {
+            JOptionPane.showConfirmDialog(frame, "  Quarterly dates incorrectly entered or not saved. Please input quarterly end dates. ", 
+								                    "Information Input Error",
+															JOptionPane.OK_CANCEL_OPTION);
+            new AdminView();
+        }
+
+        frame.add(leaderboardFinal);
         frame.setVisible(true);
     }
 }

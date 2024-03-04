@@ -52,7 +52,7 @@ public class SearchRecords {
         sidebar.setBounds(0, 60, 300, 720);
         //button to switch to admin view (this feature is only accessible for admins)
 		JButton adminView = new JButton("Access Admin View");
-		adminView.setBounds(50, 400, 180, 75);
+		adminView.setBounds(50, 100, 180, 75);
 		adminView.addActionListener(e -> {
 			try {
 				new AdminView();
@@ -64,7 +64,7 @@ public class SearchRecords {
         sidebar.add(adminView);
         //button to switch to student view (this feature is only accessible for admins)
 		JButton mainMenu = new JButton("Access Student View");
-		mainMenu.setBounds(50, 500, 180, 75);
+		mainMenu.setBounds(50, 300, 180, 75);
 		mainMenu.addActionListener(e -> {
 			try {
 				new MainFrame();

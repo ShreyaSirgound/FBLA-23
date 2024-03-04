@@ -87,12 +87,19 @@ public class CalenderView {
   private int year;
 
   /**
+   * The authority of the user accessing the CalenderView
+   */
+  private static String auth;
+
+  /**
    * The set of colors to be used within the calender events.
    */
   private Color[] colors = {Color.decode("#6EA6D0"), Color.decode("#DCC4E7"), Color.decode("#A6D59D")};
   private int colorCount = 0;
 
   public CalenderView(String auth) {
+    this.auth = auth;
+    
     //setup the frame
     JFrame frame = new JFrame("CalenderView");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -121,7 +128,7 @@ public class CalenderView {
     if(auth.equals("admin")){
       //button to switch to admin view (this feature is only accessible for admins)
       JButton adminView = new JButton("Access Admin View");
-      adminView.setBounds(50, 400, 180, 75);
+      adminView.setBounds(50, 300, 180, 75);
       adminView.addActionListener(e -> {
           try {
               new AdminView();
@@ -139,7 +146,7 @@ public class CalenderView {
     } else if (auth.equals("student")){
       mainMenu.setText("Homepage");
     }
-    mainMenu.setBounds(50, 500, 180, 75);
+    mainMenu.setBounds(50, 100, 180, 75);
     mainMenu.addActionListener(e -> {
         try {
             new MainFrame();
@@ -514,17 +521,18 @@ public class CalenderView {
           eventSetting.setBackground(Color.white);
           eventSetting.setBorder(new EmptyBorder(0, 5, 5, 0));
 
-          //register for an event (only if the user is a student)
-          JButton register = new JButton("Register"); 
-          register.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-          register.setBackground(Color.decode("#76BEE8"));
-          register.setOpaque(true);
-          register.setCursor(new Cursor(Cursor.HAND_CURSOR));
           JTextPane registerPane = new JTextPane();
-          registerPane.insertComponent(register);
-          registerPane.setBackground(Color.white);
-          registerPane.setBorder(new EmptyBorder(0, 5, 8, 0));
-          int idx = i;
+          if(CalenderView.auth.equals("student")){
+            //register for an event (only if the user is a student)
+            JButton register = new JButton("Register"); 
+            register.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+            register.setBackground(Color.decode("#76BEE8"));
+            register.setOpaque(true);
+            register.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            registerPane.insertComponent(register);
+            registerPane.setBackground(Color.white);
+            registerPane.setBorder(new EmptyBorder(0, 5, 8, 0));
+            int idx = i;
 
             register.addActionListener(new ActionListener() {
               @Override
@@ -555,6 +563,39 @@ public class CalenderView {
                 }
               }
             });
+        }
+
+        //panel that holds the buttons to edit/delete any event
+        JPanel eventChange = new JPanel();
+        if(CalenderView.auth.equals("admin")){
+          int eventIndex = i; //the index at which the event is in the events list
+      
+          JButton edit = new JButton("Edit");
+          edit.setBackground(Color.blue);
+          edit.addActionListener(e -> {
+            dialog.dispose();
+            new EventEditPage(eventIndex);
+          });
+
+          JButton delete = new JButton("Delete");
+          delete.setBackground(Color.red);
+
+          delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you want to delete this event?", 
+                                "",
+                                  JOptionPane.YES_OPTION,
+                                  JOptionPane.QUESTION_MESSAGE);
+              if (result == JOptionPane.YES_OPTION) {
+              Event.removeEvent(Event.getEvents().get(eventIndex)); //removes the event from the events list if the user selects YES
+              }
+            }
+          });
+
+          eventChange.add(delete, FlowLayout.LEFT);
+          eventChange.add(edit, FlowLayout.LEFT);
+        }
 
         eventInfoPane.add(eventPointsInfo);
         eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -566,7 +607,12 @@ public class CalenderView {
         eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
         eventInfoPane.add(eventSetting);
         eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
-        eventInfoPane.add(registerPane);
+        if(CalenderView.auth.equals("student")){
+          eventInfoPane.add(registerPane);
+        }
+        else if(CalenderView.auth.equals("admin")){
+          eventInfoPane.add(eventChange);
+        }
         eventInfoPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         allEvents.add(eventInfoPane);
         allEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
