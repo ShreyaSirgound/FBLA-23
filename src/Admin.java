@@ -46,10 +46,6 @@ public class Admin {
     public String getPassword() {
         return password;
     }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public static String toString(Admin a){
         String admin = a.getName() + "|"

@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 
-//TO DO: add values to hold the date, time, and points of any single event object
 public class Event {
-    String eventName;
-    String eventDesc;
-    String eventLocation;
-    String eventDate;
-    String eventTime;
-    int eventPoints;
+    private String eventName;
+    private String eventDesc;
+    private String eventLocation;
+    private String eventDate;
+    private String eventTime;
+    private int eventPoints;
     protected static List<Event> eventList = new ArrayList<Event>(); //creates a list of all the events
+    
     //creates an event object
     public Event(String name, String desc, String location, String date, String time, int points){
         this.eventName = name;

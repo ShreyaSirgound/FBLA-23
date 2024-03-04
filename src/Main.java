@@ -31,11 +31,8 @@ public class Main {
 		try {
 			in = new BufferedReader(new FileReader("data\\admins.txt"));
 			names = in.readLine().split(" ");
-			System.out.println(names + "*");
 			emails = in.readLine().split(" ");
-			System.out.println(emails + "**");
 			passwords = in.readLine().split(" ");
-			System.out.println(passwords + "***");
 			numOfUsers = emails.length;
 			System.out.println("Num of admins: " + numOfUsers);
 			for(int i = 0, n = 0; i < numOfUsers; i++) {

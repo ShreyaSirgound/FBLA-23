@@ -21,19 +21,15 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 public class MainFrame {
-
-	final int MAX = 10000; //max amount of people
 	JButton button;
 	static BufferedReader in; 
 	static BufferedWriter out;
-	static int numOfUsers;
-	String fullName;
-    String[] names, emails, passwords, grades, points;
-	//static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\students.txt";
 	static Student curUser;
     public MainFrame() throws ClassNotFoundException, IOException {
     	//reads in events
-        if(Event.eventList.isEmpty())EventsDataFile.Input();
+        if(Event.eventList.isEmpty()){
+            EventsDataFile.Input();
+        }
 
         //defining the quarter-end dates
         System.out.println();
@@ -60,12 +56,6 @@ public class MainFrame {
         quarter4 = LocalDate.parse(q4, DateTimeFormatter.ISO_LOCAL_DATE);
 
         LocalDate currDate = LocalDate.now();
-
-        System.out.println(String.valueOf(currDate).equals(q1) + " 1");
-        System.out.println(String.valueOf(currDate).equals(q2) + " 2");
-        System.out.println(String.valueOf(currDate).equals(q3) + " 3");
-        System.out.println(String.valueOf(currDate).equals(q4) + " 4");
-
 
         //finds and saves the quarterly winners as required
         if(String.valueOf(currDate).equals(q1)){
@@ -95,58 +85,29 @@ public class MainFrame {
         titlebar.setBorder(new EmptyBorder(10, 10, 10, 80));
         titlebar.setBounds(0, 0, 1280, 60);
         titlebar.add(Common.getImage("logo_small.png"), BorderLayout.EAST);
-        frame.add(titlebar);
-        
-        JTextArea prize1 = new JTextArea("Between 0 - 59 points: \nPencil!");
-        prize1.setWrapStyleWord(true);
-        prize1.setLineWrap(true);
-        prize1. setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-        prize1. setForeground(Color.white);
-        prize1.setBounds(25, 120, 200, 75);
-        prize1.setBackground(Color.decode("#3E3F40"));
+        frame.add(titlebar); 
 
-        frame.add(prize1);
-
-        JTextArea prize2 = new JTextArea("Between 60 - 119 points: \n$15 Starbucks Giftcard!");
-        prize2.setWrapStyleWord(true);
-        prize2.setLineWrap(true);
-        prize2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-        prize2.setForeground(Color.white);
-        prize2.setBackground(Color.decode("#3E3F40"));
-        prize2.setBounds(25, 240, 200, 75);
-
-        frame.add(prize2);
-
-        JTextArea prize3 = new JTextArea("Between 120 - 199 points: \n$25 Starbucks Giftcard!");
-        prize3.setWrapStyleWord(true);
-        prize3.setLineWrap(true);
-        prize3.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-        prize3.setForeground(Color.white);
-        prize3.setBounds(25, 360, 200, 75);
-        prize3.setBackground(Color.decode("#3E3F40"));
-
-        frame.add(prize3);
-
-        JTextArea prize4 = new JTextArea("200+ Points: \nFree day off from school!");
-        prize4.setWrapStyleWord(true);
-        prize4.setLineWrap(true);
-        prize4.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-        prize4.setForeground(Color.white);
-        prize4.setBackground(Color.decode("#3E3F40"));
-        prize4.setBounds(25, 480, 200, 75);
-
-        frame.add(prize4); 
-       
         //sidebar
-        JPanel sidebar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel sidebar = new JPanel();
+		sidebar.setLayout(null);
         sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
         sidebar.setBackground(Color.decode("#3E3F40"));
-        sidebar.setBounds(0, 60, 300, 720);
-        JLabel prizeLbl = new JLabel("Prizes");
-        prizeLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 23));
-        prizeLbl.setForeground(Color.white);
-        JButton personalView = new JButton("My Registered Events");
-        personalView.setBounds(50, 585, 180, 75);
+        sidebar.setBounds(0, 60, 275, 720);
+		//button to view current prizes
+		JButton prizes = new JButton("View Prizes");
+		prizes.setBounds(50, 100, 180, 75);
+		prizes.addActionListener(e -> {
+			try {
+				new ViewPrizes();
+			} catch (NullPointerException e1) {
+				e1.printStackTrace();
+			}
+		});
+		sidebar.add(prizes);
+
+		//button to view events list that the student is registered in
+		JButton personalView = new JButton("My Registered Events");
+        personalView.setBounds(50, 300, 180, 75);
         personalView.addActionListener(e -> {
 			try {
 				new PersonalListView();
@@ -156,15 +117,26 @@ public class MainFrame {
                 JOptionPane.showMessageDialog(frame, "You have not registered for any events yet.");
 			}
 		});
-        sidebar.add(prizeLbl);
-        frame.add(personalView);
+		sidebar.add(personalView);
+		//button to switch to calender view
+		JButton calenderView = new JButton("Access Calender");
+		calenderView.setBounds(50, 500, 180, 75);
+		calenderView.addActionListener(e -> {
+			try {
+				new CalenderView("student");
+				frame.dispose();
+			} catch (NullPointerException e1) {
+				e1.printStackTrace();
+			}
+		});
+		sidebar.add(calenderView);
         frame.add(sidebar);
        
         //section that presents all the events + event info
         JLabel title1 = new JLabel("Current Events");
         title1.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         title1.setForeground(Color.gray);
-        title1.setBounds(325, 70, 150, 50);
+        title1.setBounds(305, 70, 150, 50);
         frame.add(title1);
 
         JPanel allEvents = new JPanel();
@@ -172,7 +144,7 @@ public class MainFrame {
         allEvents.setBackground(Color.white);
         allEvents.setBorder(new EmptyBorder(15, 15, 15, 15));
         JScrollPane eventsPane = new JScrollPane(allEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        eventsPane.setBounds(320, 110, 490, 555);
+        eventsPane.setBounds(300, 110, 490, 555);
         eventsPane.getVerticalScrollBar().setUnitIncrement(15);
         
         //gets information from each event in the events list and adds it all to a single panel
@@ -247,20 +219,24 @@ public class MainFrame {
 															JOptionPane.YES_OPTION,
 															JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.YES_OPTION) {
-                        if(curUser.getMyEvents().contains(Event.eventList.get(idx))){
-                            JOptionPane.showMessageDialog(frame, "You have already registered for this event.");
-                        } else {
-                            int curPoints = curUser.getPoints();
-                            curPoints += Event.eventList.get(idx).getPoints();
-                            curUser.setPoints(curPoints);
-                            curUser.addEvent(Event.eventList.get(idx));
-                            try {
-                                saveRegEvents();
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
+                        if(MainFrame.curUser == null){
+                            JOptionPane.showMessageDialog(frame, "Registration unsuccessful because the user is not a student.");
+                          } else {
+                            if(curUser.getMyEvents().contains(Event.eventList.get(idx))){
+                                JOptionPane.showMessageDialog(frame, "You have already registered for this event.");
+                            } else {
+                                int curPoints = curUser.getPoints();
+                                curPoints += Event.eventList.get(idx).getPoints();
+                                curUser.setPoints(curPoints);
+                                curUser.addEvent(Event.eventList.get(idx));
+                                try {
+                                    saveRegEvents();
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
+                                JOptionPane.showMessageDialog(frame, "Successfully registered!");
                             }
-                            JOptionPane.showMessageDialog(frame, "Successfully registered!");
-                        }
+                          }
 					}
 				}
 			});
@@ -405,13 +381,6 @@ public class MainFrame {
         msg.setLineWrap(true);
         msg.setWrapStyleWord(true);
 
-        System.out.println();
-        System.out.println((String.valueOf(currDate).equals(q1)) || (currDate.isAfter(quarter1) && currDate.isBefore(quarter2)));
-        System.out.println((String.valueOf(currDate).equals(q2)) || (currDate.isAfter(quarter2) && currDate.isBefore(quarter3)));
-        System.out.println((String.valueOf(currDate).equals(q3)) || (currDate.isAfter(quarter3) && currDate.isBefore(quarter4)));
-        System.out.println(String.valueOf(currDate).equals(q4));
-
-
         @SuppressWarnings("unchecked")
         ArrayList<String>[] s = new ArrayList[4];
         if(quarter1 == null || quarter2 == null || quarter3 == null || quarter4 == null){
@@ -519,9 +488,8 @@ public class MainFrame {
 
     protected static void saveWinners(java.util.List<Student>[] winners, String f) throws IOException {
         out = new BufferedWriter(new FileWriter("data\\quarterlyWinners" + File.separator + f));
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 4; i++){ //iterates through all the possible grades of the students
             for(int j = 0; j < winners[i].size(); j++){
-                //out.write((winners[i].get(j)).toString() + " ");
                 out.write(Student.toString((winners[i].get(j))));
                 out.newLine();
             }
@@ -597,3 +565,69 @@ public class MainFrame {
         return winners;
     }
 }
+
+class ViewPrizes {
+    public ViewPrizes() {
+        JFrame frame = new JFrame("Prizes List");
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setSize(300, 430);
+        frame.setLocationRelativeTo(null);
+        frame.setLayout(null);
+        frame.getContentPane().setBackground(Color.white);
+
+        JLabel title = new JLabel("Current Prizes");
+        title.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
+        title.setForeground(Color.GRAY);
+        title.setBounds(20, 0, 150, 50);
+        frame.add(title);
+
+        JTextArea prize1 = new JTextArea("Minimum 20 Points: \n$15 Starbucks Giftcard!");
+        prize1.setWrapStyleWord(true);
+        prize1.setLineWrap(true);
+        prize1. setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        prize1. setForeground(Color.white);
+        prize1.setBounds(25, 50, 240, 55);
+        prize1.setBackground(Color.decode("#6EA6D0"));
+        prize1.setEditable(false);
+        prize1.setBorder(BorderFactory.createLineBorder(Color.black));
+        frame.add(prize1);
+
+        JTextArea prize2 = new JTextArea("Minimum 60 Points: \n$20 Starbucks Giftcard!");
+        prize2.setWrapStyleWord(true);
+        prize2.setLineWrap(true);
+        prize2.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        prize2.setForeground(Color.white);
+        prize2.setBackground(Color.decode("#DCC4E7"));
+        prize2.setBounds(25, 135, 240, 55);
+        prize2.setBorder(BorderFactory.createLineBorder(Color.black));
+        prize2.setEditable(false);
+        frame.add(prize2);
+
+        JTextArea prize3 = new JTextArea("Minimum 100 Points: \nFree School Stationary!");
+        prize3.setWrapStyleWord(true);
+        prize3.setLineWrap(true);
+        prize3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        prize3.setForeground(Color.white);
+        prize3.setBounds(25, 220, 240, 55);
+        prize3.setBackground(Color.decode("#A6D59D"));
+        prize3.setBorder(BorderFactory.createLineBorder(Color.black));
+        prize3.setEditable(false);
+        frame.add(prize3);
+
+        JTextArea prize4 = new JTextArea("Minimum 200+ Points: \nFree pizza day!");
+        prize4.setWrapStyleWord(true);
+        prize4.setLineWrap(true);
+        prize4.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        prize4.setForeground(Color.white);
+        prize4.setBackground(Color.decode("#3E3F40"));
+        prize4.setBounds(25, 315, 230, 55);
+        prize4.setBorder(BorderFactory.createLineBorder(Color.black));
+        prize3.setEditable(false);
+        frame.add(prize4);
+
+        frame.setVisible(true);
+
+    }
+}
+

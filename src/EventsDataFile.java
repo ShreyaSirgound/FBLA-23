@@ -1,14 +1,10 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
 public class EventsDataFile {
@@ -41,8 +37,6 @@ public class EventsDataFile {
      * @throws ClassNotFoundException
      */
     public static void output(List<Event> eventsList) throws FileNotFoundException, IOException, ClassNotFoundException {
-        /*ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
-        out.writeObject(event);*/
     	BufferedWriter out = new BufferedWriter(new FileWriter("events.txt"));
     	out.write(""+ eventsList.size()); out.newLine();
     	for(Event e : eventsList) {

@@ -16,6 +16,7 @@ public class LoginPage {
 	JPasswordField password;
 	JTextField username;
     String auth;
+
     public LoginPage() {
         JFrame frame = new JFrame("Login");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -86,8 +87,6 @@ public class LoginPage {
                         new AdminView();
                     }
             	} else {
-            
-                //if (!validate()) {
             		new LoginPage();
             	}
 			} catch (IOException | ClassNotFoundException | NoSuchAlgorithmException e1) {
@@ -148,7 +147,7 @@ public class LoginPage {
     		System.out.println(curPassword + " now");
     		for(Student s : Student.getStudents()) {
     			if(s.getName().toLowerCase().equals(curUsername)){
-                    if(s.getPassword().equals(Common.hashPassword(curPassword))){ //Common.hash(curPassword, 2)
+                    if(s.getPassword().equals(Common.hashPassword(curPassword))){
                         auth = "student";
                         MainFrame.curUser = s;
                         System.out.println("yes student");
@@ -160,7 +159,7 @@ public class LoginPage {
     			System.out.print(a.getName() + " ");
     			System.out.println(a.getPassword() + " org");
     			if(a.getName().toLowerCase().equals(curUsername)){
-                    if(Common.comparePassword(curPassword, Common.hashPassword(curPassword))){ //Common.hash(curPassword, 2)
+                    if(Common.comparePassword(curPassword, Common.hashPassword(curPassword))){
                         auth = "admin";
                     AdminView.curUser = a;
                     System.out.println("yes admin");

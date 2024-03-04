@@ -106,18 +106,23 @@ public class SearchRecords {
         frame.add(sp);
 
         //creating the search filter feature
+        JPanel searchPanel = new JPanel();
+        searchPanel.setLayout(null);
+        searchPanel.setBounds(320, 120, 900, 50);
+        searchPanel.setBackground(Color.decode("#1A2371"));
         JLabel lbl = new JLabel("Enter Search:");
-        //lbl.setBackground(Color.decode("#1A2371"));
-        //lbl.setOpaque(true);
+        lbl.setBackground(Color.decode("#1A2371"));
+        lbl.setOpaque(true);
         lbl.setForeground(Color.white);
-        lbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-        lbl.setBounds(355, 120, 150, 50);
+        lbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        lbl.setBounds(470, 120, 135, 50);
         JTextField tf = new JTextField();
         tf.setEditable(true);
         tf.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-        tf.setBounds(480, 125, 400, 35);
+        tf.setBounds(605, 125, 400, 35);
         frame.add(lbl);
         frame.add(tf);
+        frame.add(searchPanel);
 
         //dynamically searching the table
         table.setRowSorter(rowSorter);

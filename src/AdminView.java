@@ -25,14 +25,9 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 public class AdminView {
-	final int MAX = 10000; //maximum amount of people
 	static BufferedReader in; 
 	static BufferedWriter out;
 	static FileOutputStream fos;
-	static int numOfUsers;
-	String fullName;
-    String[] names, emails, passwords, salts;
-	//static String fileName = "C:\\Users\\Shreya S\\Documents\\GitHub\\FBLACP\\src\\data\\admins.txt";
 	static Admin curUser;
 	static String[][] quarterDates = new String[4][3];
 	static String[][] quarterlyDates = new String[4][1];
@@ -41,22 +36,9 @@ public class AdminView {
 	public AdminView() throws ClassNotFoundException, IOException {
 		JFrame frame = new JFrame("Admin View");
 
-		//read in admins
-    	in = new BufferedReader(new FileReader("data\\admins.txt"));
-    	names = new String[2*MAX];
-    	emails = new String[MAX];
-    	passwords = new String[MAX];
-    	names = in.readLine().split(" ");
-    	emails = in.readLine().split(" ");
-    	passwords = in.readLine().split(" ");
-    	numOfUsers = emails.length;
-    	for(int i = 0, n = 0; i < numOfUsers; i++) {
-    		fullName = names[n] + " " + names[n+1]; 
-			n+=2;
-    		Admin.getAdmins().add(new Admin(fullName, emails[i], passwords[i]));
-    	}
-    	in.close();
-		if(Event.eventList.isEmpty())EventsDataFile.Input(); 
+		if(Event.eventList.isEmpty()){
+			EventsDataFile.Input(); 
+		}
 
 		try {
 			in = new BufferedReader(new FileReader("data\\quarterlyDates.txt"));
@@ -89,11 +71,12 @@ public class AdminView {
         frame.add(titlebar);
 
 		//sidebar
-        JPanel sidebar = new JPanel();//new FlowLayout(FlowLayout.LEFT));
+        JPanel sidebar = new JPanel();
 		sidebar.setLayout(null);
         sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
         sidebar.setBackground(Color.decode("#3E3F40"));
         sidebar.setBounds(0, 60, 275, 720);
+		
 		//button to access search records (this feature is only accessible for admins)
 		JButton search = new JButton("Data Records");
 		search.setBounds(50, 100, 180, 75);
@@ -106,6 +89,7 @@ public class AdminView {
 			}
 		});
 		sidebar.add(search);
+		
 		//button to switch to student view (this feature is only accessible for admins)
 		JButton mainMenu = new JButton("Access Student View");
 		mainMenu.setBounds(50, 300, 180, 75);
@@ -118,12 +102,13 @@ public class AdminView {
 			}
 		});
 		sidebar.add(mainMenu);
+		
 		//button to switch to calender view
 		JButton calenderView = new JButton("Access Calender");
 		calenderView.setBounds(50, 500, 180, 75);
 		calenderView.addActionListener(e -> {
 			try {
-				new CalenderView();
+				new CalenderView("admin");
 				frame.dispose();
 			} catch (NullPointerException e1) {
 				e1.printStackTrace();
@@ -139,7 +124,6 @@ public class AdminView {
         title1.setBounds(290, 70, 150, 50);
         frame.add(title1);
 
-		//TO DO: get the scroll thing to stay at the top when first running the program
         JPanel allEvents = new JPanel();
         allEvents.setLayout(new BoxLayout(allEvents, BoxLayout.Y_AXIS));
         allEvents.setBackground(Color.white);
@@ -250,7 +234,6 @@ public class AdminView {
 
 
 		//panel to create a new event
-		//TO DO: get entered text in the textfields to disappear after the event has been created
 		JLabel title2 = new JLabel("New Event");
         title2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         title2.setForeground(Color.gray);
@@ -317,6 +300,14 @@ public class AdminView {
 				System.err.println("Failed to load data (Class): " + ex.getMessage());
 				System.out.println("Cause: " + ex.getCause());
 			}
+
+			//refreshes the page
+			try {
+				new AdminView();
+			} catch (ClassNotFoundException | IOException e1) {
+				e1.printStackTrace();
+			}
+			frame.dispose();
 		});
 
 		eventCreate.add(nameLbl);

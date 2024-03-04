@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  */
 public class Common {
 
-    public static final String VERSION = "1.2-2024-02-26"; //version set for program submission date
+    public static final String VERSION = "1.3-2024-03-04";
 
 	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern(
 			"MMM d yyyy");
@@ -91,47 +91,4 @@ public class Common {
         String hashed = hashPassword(enteredPassword);
         return hashed.equals(hash);
     }
-
-	/////////
-
-	public static String hash(String password, int shift){
-		StringBuilder encryption = new StringBuilder();
-		password = password.toLowerCase();
-
-		for(int i = 0; i < password.length(); i++){
-			char c = password.charAt(i);
-			if(Character.isLetter(c)){
-				c = (char) ((c - 'a' + shift + 26) % 26 + 'a');
-			}
-
-			encryption.append(c);
-		}
-
-		return encryption.toString();
-	}
-
-	/**public static Credentials hash(String password, byte[] salt) throws InvalidKeySpecException, NoSuchAlgorithmException{
-		System.out.println("hashing");
-		System.out.println(String.valueOf(salt) + " before hash");
-
-		if (salt == null){
-			SecureRandom random = new SecureRandom();
-			salt = new byte[16];
-			random.nextBytes(salt);
-		}
-
-		System.out.println(String.valueOf(salt) + " after hash");
-		System.out.println(password);
-
-		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-
-		byte[] hash = factory.generateSecret(spec).getEncoded();
-		String hashedPassword = String.format("%x", new BigInteger(hash));
-
-		Credentials credentials = new Credentials(hashedPassword, salt);
-		System.out.println(credentials.getPassword() + " " + String.valueOf(credentials.getSalt()));
-		
-		return credentials;
-	}*/
 }

@@ -92,7 +92,7 @@ public class CalenderView {
   private Color[] colors = {Color.decode("#6EA6D0"), Color.decode("#DCC4E7"), Color.decode("#A6D59D")};
   private int colorCount = 0;
 
-  public CalenderView() {
+  public CalenderView(String auth) {
     //setup the frame
     JFrame frame = new JFrame("CalenderView");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -117,20 +117,28 @@ public class CalenderView {
     sidebar.setBorder( new EmptyBorder(15, 15, 15, 15));
     sidebar.setBackground(Color.decode("#3E3F40"));
     sidebar.setBounds(0, 60, 300, 720);
-    //button to switch to admin view (this feature is only accessible for admins)
-    JButton adminView = new JButton("Access Admin View");
-    adminView.setBounds(50, 400, 180, 75);
-    adminView.addActionListener(e -> {
-        try {
-            new AdminView();
-            frame.dispose();
-        } catch (IOException | ClassNotFoundException | NullPointerException e1) {
-            e1.printStackTrace();
-        }
-    });
-    sidebar.add(adminView);
+
+    if(auth.equals("admin")){
+      //button to switch to admin view (this feature is only accessible for admins)
+      JButton adminView = new JButton("Access Admin View");
+      adminView.setBounds(50, 400, 180, 75);
+      adminView.addActionListener(e -> {
+          try {
+              new AdminView();
+              frame.dispose();
+          } catch (IOException | ClassNotFoundException | NullPointerException e1) {
+              e1.printStackTrace();
+          }
+      });
+      sidebar.add(adminView);
+    }
     //button to switch to student view (this feature is only accessible for admins)
-    JButton mainMenu = new JButton("Access Student View");
+    JButton mainMenu = new JButton();
+    if(auth.equals("admin")){
+      mainMenu.setText("Access Student View");
+    } else if (auth.equals("student")){
+      mainMenu.setText("Homepage");
+    }
     mainMenu.setBounds(50, 500, 180, 75);
     mainMenu.addActionListener(e -> {
         try {
@@ -261,22 +269,6 @@ public class CalenderView {
     table.setDefaultRenderer(table.getColumnClass(0), new CalendarRenderer());
     table.setDefaultEditor(table.getColumnClass(0), new CalendarEditor());
   }
-
-  /**private List<Reminder> getRemindersFromDay(int targetYear, int targetMonth, int targetDay) {
-
-    LocalDate targetDate = LocalDate.of(targetYear, targetMonth, targetDay);
-    // The start of the day (12am).
-    long min = targetDate.atStartOfDay(ZoneId.systemDefault())
-        .toInstant().toEpochMilli();
-    // The end of the day (11:59pm).
-    long max = targetDate.atTime(23, 59).atZone(ZoneId.systemDefault())
-        .toInstant().toEpochMilli();
-
-    // Collect all reminders with a due date between the start and end of the day.
-    return RemindersManager.getReminders(SortBy.DUE_DATE).stream()
-        .filter(reminder -> reminder.getDueDate() >= min && reminder.getDueDate() <= max)
-        .collect(Collectors.toList());
-  }*/
 
   /**
    * The custom table cell renderer to change the display of table cells.
@@ -421,7 +413,7 @@ public class CalenderView {
    * The reminders view displaying only the reminders for a specific day. Opened when the day is
    * clicked on in the calendar.
    */
-  public class DayView {//implements IRemindersView {
+  public class DayView {
 
     /**
      * The day of the month that is being viewed.
@@ -445,7 +437,7 @@ public class CalenderView {
       this.dialog = new JDialog(Main.getMainFrame(), MONTHS[month] + " " + day + ", " + year, true);
       dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
       dialog.setResizable(false);
-      dialog.setSize(1200, 650);
+      dialog.setSize(510, 575);
       dialog.setLocationRelativeTo(null);
 
       JPanel allEvents = new JPanel();
@@ -522,35 +514,48 @@ public class CalenderView {
           eventSetting.setBackground(Color.white);
           eventSetting.setBorder(new EmptyBorder(0, 5, 5, 0));
 
-          //unregister from an event
-          JButton unregister = new JButton("Unregister"); 
-          unregister.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-          unregister.setBackground(Color.decode("#76BEE8"));
-          unregister.setOpaque(true);
-          unregister.setCursor(new Cursor(Cursor.HAND_CURSOR));
-          JTextPane unregisterPane = new JTextPane();
-          unregisterPane.insertComponent(unregister);
-          unregisterPane.setBackground(Color.white);
-          unregisterPane.setBorder(new EmptyBorder(0, 5, 8, 0));
+          //register for an event (only if the user is a student)
+          JButton register = new JButton("Register"); 
+          register.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+          register.setBackground(Color.decode("#76BEE8"));
+          register.setOpaque(true);
+          register.setCursor(new Cursor(Cursor.HAND_CURSOR));
+          JTextPane registerPane = new JTextPane();
+          registerPane.insertComponent(register);
+          registerPane.setBackground(Color.white);
+          registerPane.setBorder(new EmptyBorder(0, 5, 8, 0));
           int idx = i;
-          unregister.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you want to unregister from this event?", 
-                              "",
-                                JOptionPane.YES_OPTION,
-                                JOptionPane.QUESTION_MESSAGE);
-            if (result == JOptionPane.YES_OPTION) {
-              int curPoints = MainFrame.curUser.getPoints();
-              curPoints -= Event.eventList.get(idx).getPoints();
-              MainFrame.curUser.setPoints(curPoints);
-              MainFrame.curUser.removeEvent(idx);
-              new PersonalListView();
-              dialog.dispose();
-              JOptionPane.showMessageDialog(dialog, "Successfully unregistered.");
-            }
-          }
-        });
+
+            register.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(dialog, "Would you like to register for this event?", 
+                                  "",
+                                    JOptionPane.YES_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                  if(MainFrame.curUser == null){
+                    JOptionPane.showMessageDialog(dialog, "Registration unsuccessful because the user is not a student.");
+                  } else {
+                    if(MainFrame.curUser.getMyEvents().contains(Event.eventList.get(idx))){
+                        JOptionPane.showMessageDialog(dialog, "You have already registered for this event.");
+                    } else {
+                          int curPoints = MainFrame.curUser.getPoints();
+                          curPoints += Event.eventList.get(idx).getPoints();
+                          MainFrame.curUser.setPoints(curPoints);
+                          MainFrame.curUser.addEvent(Event.eventList.get(idx));
+                          try {
+                              MainFrame.saveRegEvents();
+                          } catch (IOException e1) {
+                              e1.printStackTrace();
+                          }
+                          JOptionPane.showMessageDialog(dialog, "Successfully registered!");
+                    }
+                  }
+                }
+              }
+            });
+
         eventInfoPane.add(eventPointsInfo);
         eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
         eventInfoPane.add(eventNameInfo);
@@ -561,7 +566,7 @@ public class CalenderView {
         eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
         eventInfoPane.add(eventSetting);
         eventInfoPane.add(Box.createRigidArea(new Dimension(0, 6)));
-        eventInfoPane.add(unregisterPane);
+        eventInfoPane.add(registerPane);
         eventInfoPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         allEvents.add(eventInfoPane);
         allEvents.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -569,33 +574,12 @@ public class CalenderView {
       };
       dialog.add(eventsPane);
 
-      // Refresh the main calendar view when the window is close.
-      /**dialog.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosed(WindowEvent e) {
-          super.windowClosed(e);
-          CalenderView.this.refresh();
-        }
-      });*/
-
       dialog.setVisible(true);
     }
-
-    /**
-     * Adds the panel containing a list of reminders to the frame.
-     */
-    /**private void addListPanel() {
-      dialog.add(new RemindersListPanel(DayView.this,
-          getRemindersFromDay(year, month + 1, day), () ->
-          // Open the editor with the date already selected.
-          new ReminderEditorFrame(DayView.this, new Reminder(UUID.randomUUID().toString(),
-              null, null, dateMillis, null, Collections.emptyList()))));
-    }*/
 
     //@Override
     public void refresh() {
       dialog.getContentPane().removeAll();
-      //addListPanel();
       dialog.revalidate();
       dialog.repaint();
     }

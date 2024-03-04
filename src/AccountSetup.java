@@ -170,9 +170,7 @@ public class AccountSetup {
             try {
                 if(auth == "Student"){
                     Student newStudent = new Student(name, email, enteredPassword, Integer.parseInt(grade), 0);
-                    System.out.println(studentsList.contains(newStudent) + " auth1 good");
                     if(studentsList.contains(newStudent) == false){
-                        System.out.println("first 1");
                         MainFrame.curUser = newStudent;
                         Student.addStudent(MainFrame.curUser);
                         MainFrame.saveUser();
@@ -198,9 +196,7 @@ public class AccountSetup {
                     
                 } else if (auth == "Administrator"){
                     Admin newAdmin = new Admin(name, email, enteredPassword);
-                    System.out.println(adminsList.contains(newAdmin) + " auth2 good");
                     if(adminsList.contains(newAdmin) == false){
-                        System.out.println("second 1");
                         AdminView.curUser = newAdmin;
                         Admin.addAdmin(AdminView.curUser);
                         AdminView.saveUser();
