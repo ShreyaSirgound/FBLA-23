@@ -573,8 +573,8 @@ public class CalenderView {
           JButton edit = new JButton("Edit");
           edit.setBackground(Color.blue);
           edit.addActionListener(e -> {
-            dialog.dispose();
             new EventEditPage(eventIndex);
+            JOptionPane.showMessageDialog(dialog, "Event successfully edited!");
           });
 
           JButton delete = new JButton("Delete");
@@ -588,8 +588,25 @@ public class CalenderView {
                                   JOptionPane.YES_OPTION,
                                   JOptionPane.QUESTION_MESSAGE);
               if (result == JOptionPane.YES_OPTION) {
-              Event.removeEvent(Event.getEvents().get(eventIndex)); //removes the event from the events list if the user selects YES
+                Event.evAttendance.remove(Event.getEvents().get(eventIndex).getName()); //removes the event from the attendance hashmap
+                Event.removeEvent(Event.getEvents().get(eventIndex)); //removes the event from the events list if the user selects YES
+                JOptionPane.showMessageDialog(dialog, "Event successfully deleted!");
+                try {
+                  new AdminView();
+                } catch (ClassNotFoundException | IOException e1) {
+                  e1.printStackTrace();
+                }
               }
+            }
+          });
+
+          JButton genReport = new JButton("Generate Report");
+          genReport.setBackground(Color.black);
+          genReport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              AdminView.genEvReport(Event.eventList.get(eventIndex).getName());
+              JOptionPane.showMessageDialog(dialog, "Report successfully generated!");
             }
           });
 

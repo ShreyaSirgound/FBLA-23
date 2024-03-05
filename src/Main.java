@@ -37,7 +37,6 @@ public class Main {
 			emails = in.readLine().split(" ");
 			passwords = in.readLine().split(" ");
 			numOfUsers = emails.length;
-			System.out.println("Num of admins: " + numOfUsers);
 			for(int i = 0, n = 0; i < numOfUsers; i++) {
 				if(n < names.length){
 					fullName = names[n] + " " + names[n+1];
@@ -47,9 +46,6 @@ public class Main {
 				}
 			}
 			in.close();
-			for(Admin a : Admin.getAdmins()){
-				System.out.println(Admin.toString(a));
-			}
 		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
@@ -64,7 +60,6 @@ public class Main {
 			grades = in.readLine().split(" ");
 			points = in.readLine().split(" ");
 			numOfUsers = points.length;
-			System.out.println("Num of students: " + numOfUsers);
 			for(int i = 0, n = 0; i < numOfUsers; i++) {
 				fullName = names[n] + " " + names[n+1]; 
 				n+=2;
@@ -96,17 +91,12 @@ public class Main {
 			}
 			in.close();
 			in3.close();
-			System.out.println("4 Students list length: " + Student.getStudents().size());
-			for(Student s : Student.getStudents()){
-				System.out.println(Student.toString(s));
-			}
 		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
 
 		//reads in attendance records
 		try{
-			System.out.println("att");
 			in = new BufferedReader(new FileReader("eventsAttendance.txt"));
 			String[] info = new String[2];
 			String str = in.readLine();
@@ -116,7 +106,6 @@ public class Main {
 				Event.evAttendance.put(info[0], new ArrayList<String>(Arrays.asList(info[1].split("\\|"))));
 				str = in.readLine();
 			}
-			System.out.println("atttttt");
 			in.close();
 		} catch (NullPointerException e){
 			e.printStackTrace();

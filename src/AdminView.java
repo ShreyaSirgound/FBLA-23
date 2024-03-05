@@ -9,6 +9,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -193,6 +197,7 @@ public class AdminView {
 			edit.setBackground(Color.blue);
 			edit.addActionListener(e -> {
 				new EventEditPage(eventIndex);
+				JOptionPane.showMessageDialog(frame, "Event successfully edited!");
 			});
 
 			JButton delete = new JButton("Delete");
@@ -208,12 +213,29 @@ public class AdminView {
 					if (result == JOptionPane.YES_OPTION) {
 						Event.evAttendance.remove(Event.getEvents().get(eventIndex).getName()); //removes the event from the attendance hashmap
 						Event.removeEvent(Event.getEvents().get(eventIndex)); //removes the event from the events list if the user selects YES
+						JOptionPane.showMessageDialog(frame, "Event successfully deleted!");
+						try {
+							new AdminView();
+						} catch (ClassNotFoundException | IOException e1) {
+							e1.printStackTrace();
+						}
 					}
 				}
 			});
 
+			JButton genReport = new JButton("Generate Report");
+			genReport.setBackground(Color.black);
+			genReport.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					genEvReport(Event.eventList.get(eventIndex).getName());
+					JOptionPane.showMessageDialog(frame, "Report successfully generated!");
+				}
+			});
+			
 			eventChange.add(delete, FlowLayout.LEFT);
 			eventChange.add(edit, FlowLayout.LEFT);
+			eventChange.add(genReport, FlowLayout.RIGHT);
 			
 			eventInfoPane.add(eventPointsInfo);
 			eventInfoPane.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -306,6 +328,7 @@ public class AdminView {
 			//refreshes the page
 			try {
 				new AdminView();
+				JOptionPane.showMessageDialog(frame, "Event successfully created!");
 			} catch (ClassNotFoundException | IOException e1) {
 				e1.printStackTrace();
 			}
@@ -586,5 +609,34 @@ public class AdminView {
 		out = new BufferedWriter(writerOutputStream); 
 		out.write(quarterDates[quarter-1][2] + quarterDates[quarter-1][1] + quarterDates[quarter-1][0] + "|" + quarter + "\n");
 		out.close();
+	}
+
+	public static void genEvReport(String evName){
+		LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
+		String fileName = evName + "_" + now.getMonth() + "-" + now.getDayOfMonth() + "-" + now.getYear();
+		File file = new File(fileName + ".txt");
+
+		try {
+			if(!file.exists()){
+				if (file.createNewFile()) {
+					System.out.println("File created: " + file.getName());
+
+					ArrayList<String> regStudents = Event.evAttendance.get(evName);
+					PrintWriter out =new PrintWriter(file.getName());
+
+					//write value of the event key and all registered students)
+					out.println(evName + " - " + now.getMonth() + " " + now.getDayOfMonth() + ", " + now.getYear() + " " + now.getHour() + ":" + now.getMinute());
+					for(String student : regStudents){
+						out.println(student);
+					}
+					out.flush();
+					out.close();
+
+					System.out.println("Record successfully generated");
+				}
+			}
+		} catch (IOException | NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 }

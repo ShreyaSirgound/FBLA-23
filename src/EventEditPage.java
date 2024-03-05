@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -79,7 +80,7 @@ public class EventEditPage {
             Event.getEvents().get(index).setPoints(Integer.parseInt(evPoints.getText()));
 
 			//updates the attendance hashmap
-			List<String> evAttendees = Event.evAttendance.get(evName.getText());
+			ArrayList<String> evAttendees = Event.evAttendance.get(evName.getText());
 			Event.evAttendance.remove(evName.getText());
 			Event.evAttendance.put(evName.getText(), evAttendees);
 			try {

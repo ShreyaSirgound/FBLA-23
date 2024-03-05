@@ -496,11 +496,11 @@ public class MainFrame {
         System.out.println(Event.evAttendance.size());
 		for(String key : Event.evAttendance.keySet()){
             System.out.println(key);
-            out.write(key + "*");
+            out.write(key + "*|");
 			for(String value : Event.evAttendance.get(key)) {
                 if(value == null){
-                    out.write("null|");
-                    System.out.println("null|");
+                    out.write("|");
+                    System.out.println("|");
                 } else {
                     out.write(value + "|");
                     System.out.println(value);
